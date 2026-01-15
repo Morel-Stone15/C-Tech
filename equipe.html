@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Équipe - Club Professionnel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background: #0a0a0a;
+      color: #fff;
+    }
+
+    /* HEADER */
+    header {
+      background: rgba(0,0,0,0.7);
+      padding: 15px 30px;
+      text-align: center;
+      position: relative;
+      z-index: 10;
+    }
+    header h1 {
+      color: #00aaff;
+      margin: 0;
+    }
+    header p {
+      color: #ccc;
+      margin: 5px 0 15px;
+    }
+    header nav ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+      margin: 0;
+      padding: 0;
+    }
+    header nav a {
+      color: #fff;
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.1);
+      transition: 0.3s;
+    }
+    header nav a:hover {
+      background: #00aaff;
+      color: #000;
+    }
+
+    /* MAIN avec vidéo */
+    main {
+      position: relative;
+      min-height: 100vh;
+      padding: 60px 20px;
+      text-align: center;
+      overflow: hidden;
+    }
+    main video {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+    main::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      z-index: 0;
+    }
+    main section {
+      position: relative;
+      z-index: 1;
+      margin-bottom: 50px;
+    }
+    main h2 {
+      color: #00aaff;
+      margin-bottom: 20px;
+    }
+
+    /* TEAM GRID */
+    .team-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+    .team-grid article {
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(10px);
+      padding: 20px;
+      border-radius: 12px;
+      width: 250px;
+      text-align: center;
+      transition: transform 0.3s;
+    }
+    .team-grid article:hover {
+      transform: translateY(-5px);
+    }
+
+    /* CADRES IMAGES techno */
+    .team-grid img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 15px; /* coins arrondis */
+      border: 3px solid #00aaff; /* cadre bleu techno */
+      box-shadow: 0 0 15px rgba(0,170,255,0.6); /* glow */
+      transition: transform 0.3s, box-shadow 0.3s;
+      margin-bottom: 10px;
+    }
+    .team-grid img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px rgba(0,170,255,0.9);
+    }
+
+    .team-grid h3 {
+      margin: 10px 0 5px;
+      color: #00aaff;
+    }
+    .team-grid p {
+      margin: 5px 0;
+      color: #ddd;
+    }
+
+    /* MEMBRES */
+    #membres ul {
+      list-style: none;
+      padding: 0;
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: left;
+    }
+    #membres li {
+      background: rgba(255,255,255,0.05);
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 6px;
+    }
+
+    /* FOOTER */
+    footer {
+      background: rgba(0,0,0,0.8);
+      padding: 20px;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .team-grid {
+        flex-direction: column;
+        align-items: center;
+      }
+      .team-grid article {
+        width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- En-tête -->
+  <header>
+    <h1>Notre Équipe</h1>
+    <p>Les personnes qui portent la vision du club</p>
+    <nav>
+      <ul>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="presentation.html">Présentation</a></li>
+        <li><a href="evenement.html">Événements</a></li>
+        <li><a href="https://form.jotform.com/253536390053051">Adhésion</a></li>
+        <li><a href="galerie.html">Galerie</a></li>
+        <li><a href="actualites.html">Actualités</a></li>
+        <li><a href="email.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Contenu principal -->
+  <main>
+    <!-- Vidéo en arrière-plan -->
+    <video autoplay muted loop playsinline>
+      <source src="fond1.mp4" type="video/mp4">
+      Votre navigateur ne supporte pas la vidéo.
+    </video>
+
+    <section id="direction">
+      <h2>Direction</h2>
+      <div class="team-grid">
+        <article>
+          <img src="1.png" alt="Président du club">
+          <h3>Morel Bibang</h3>
+          <p><strong>Président</strong></p>
+          <p>Responsable de la stratégie et de la représentation du club.</p>
+        </article>
+        <article>
+          <img src="5.png" alt="Vice-président du club">
+          <h3>Grace Bakoho</h3>
+          <p><strong>Vice-présidente</strong></p>
+          <p>Coordination des projets et soutien aux membres.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="comite">
+      <h2>Comité</h2>
+      <div class="team-grid">
+        <article>
+          <img src="3.png" alt="Secrétaire général">
+          <h3>Herlie DZAMBA</h3>
+          <p><strong>Secrétaire général</strong></p>
+          <p>Gestion administrative et organisation des réunions.</p>
+        </article>
+        <article>
+          <img src="tresor.png" alt="Trésorier">
+          <h3>Esther MANOMBA</h3>
+          <p><strong>Trésorière</strong></p>
+          <p>Supervision des finances et transparence budgétaire.</p>
+        </article>
+        <article>
+          <img src="2.png" alt="Responsable communication">
+          <h3>Meryl MOUBOUASSI</h3>
+          <p><strong>Responsable communication</strong></p>
+          <p>Promotion du club et gestion des réseaux sociaux.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="membres">
+      <h2>Membres actifs</h2>
+      <p>Notre force vient de la diversité et de l’engagement de nos membres.</p>
+      <ul>
+        <li>Clara Olsen — Organisation des événements</li>
+        <li>Hely Alvaro — Chargé de projet</li>
+        <li>Vanel Biyogo — Relations partenaires</li>
+        <li>Brice MAWANDJI — Formation et mentorat</li>
+      </ul>
+    </section>
+  </main>
+
+  <!-- Pied de page -->
+  <footer>
+    <p>© 2025 Club de technologie — Tous droits réservés</p>
+  </footer>
+
+  <!-- Script dynamique -->
+  <script>
+    window.addEventListener("load", function() {
+      alert("Bienvenue sur la page Équipe ! Découvrez les personnes qui font vivre le club.");
+    });
+  </script>
+</body>
+</html>

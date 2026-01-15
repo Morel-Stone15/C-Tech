@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Actualités - Club C-Tech</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background: #0a0a0a;
+      color: #fff;
+    }
+
+    /* HEADER */
+    header {
+      background: rgba(0,0,0,0.7);
+      padding: 15px 30px;
+      text-align: center;
+      position: relative;
+      z-index: 10;
+    }
+    header h1 {
+      color: #00aaff;
+      margin: 0;
+      font-size: 2rem;
+    }
+    header p {
+      color: #ccc;
+      margin: 5px 0 15px;
+      font-style: italic;
+    }
+    header nav ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+      margin: 15px 0 0;
+      padding: 0;
+    }
+    header nav a {
+      color: #fff;
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.1);
+      transition: 0.3s;
+    }
+    header nav a:hover {
+      background: #00aaff;
+      color: #000;
+    }
+
+    /* MAIN avec vidéo */
+    main {
+      position: relative;
+      min-height: 100vh;
+      padding: 60px 20px;
+      overflow: hidden;
+    }
+    main video {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+    main::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      z-index: 0;
+    }
+    main h2 {
+      position: relative;
+      z-index: 1;
+      color: #00aaff;
+      margin-bottom: 30px;
+      text-align: center;
+      font-size: 1.8rem;
+    }
+
+    /* ARTICLE PRINCIPAL */
+    .featured {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto 40px;
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(10px);
+      padding: 25px;
+      border-radius: 12px;
+      text-align: left;
+    }
+    .featured h3 {
+      color: #00aaff;
+      margin-top: 0;
+      font-size: 1.5rem;
+    }
+    .featured .meta {
+      font-size: 0.85rem;
+      color: #aaa;
+      margin-bottom: 10px;
+    }
+    .featured p {
+      color: #ddd;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    /* GRID DES AUTRES ARTICLES */
+    .news {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .news article {
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(10px);
+      padding: 20px;
+      border-radius: 12px;
+      text-align: left;
+      transition: transform 0.3s;
+    }
+    .news article:hover {
+      transform: translateY(-5px);
+    }
+    .news h3 {
+      color: #00aaff;
+      margin-top: 0;
+      font-size: 1.2rem;
+    }
+    .news .meta {
+      font-size: 0.8rem;
+      color: #aaa;
+      margin-bottom: 8px;
+    }
+    .news p {
+      color: #ddd;
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    /* FOOTER */
+    footer {
+      background: rgba(0,0,0,0.8);
+      padding: 20px;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Actualités</h1>
+    <p>Le journal technologique du Club C-Tech</p>
+    <nav>
+      <ul>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="presentation.html">Présentation</a></li>
+        <li><a href="equipe.html">Équipe</a></li>
+        <li><a href="evenement.html">Événements</a></li>
+        <li><a href="galerie.html">Galerie</a></li>
+        <li><a href="actualites.html">Actualités</a></li>
+        <li><a href="https://form.jotform.com/253536390053051">Adhésion</a></li>
+        <li><a href="email.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Vidéo en arrière-plan -->
+    <video autoplay muted loop playsinline>
+      <source src="fond1.mp4" type="video/mp4">
+      Votre navigateur ne supporte pas la vidéo.
+    </video>
+
+    <h2>À la Une</h2>
+    <div class="featured">
+      <h3>Lancement d'ouverture du Club</h3>
+      <div class="meta">Publié le 17 janvier 2026 — Catégorie : ouverture</div>
+      <p>Le Club C-Tech ouvre enfin ces portes  : Dans un début d'année pleine d'opportunités, nous avons lancé notre premier événement de l'année, un moment de célébration et d'engagement pour tous les membres du club.</p>
+    </div>
+
+    <h2>Autres actualités</h2>
+    <div class="news">
+      <article>
+        <h3> Atelier d'apprentissage </h3>
+        <div class="meta">17 janvier 2026 — apprentissage</div>
+        <p>Les membres ont participé à un atelier interactif sur la formation offert via le pack office, découvrant les statéégies de design de document et les différentes manières de le faire .</p>
+      </article>
+      <article>
+        <h3>🎉 Hackathon C-Tech</h3>
+        <div class="meta">24 janvier 2026 — Innovation</div>
+        <p>Le hackathon annuel a rassemblé plusieurs étudiants autour de défis technologiques passionnants, avec des prototypes développés en 48 heures.</p>
+      </article>
+      <article>
+        <h3>🌍 Partenariat national</h3>
+        <div class="meta">Samedi 10 janvier 2026 — Collaboration</div>
+        <p>Le club en plien accord avec differentes instituts pour favoriser les échanges et projets communs.</p>
+      </article>
+      <article>
+        <h3>💡 Atelier design numérique</h3>
+        <div class="meta">24 janvier 2026 — Créativité</div>
+        <p>Un atelier pratique vas permettre aux étudiants de découvrir les bases du design numérique et de créer leurs premières interfaces.</p>
+      </article>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2026 Club C-Tech — Tous droits réservés</p>
+  </footer>
+</body>
+</html>

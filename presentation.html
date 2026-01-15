@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Présentation du Club</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background: #0a0a0a;
+      color: #fff;
+    }
+
+    header {
+      background: rgba(0,0,0,0.7);
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 10;
+    }
+    header h1 {
+      color: #00aaff;
+      margin: 0;
+    }
+    header nav ul {
+      list-style: none;
+      display: flex;
+      gap: 15px;
+      margin: 0;
+      padding: 0;
+    }
+    header nav a {
+      color: #fff;
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.1);
+      transition: 0.3s;
+    }
+    header nav a:hover {
+      background: #00aaff;
+      color: #000;
+    }
+
+    main {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 40px 20px;
+      overflow: hidden;
+    }
+    main video {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+    main::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      z-index: 0;
+    }
+    main h2, main p, main button {
+      position: relative;
+      z-index: 1;
+    }
+    main h2 {
+      color: #00aaff;
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+    #mission {
+      max-width: 800px;
+      line-height: 1.6;
+      color: #e0e0e0;
+      margin-bottom: 30px;
+      white-space: pre-line; /* garde les retours à la ligne */
+    }
+    #btnMission {
+      padding: 12px 25px;
+      background: #00aaff;
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    #btnMission:hover {
+      background: #fff;
+      color: #00aaff;
+    }
+
+    footer {
+      background: rgba(0,0,0,0.8);
+      padding: 20px;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        gap: 10px;
+      }
+      header nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      main h2 {
+        font-size: 1.6rem;
+      }
+      #mission {
+        font-size: 0.95rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Présentation</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="equipe.html">Équipe</a></li>
+        <li><a href="evenement.html">Événements</a></li>
+        <li><a href="https://form.jotform.com/253536390053051">Adhésion</a></li>
+        <li><a href="galerie.html">Galerie</a></li>
+        <li><a href="actualite.html">Actualités</a></li>
+        <li><a href="email.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Vidéo en arrière-plan -->
+    <video autoplay muted loop playsinline>
+      <source src="fond1.mp4" type="video/mp4">
+      Votre navigateur ne supporte pas la vidéo.
+    </video>
+
+    <h2>Notre mission</h2>
+    <p id="mission">
+Le Club de Technologie C-Tech, né au sein de l’Institut Supérieur de Technologie, est bien plus qu’un simple regroupement d’étudiants passionnés. C’est une communauté dynamique où l’innovation, la curiosité et l’esprit d’équipe se rencontrent pour transformer des idées en projets concrets.
+
+🌟 Notre vision
+Inspirer les étudiants à explorer les nouvelles technologies.
+Former des leaders capables de relever les défis du monde numérique.
+Créer un espace où chaque membre peut exprimer sa créativité et développer ses compétences.
+
+💡 Nos valeurs
+Innovation : chaque projet est une opportunité de repousser les limites.
+Collaboration : ensemble, nous allons plus loin.
+Impact : nos initiatives visent à améliorer la vie sur le campus et au-delà.
+
+🔧 Ce que nous faisons
+Ateliers pratiques en programmation, robotique, design numérique et cybersécurité.
+Organisation de hackathons et challenges technologiques pour stimuler la créativité.
+Développement de solutions digitales utiles à la communauté étudiante.
+
+🌍 Pourquoi rejoindre C-Tech ?
+Parce que C-Tech, c’est :
+Un laboratoire d’idées où chaque étudiant peut apprendre en pratiquant.
+Un réseau de passionnés qui s’entraident et se motivent.
+Une source d’inspiration pour bâtir un avenir technologique ambitieux.
+    </p>
+    <button id="btnMission">Changer le message</button>
+  </main>
+
+  <footer>
+    <p>© 2025 Club C-Tech</p>
+  </footer>
+
+  <script>
+    // Script interactif
+    document.getElementById("btnMission").addEventListener("click", function() {
+      document.getElementById("mission").textContent = 
+        "Bienvenue au Club de Technologie C-Tech ! Ici, ta seule limite est ton imagination. Rejoins-nous pour explorer, innover et créer l'avenir ensemble ! 🚀";
+    });
+  </script>
+</body>
+</html>

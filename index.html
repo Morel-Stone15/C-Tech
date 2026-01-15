@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Club de technologie</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- important pour mobile -->
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background: #0a0a0a;
+      color: #fff;
+    }
+
+    header {
+      background: rgba(0,0,0,0.7);
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    header h1 {
+      font-size: 1.6rem;
+      color: #00aaff;
+      margin: 0;
+    }
+    header p {
+      font-style: italic;
+      color: #ccc;
+      margin: 0;
+    }
+
+    /* HERO avec vidéo */
+    #hero {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      overflow: hidden;
+    }
+    #hero video {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+    #hero::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      z-index: 0;
+    }
+    #hero h2, #hero p, #hero nav, #hero a {
+      position: relative;
+      z-index: 1;
+    }
+    #hero h2 {
+      font-size: 2.2rem;
+      color: #00aaff;
+    }
+    #hero p {
+      max-width: 600px;
+      margin: 20px auto;
+      font-size: 1.1rem;
+      color: #e0e0e0;
+    }
+    #hero nav ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+      margin: 20px 0;
+    }
+    #hero nav a {
+      color: #fff;
+      text-decoration: none;
+      padding: 8px 15px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(6px);
+      transition: 0.3s;
+    }
+    #hero nav a:hover {
+      background: #00aaff;
+      color: #000;
+    }
+    .button {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 25px;
+      background: #00aaff;
+      color: #fff;
+      font-weight: bold;
+      border-radius: 25px;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+    .button:hover {
+      background: #fff;
+      color: #00aaff;
+    }
+
+    section {
+      padding: 50px 20px;
+      text-align: center;
+    }
+    section h2 {
+      color: #00aaff;
+      margin-bottom: 20px;
+    }
+    article {
+      margin: 20px auto;
+      max-width: 400px;
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(10px);
+      padding: 20px;
+      border-radius: 12px;
+      color: #eee;
+    }
+
+    blockquote {
+      max-width: 600px;
+      margin: 20px auto;
+      font-style: italic;
+      color: #ddd;
+      background: rgba(255,255,255,0.05);
+      padding: 15px;
+      border-left: 4px solid #00aaff;
+      border-radius: 6px;
+    }
+
+    footer {
+      background: rgba(0,0,0,0.8);
+      padding: 20px;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+    footer nav ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+      margin-top: 10px;
+    }
+    footer nav a {
+      color: #00aaff;
+      text-decoration: none;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        text-align: center;
+      }
+      #hero h2 {
+        font-size: 1.8rem;
+      }
+      #hero p {
+        font-size: 1rem;
+        padding: 0 10px;
+      }
+      #hero nav ul {
+        flex-direction: column;
+      }
+      article {
+        max-width: 90%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      header h1 {
+        font-size: 1.4rem;
+      }
+      #hero h2 {
+        font-size: 1.5rem;
+      }
+      .button {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+      }
+    }  </style>
+</head>
+<body> 
+  
+  <header>
+    <div>
+      <img src="logo.png" alt="Logo du Club" width="70" height="70">
+      <h1>Club de technologie</h1>
+      <p>Votre seule limite, est votre imagination</p>
+    </div>
+  </header>
+
+  <section id="hero">
+    <!-- Vidéo en arrière-plan -->
+    <video autoplay muted loop playsinline>
+      <source src="fond1.mp4" type="video/mp4">
+      Votre navigateur ne supporte pas la vidéo.
+    </video>
+
+    <h2>Bienvenue au Club Professionnel</h2>
+    <nav>
+      <ul>
+        <li><a href="presentation.html">Présentation</a></li>
+        <li><a href="equipe.html">Équipe</a></li>
+        <li><a href="evenement.html">Événements</a></li>
+        <li><a href="https://form.jotform.com/253536390053051">Adhésion</a></li>
+        <li><a href="galerie.html">Galerie</a></li>
+        <li><a href="actualite.html">Actualités</a></li>
+        <li><a href="email.html">Contact</a></li>
+        <li><a href="https://form.jotform.com/253536390053051">Inscription</a></li>
+      </ul>
+    </nav>
+    <p>
+      Rejoignez une communauté dynamique où l’innovation, la passion et l’esprit d’équipe
+      ouvrent la voie vers de nouveaux horizons. 
+    </p>
+    <a href="https://form.jotform.com/253536390053051" class="button">Devenir membre</a>
+  </section>
+
+  <section id="highlights">
+    <h2>Pourquoi nous rejoindre ?</h2>
+    <div>
+      <article>
+        <h3>🌍 Réseau</h3>
+        <p>Élargissez vos contacts et collaborez avec des professionnels inspirants.</p>
+      </article>
+      <article>
+        <h3>📚 Formation</h3>
+        <p>Accédez à des ateliers et ressources pour développer vos compétences.</p>
+      </article>
+      <article>
+        <h3>🎉 Événements</h3>
+        <p>Participez à des rencontres motivantes et des projets collectifs.</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="temoignages">
+    <h2>Ce que disent nos membres</h2>
+    <blockquote>
+      “Grâce au club, j’ai trouvé des partenaires et des opportunités incroyables.”
+      <footer>— ALIMA, membre Standard</footer>
+    </blockquote>
+    <blockquote>
+      “Un lieu où l’on apprend, partage et construit ensemble.”
+      <footer>— Hely, membre Standard</footer>
+    </blockquote>
+  </section>
+
+  <section id="cta">
+    <h2>Prêt à faire partie de l’aventure ?</h2>
+    <p>Inscrivez-vous dès aujourd’hui et contribuez à bâtir un futur inspirant.</p>
+    <a href="adhesion.html" class="button">Je m’inscris maintenant</a>
+  </section>
+
+  <footer>
+    <p>© 2025 Club de technologie — Tous droits réservés</p>
+      <nav>
+</body>
+    </html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contactez-nous</title>
+  <!-- Charger EmailJS -->
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script>
+    (function(){
+      // Remplace par ta clé publique EmailJS
+      emailjs.init("swccw7PktiWD4AcAL");
+    })();
+  </script>
+
+  <style>
+    /* Dégradé bleu pour le fond */
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #eef1ff;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .container {
+      max-width: 600px;
+      width: 100%;
+    }
+
+    .card {
+      background: linear-gradient(180deg, #1e3c72, #2a5298);
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+    }
+
+    h1 {
+      margin-top: 0;
+      text-align: center;
+      font-size: 2rem;
+      background: linear-gradient(90deg, #1e90ff, #00bfff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      color: #b6c0ff;
+      font-weight: 600;
+    }
+
+    .field {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 12px;
+      padding: 8px 12px;
+      margin-bottom: 16px;
+    }
+
+    input, textarea {
+      width: 100%;
+      border: none;
+      background: transparent;
+      color: #eef1ff;
+      font-size: 1rem;
+      outline: none;
+      padding: 10px 8px;
+      resize: none;
+    }
+
+    .a {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 8px;
+      background: linear-gradient(90deg, #00c6ff, #0072ff);
+      color: #0b1a40;
+      transition: opacity 0.2s ease;
+    }
+
+    .a:hover {
+      opacity: 0.85;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <h1>Envoyez-nous un message</h1>
+      <form id="contactForm">
+        <label for="name">Nom</label>
+        <div class="field">
+          <input id="name" name="name" type="text" required placeholder="Votre nom" />
+        </div>
+
+        <label for="email">E‑mail</label>
+        <div class="field">
+          <input id="email" name="email" type="email" required placeholder="exemple@domaine.com" />
+        </div>
+
+        <label for="message">Message</label>
+        <div class="field">
+          <textarea id="message" name="message" rows="5" required placeholder="Votre message..."></textarea>
+        </div>
+
+        <button type="submit" class="a">Envoyer</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('contactForm');
+
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+
+      // Remplace service_7p6hu8i et template_pp54ted par tes vrais identifiants EmailJS
+      emailjs.sendForm("service_7p6hu8i", "template_pp54ted", this)
+        .then(() => {
+          alert("Message envoyé avec succès via Gmail !");
+          form.reset();
+        })
+        .catch((error) => {
+          alert("Erreur lors de l'envoi : " + JSON.stringify(error));
+        });
+    });
+  </script>
+</body>
+</html>
