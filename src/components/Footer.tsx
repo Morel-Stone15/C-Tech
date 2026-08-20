@@ -22,10 +22,10 @@ const RESSOURCES: [string, string][] = [
 ];
 
 const SOCIALS = [
-  { label: "Discord", Icon: IconDiscord, color: "hover:bg-[#5865F2]", href: SOCIAL_LINKS.discord },
-  { label: "GitHub", Icon: IconGithub, color: "hover:bg-[#24292F]", href: SOCIAL_LINKS.github },
-  { label: "Instagram", Icon: IconInstagram, color: "hover:bg-[#C13584]", href: SOCIAL_LINKS.instagram },
-  { label: "LinkedIn", Icon: IconLinkedin, color: "hover:bg-[#0A66C2]", href: SOCIAL_LINKS.linkedin },
+  { label: "Discord", Icon: IconDiscord, color: "hover:bg-[var(--color-discord)]", href: SOCIAL_LINKS.discord },
+  { label: "GitHub", Icon: IconGithub, color: "hover:bg-[var(--color-github)]", href: SOCIAL_LINKS.github },
+  { label: "Instagram", Icon: IconInstagram, color: "hover:bg-[var(--color-instagram)]", href: SOCIAL_LINKS.instagram },
+  { label: "LinkedIn", Icon: IconLinkedin, color: "hover:bg-[var(--color-linkedin)]", href: SOCIAL_LINKS.linkedin },
 ];
 
 function Newsletter() {

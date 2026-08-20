@@ -18,8 +18,8 @@ const ACTS: Act[] = [
     title: "Hackathons",
     text: "48 h, une idée, une équipe et beaucoup de café. Quatre éditions par an, ouvertes à tous les niveaux.",
     tag: "4 × / an",
-    from: "#4B2AE8",
-    to: "#7C3AED",
+    from: "var(--color-indigo-brand)",
+    to: "var(--color-violet-pop)",
     glow: "rgba(75,42,232,0.35)",
   },
   {
@@ -27,8 +27,8 @@ const ACTS: Act[] = [
     title: "Workshops & formations",
     text: "Sessions pratiques de 2 h : Git, React, Docker, IA générative, design system… animées par des membres.",
     tag: "Chaque mardi",
-    from: "#7C3AED",
-    to: "#2563EB",
+    from: "var(--color-violet-pop)",
+    to: "var(--color-blue-electric)",
     glow: "rgba(124,58,237,0.35)",
   },
   {
@@ -36,8 +36,8 @@ const ACTS: Act[] = [
     title: "Projets collaboratifs",
     text: "Des squads de 4 à 6 personnes qui livrent un vrai produit sur un semestre, en open source.",
     tag: "Par semestre",
-    from: "#2563EB",
-    to: "#3EC6E0",
+    from: "var(--color-blue-electric)",
+    to: "var(--color-cyan-bright)",
     glow: "rgba(37,99,235,0.35)",
   },
   {
@@ -45,8 +45,8 @@ const ACTS: Act[] = [
     title: "Conférences & speakers",
     text: "On invite des ingénieurs, fondateurs et chercheurs à venir raconter leur parcours, sans filtre.",
     tag: "1 × / mois",
-    from: "#3EC6E0",
-    to: "#4B2AE8",
+    from: "var(--color-cyan-bright)",
+    to: "var(--color-indigo-brand)",
     glow: "rgba(62,198,224,0.35)",
   },
   {

@@ -201,7 +201,7 @@ export default function Join() {
               data-reveal
               className="mt-8 flex items-center gap-4 rounded-2xl bg-white/8 p-5 ring-1 ring-white/12 backdrop-blur transition-colors duration-300 hover:bg-white/12"
             >
-              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#5865F2] text-white">
+              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-white" style={{ background: 'var(--color-discord)' }}>
                 <IconDiscord className="h-6 w-6" />
               </span>
               <div className="min-w-0">

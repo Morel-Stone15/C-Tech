@@ -18,7 +18,7 @@ const ITEMS: T[] = [
     name: "Yasmine Ould",
     role: "L2 Informatique · Lead projet NoteSwap",
     photo: "https://images.pexels.com/photos/6684444/pexels-photo-6684444.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=560&w=440",
-    accent: "#4B2AE8",
+    accent: "var(--color-indigo-brand)",
   },
   {
     quote:
@@ -26,7 +26,7 @@ const ITEMS: T[] = [
     name: "Thomas Reyes",
     role: "M1 Data Science · Stage chez Datadog",
     photo: "https://images.pexels.com/photos/8199138/pexels-photo-8199138.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=560&w=440",
-    accent: "#2563EB",
+    accent: "var(--color-blue-electric)",
   },
   {
     quote:
@@ -34,7 +34,7 @@ const ITEMS: T[] = [
     name: "Léa Nkemba",
     role: "L3 Droit · Pôle design",
     photo: "https://images.pexels.com/photos/9829317/pexels-photo-9829317.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=560&w=440",
-    accent: "#7C3AED",
+    accent: "var(--color-violet-pop)",
   },
   {
     quote:
@@ -42,7 +42,7 @@ const ITEMS: T[] = [
     name: "Adrien Lemoine",
     role: "L3 Info · 6 hackathons au compteur",
     photo: "https://images.pexels.com/photos/37778985/pexels-photo-37778985.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=560&w=440",
-    accent: "#3EC6E0",
+    accent: "var(--color-cyan-bright)",
   },
 ];
 
@@ -183,7 +183,7 @@ export default function Testimonials() {
                       <figcaption className="mt-6 flex items-center gap-3 border-t border-ink/8 pt-5">
                         <span
                           className="h-9 w-1 rounded-full"
-                          style={{ background: `linear-gradient(${t.accent}, #3EC6E0)` }}
+                          style={{ background: `linear-gradient(${t.accent}, var(--color-cyan-bright))` }}
                           aria-hidden="true"
                         />
                         <div>

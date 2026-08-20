@@ -25,8 +25,8 @@ const EVENTS: Ev[] = [
     time: "Ven. 18 h → Dim. 18 h",
     place: "Bâtiment Innovation · Hall B",
     seats: "48 places restantes",
-    from: "#4B2AE8",
-    to: "#7C3AED",
+    from: "var(--color-indigo-brand)",
+    to: "var(--color-violet-pop)",
     featured: true,
   },
   {
@@ -38,8 +38,8 @@ const EVENTS: Ev[] = [
     time: "18 h 30 → 20 h 30",
     place: "Salle C-204",
     seats: "12 places restantes",
-    from: "#7C3AED",
-    to: "#2563EB",
+    from: "var(--color-violet-pop)",
+    to: "var(--color-blue-electric)",
   },
   {
     day: "04",
@@ -50,8 +50,8 @@ const EVENTS: Ev[] = [
     time: "19 h → 20 h 30",
     place: "Amphi Turing",
     seats: "Entrée libre",
-    from: "#2563EB",
-    to: "#3EC6E0",
+    from: "var(--color-blue-electric)",
+    to: "var(--color-cyan-bright)",
   },
   {
     day: "18",
@@ -62,8 +62,8 @@ const EVENTS: Ev[] = [
     time: "14 h → 18 h",
     place: "Labo informatique 2",
     seats: "20 places restantes",
-    from: "#3EC6E0",
-    to: "#4B2AE8",
+    from: "var(--color-cyan-bright)",
+    to: "var(--color-indigo-brand)",
   },
 ];
 

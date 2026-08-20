@@ -17,6 +17,12 @@
   --color-paper: #f5f6fa;
   --color-paper-2: #eceefa;
 
+  /* Socials */
+  --color-discord: #5865F2;
+  --color-github: #24292F;
+  --color-instagram: #C13584;
+  --color-linkedin: #0A66C2;
+
   --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
 
@@ -157,16 +163,16 @@ header a[aria-label] {
 
 /* ---------- Utilitaires de marque ---------- */
 .grad-brand {
-  background-image: linear-gradient(115deg, #4b2ae8 0%, #6d3ce8 38%, #2f7fe0 68%, #3ec6e0 100%);
+  background-image: linear-gradient(115deg, var(--color-indigo-brand) 0%, var(--color-violet-pop) 38%, var(--color-blue-electric) 68%, var(--color-cyan-bright) 100%);
 }
 .grad-text {
-  background-image: linear-gradient(105deg, #4b2ae8 0%, #7c3aed 35%, #2563eb 65%, #3ec6e0 100%);
+  background-image: linear-gradient(105deg, var(--color-indigo-brand) 0%, var(--color-violet-pop) 35%, var(--color-blue-electric) 65%, var(--color-cyan-bright) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 .grad-animated {
-  background-image: linear-gradient(115deg, #4b2ae8, #7c3aed, #2563eb, #3ec6e0, #4b2ae8);
+  background-image: linear-gradient(115deg, var(--color-indigo-brand), var(--color-violet-pop), var(--color-blue-electric), var(--color-cyan-bright), var(--color-indigo-brand));
   background-size: 300% 300%;
   animation: var(--animate-gradient);
 }
@@ -181,7 +187,7 @@ header a[aria-label] {
   inset: 0;
   border-radius: inherit;
   padding: 1.5px;
-  background: linear-gradient(135deg, #4b2ae8, #3ec6e0);
+  background: linear-gradient(135deg, var(--color-indigo-brand), var(--color-cyan-bright));
   -webkit-mask:
     linear-gradient(#000 0 0) content-box,
     linear-gradient(#000 0 0);

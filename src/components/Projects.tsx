@@ -28,7 +28,7 @@ const PROJECTS: Project[] = [
     year: "2025",
     img: "https://images.pexels.com/photos/2004161/pexels-photo-2004161.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=560&w=800",
     stars: 128,
-    accent: "#4B2AE8",
+    accent: "var(--color-indigo-brand)",
   },
   {
     title: "NoteSwap",
@@ -39,7 +39,7 @@ const PROJECTS: Project[] = [
     year: "2025",
     img: "https://images.pexels.com/photos/1102797/pexels-photo-1102797.png?auto=compress&cs=tinysrgb&fit=crop&h=560&w=800",
     stars: 342,
-    accent: "#2563EB",
+    accent: "var(--color-blue-electric)",
   },
   {
     title: "EcoSense",
@@ -50,7 +50,7 @@ const PROJECTS: Project[] = [
     year: "2024",
     img: "https://images.pexels.com/photos/330771/pexels-photo-330771.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=560&w=800",
     stars: 96,
-    accent: "#3EC6E0",
+    accent: "var(--color-cyan-bright)",
   },
   {
     title: "TutorAI",
@@ -61,7 +61,7 @@ const PROJECTS: Project[] = [
     year: "2025",
     img: "https://images.pexels.com/photos/1921326/pexels-photo-1921326.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=560&w=800",
     stars: 517,
-    accent: "#7C3AED",
+    accent: "var(--color-violet-pop)",
   },
   {
     title: "Design Kit Campus",
@@ -72,7 +72,7 @@ const PROJECTS: Project[] = [
     year: "2024",
     img: "https://images.pexels.com/photos/97077/pexels-photo-97077.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=560&w=800",
     stars: 204,
-    accent: "#7C3AED",
+    accent: "var(--color-violet-pop)",
   },
   {
     title: "HackBoard",
@@ -83,7 +83,7 @@ const PROJECTS: Project[] = [
     year: "2026",
     img: "https://images.pexels.com/photos/113850/pexels-photo-113850.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=560&w=800",
     stars: 73,
-    accent: "#4B2AE8",
+    accent: "var(--color-indigo-brand)",
   },
 ];
 
@@ -147,7 +147,7 @@ export default function Projects() {
                 />
                 <span
                   className="absolute inset-0 opacity-70 mix-blend-multiply transition-opacity duration-500 group-hover:opacity-40"
-                  style={{ background: `linear-gradient(150deg, ${p.accent}, #0B1020)` }}
+                  style={{ background: `linear-gradient(150deg, ${p.accent}, var(--color-ink))` }}
                   aria-hidden="true"
                 />
 
