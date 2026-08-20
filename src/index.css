@@ -1,0 +1,300 @@
+@import "tailwindcss";
+
+@theme {
+  /* --- Palette CLUB-Tech --- */
+  --color-indigo-brand: #4b2ae8;
+  --color-indigo-deep: #3a1fc4;
+  --color-violet-pop: #7c3aed;
+  --color-blue-electric: #2563eb;
+  --color-cyan-bright: #3ec6e0;
+  --color-cyan-soft: #7fdcee;
+
+  --color-ink: #0b1020;
+  --color-ink-soft: #1a2138;
+  --color-slate-body: #4a5570;
+  --color-paper: #f5f6fa;
+  --color-paper-2: #eceefa;
+
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  --animate-float-a: float-a 9s ease-in-out infinite;
+  --animate-float-b: float-b 11s ease-in-out -3s infinite;
+  --animate-float-c: float-c 13s ease-in-out -6s infinite;
+  --animate-spin-slow: spin 28s linear infinite;
+  --animate-gradient: gradient-shift 9s ease infinite;
+  --animate-bob: bob 2.4s ease-in-out infinite;
+}
+
+@keyframes float-a {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(24px, -34px, 0) scale(1.06);
+  }
+}
+@keyframes float-b {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-30px, 26px, 0) scale(1.09);
+  }
+}
+@keyframes float-c {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  33% {
+    transform: translate3d(20px, 22px, 0);
+  }
+  66% {
+    transform: translate3d(-18px, -16px, 0);
+  }
+}
+@keyframes gradient-shift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes marquee-rev {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+@keyframes line-up {
+  to {
+    transform: translateY(0);
+  }
+}
+@keyframes ping-ring {
+  0% {
+    transform: scale(0.7);
+    opacity: 0.85;
+  }
+  100% {
+    transform: scale(2.1);
+    opacity: 0;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 92px;
+}
+body {
+  background-color: var(--color-paper);
+  color: #414a63;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+::selection {
+  background-color: var(--color-indigo-brand);
+  color: #fff;
+}
+::-webkit-scrollbar {
+  width: 11px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-paper);
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--color-indigo-brand), var(--color-cyan-bright));
+  border: 3px solid var(--color-paper);
+  border-radius: 10px;
+}
+
+/* ---------- Utilitaires de marque ---------- */
+.grad-brand {
+  background-image: linear-gradient(115deg, #4b2ae8 0%, #6d3ce8 38%, #2f7fe0 68%, #3ec6e0 100%);
+}
+.grad-text {
+  background-image: linear-gradient(105deg, #4b2ae8 0%, #7c3aed 35%, #2563eb 65%, #3ec6e0 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.grad-animated {
+  background-image: linear-gradient(115deg, #4b2ae8, #7c3aed, #2563eb, #3ec6e0, #4b2ae8);
+  background-size: 300% 300%;
+  animation: var(--animate-gradient);
+}
+/* Bordure dégradée */
+.grad-border {
+  position: relative;
+  background: #fff;
+}
+.grad-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: linear-gradient(135deg, #4b2ae8, #3ec6e0);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+.grad-border:hover::before {
+  opacity: 1;
+}
+
+/* Grille de points */
+.bg-dots {
+  background-image: radial-gradient(circle, rgba(75, 42, 232, 0.14) 1px, transparent 1px);
+  background-size: 26px 26px;
+}
+.bg-grid-soft {
+  background-image:
+    linear-gradient(rgba(75, 42, 232, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(75, 42, 232, 0.06) 1px, transparent 1px);
+  background-size: 46px 46px;
+}
+
+/* Halo flou */
+.blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(66px);
+  pointer-events: none;
+}
+
+/* ---------- Révélations ---------- */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1) var(--rd, 0ms),
+    transform 0.75s cubic-bezier(0.22, 1, 0.36, 1) var(--rd, 0ms);
+  will-change: opacity, transform;
+}
+[data-reveal="left"] {
+  transform: translateX(-34px);
+}
+[data-reveal="right"] {
+  transform: translateX(34px);
+}
+[data-reveal="zoom"] {
+  transform: scale(0.93);
+}
+[data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Titre héro */
+.line-mask {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.1em;
+  margin-bottom: -0.1em;
+}
+.line-mask > span {
+  display: block;
+  transform: translateY(115%);
+  animation: line-up 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: var(--ld, 0ms);
+}
+
+/* ---------- Marquee ---------- */
+.mq {
+  animation: marquee 30s linear infinite;
+}
+.mq-rev {
+  animation: marquee-rev 36s linear infinite;
+}
+.mq-wrap:hover .mq,
+.mq-wrap:hover .mq-rev {
+  animation-play-state: paused;
+}
+
+/* ---------- Carte 3D ---------- */
+.tilt {
+  transform-style: preserve-3d;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ---------- Overlays ---------- */
+.pop-in {
+  animation: pop-in 0.42s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.ring-ping {
+  animation: ping-ring 2.2s ease-out infinite;
+}
+
+/* Curseurs / champs */
+:focus-visible {
+  outline: 2px solid var(--color-indigo-brand);
+  outline-offset: 3px;
+}
+
+/* ---------- Accessibilité ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .line-mask > span {
+    animation: none;
+    transform: none;
+  }
+  .mq,
+  .mq-rev,
+  .grad-animated,
+  .blob,
+  .ring-ping {
+    animation: none !important;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.15s !important;
+  }
+}
