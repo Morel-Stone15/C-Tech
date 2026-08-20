@@ -157,20 +157,20 @@ export function LogoMark({ className = "", id = "lm" }: { className?: string; id
     <svg viewBox="0 0 64 64" className={className} aria-hidden="true">
       <defs>
         <linearGradient id={`${id}-a`} x1="0" y1="1" x2="1" y2="0">
-          <stop offset="0%" stopColor="#3A1FC4" />
-          <stop offset="100%" stopColor="#4B6BE8" />
+          <stop offset="0%" stopColor="var(--color-indigo-deep)" />
+          <stop offset="100%" stopColor="var(--color-indigo-brand)" />
         </linearGradient>
         <linearGradient id={`${id}-b`} x1="0" y1="1" x2="1" y2="0">
-          <stop offset="0%" stopColor="#4B6BE8" />
-          <stop offset="100%" stopColor="#3EC6E0" />
+          <stop offset="0%" stopColor="var(--color-indigo-brand)" />
+          <stop offset="100%" stopColor="var(--color-cyan-bright)" />
         </linearGradient>
       </defs>
       <g transform="rotate(-45 32 32)" fill="none" strokeWidth="9" strokeLinecap="round">
         <path d="M15 25h13a6 6 0 0 1 0 12h-5" stroke={`url(#${id}-a)`} />
         <path d="M49 39H36a6 6 0 0 1 0-12h5" stroke={`url(#${id}-b)`} />
       </g>
-      <circle cx="46.5" cy="14.5" r="5.2" fill="#3EC6E0" />
-      <circle cx="17.5" cy="49.5" r="5.2" fill="#3A1FC4" />
+      <circle cx="46.5" cy="14.5" r="5.2" fill="var(--color-cyan-bright)" />
+      <circle cx="17.5" cy="49.5" r="5.2" fill="var(--color-indigo-deep)" />
     </svg>
   );
 }

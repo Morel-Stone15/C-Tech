@@ -195,6 +195,24 @@ header a[aria-label] {
   opacity: 1;
 }
 
+/* Lightweight utility mappings to the CSS palette for components using semantic classes
+   These provide safe fallbacks where Tailwind theme tokens may not be present. */
+.text-ink { color: var(--color-ink) !important; }
+.bg-ink { background-color: var(--color-ink) !important; }
+.text-indigo-brand { color: var(--color-indigo-brand) !important; }
+.bg-indigo-brand { background-color: var(--color-indigo-brand) !important; }
+.text-cyan-bright { color: var(--color-cyan-bright) !important; }
+.bg-cyan-bright { background-color: var(--color-cyan-bright) !important; }
+.text-cyan-soft { color: var(--color-cyan-soft) !important; }
+.bg-paper { background-color: var(--color-paper) !important; }
+.bg-paper-2 { background-color: var(--color-paper-2) !important; }
+.text-ink\/35 { color: rgba(11,16,32,0.35) !important; }
+.text-ink\/40 { color: rgba(11,16,32,0.4) !important; }
+.text-ink\/45 { color: rgba(11,16,32,0.45) !important; }
+.text-ink\/50 { color: rgba(11,16,32,0.5) !important; }
+.text-white\/70 { color: rgba(255,255,255,0.7) !important; }
+.bg-white\/10 { background-color: rgba(255,255,255,0.1) !important; }
+
 /* Grille de points */
 .bg-dots {
   background-image: radial-gradient(circle, rgba(75, 42, 232, 0.14) 1px, transparent 1px);

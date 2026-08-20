@@ -333,9 +333,13 @@ function FloatingArt() {
           +340 membres
         </p>
         <div className="mt-1.5 flex -space-x-2">
-          {["#4B2AE8", "#7C3AED", "#2563EB", "#3EC6E0"].map((c) => (
-            <span key={c} className="h-5 w-5 rounded-full ring-2 ring-white" style={{ background: c }} />
-          ))}
+          {["var(--color-indigo-brand)", "var(--color-violet-pop)", "var(--color-blue-electric)", "var(--color-cyan-bright)"].map((c, i) => (
+              <span
+                key={i}
+                className="h-5 w-5 rounded-full ring-2 ring-white"
+                style={{ background: c }}
+              />
+            ))}
         </div>
       </div>
 
