@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Brand } from "./icons";
 import { useScrollLock, useScrollSpy } from "../lib/hooks";
 
@@ -40,6 +40,27 @@ export default function Header() {
     };
   }, []);
 
+  const headerRef = useRef<HTMLElement | null>(null);
+
+  // expose header height as a CSS variable so the rest of the page can avoid
+  // being covered by the fixed header (updates on resize and when mobile menu opens)
+  useEffect(() => {
+    const el = headerRef.current;
+    if (!el) return;
+    const set = () => {
+      const h = Math.ceil(el.getBoundingClientRect().height);
+      document.documentElement.style.setProperty("--header-height", `${h}px`);
+    };
+    set();
+    const ro = new ResizeObserver(set);
+    ro.observe(el);
+    window.addEventListener("resize", set, { passive: true });
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", set);
+    };
+  }, [open]);
+
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
@@ -49,11 +70,13 @@ export default function Header() {
 
   return (
     <header
+      ref={headerRef}
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
         scrolled
           ? "bg-white/85 py-2.5 shadow-[0_1px_0_rgba(11,16,32,0.06),0_12px_30px_-22px_rgba(11,16,32,0.4)] backdrop-blur-xl"
-          : "bg-transparent py-4"
+          : "bg-transparent py-3"
       }`}
+      role="banner"
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-5 lg:px-8">
         <Brand tone={scrolled ? "dark" : "light"} />

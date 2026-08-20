@@ -178,10 +178,12 @@ export function LogoMark({ className = "", id = "lm" }: { className?: string; id
 export function Brand({ tone = "dark", compact = false }: { tone?: "dark" | "light"; compact?: boolean }) {
   return (
     <a href="#accueil" className="group flex items-center gap-2.5" aria-label="CLUB-Tech — Accueil">
-      <LogoMark className="h-10 w-10 shrink-0 transition-transform duration-500 group-hover:rotate-[90deg]" />
+      <LogoMark className="h-9 w-9 shrink-0 transition-transform duration-500 group-hover:rotate-[90deg] md:h-10 md:w-10" />
       <span className="flex flex-col leading-none">
         <span
-          className={`font-display text-[19px] tracking-[-0.02em] ${tone === "light" ? "text-white" : "text-ink"}`}
+          className={`font-display text-[16px] md:text-[19px] tracking-[-0.02em] ${
+            tone === "light" ? "text-white" : "text-ink"
+          }`}
         >
           <span className="font-bold">CLUB-T</span>
           <span className="font-normal">ech</span>

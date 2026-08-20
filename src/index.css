@@ -1,6 +1,8 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@theme {
+:root {
   /* --- Palette CLUB-Tech --- */
   --color-indigo-brand: #4b2ae8;
   --color-indigo-deep: #3a1fc4;
@@ -115,7 +117,11 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 92px;
+  scroll-padding-top: var(--header-height, 92px);
+}
+
+main {
+  padding-top: var(--header-height, 92px);
 }
 body {
   background-color: var(--color-paper);
@@ -123,6 +129,15 @@ body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+}
+
+/* Header brand tweaks: remove default link styling and ensure proper alignment */
+header a[aria-label] {
+  text-decoration: none;
+  color: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
 }
 ::selection {
   background-color: var(--color-indigo-brand);

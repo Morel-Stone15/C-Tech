@@ -309,8 +309,8 @@ function FloatingArt() {
 
       {/* Logo central en verre */}
       <div data-depth="0.7" className="absolute inset-0 flex items-center justify-center">
-        <div className="relative flex h-44 w-44 items-center justify-center rounded-[2.2rem] bg-white/10 ring-1 ring-white/20 backdrop-blur-xl sm:h-52 sm:w-52">
-          <LogoMark id="hero" className="h-24 w-24 sm:h-28 sm:w-28" />
+          <div className="relative flex h-40 w-40 items-center justify-center rounded-[2.2rem] bg-white/10 ring-1 ring-white/20 backdrop-blur-xl sm:h-44 sm:w-44 md:h-52 md:w-52">
+          <LogoMark id="hero" className="h-20 w-20 sm:h-24 sm:w-24 md:h-28 md:w-28" />
           <span className="grad-brand absolute -inset-px -z-10 rounded-[2.2rem] opacity-30 blur-xl" />
         </div>
       </div>
