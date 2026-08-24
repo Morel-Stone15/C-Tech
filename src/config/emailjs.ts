@@ -29,7 +29,7 @@ export const EMAILJS_CONFIG = {
 export const isEmailJsConfigured = (): boolean =>
   Boolean(EMAILJS_CONFIG.serviceId && EMAILJS_CONFIG.templateId && EMAILJS_CONFIG.publicKey);
 
-export const CLUB_EMAIL = "hello@club-tech.dev";
+export const CLUB_EMAIL = "ctech2798@gmail.com";
 
 /**
  * ------------------------------------------------------------

@@ -48,11 +48,19 @@ function QuickJoin() {
     });
 
     if (error) {
-      const dup =
-        error.toLowerCase().includes("duplicate") || error.toLowerCase().includes("unique");
-      setErr(dup ? "Cet e-mail est déjà inscrit." : "L&apos;inscription a échoué, réessaie.");
+      const errMsg = error.toLowerCase();
+      const dup = errMsg.includes("duplicate") || errMsg.includes("unique");
+      const sourceMissing = errMsg.includes("source");
+      if (sourceMissing) {
+        setErr("Impossible d'enregistrer l'inscription – colonne 'source' manquante. Réessaie ou contacte‑nous à ctech2798@gmail.com.");
+      } else {
+        setErr(dup ? "Cet e-mail est déjà inscrit." : "L'inscription a échoué, réessaie.");
+      }
       setStatus("error");
-      toast(dup ? "Tu es déjà inscrit·e !" : "L&apos;inscription a échoué", "error");
+      toast(
+        sourceMissing ? "Colonne 'source' manquante" : dup ? "Tu es déjà inscrit·e !" : "L'inscription a échoué",
+        "error",
+      );
       return;
     }
 
