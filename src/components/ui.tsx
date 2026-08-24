@@ -45,7 +45,7 @@ export function SectionHead({
     <div data-reveal className={c ? "mx-auto max-w-2xl text-center" : "max-w-2xl"}>
       <Eyebrow tone={tone}>{eyebrow}</Eyebrow>
       <h2
-        className={`mt-5 font-display text-[34px] font-bold leading-[1.08] tracking-[-0.03em] sm:text-[42px] lg:text-[48px] ${
+        className={`mt-4 font-display text-[clamp(1.65rem,6vw,3rem)] font-bold leading-[1.08] tracking-[-0.03em] sm:mt-5 ${
           tone === "light" ? "text-white" : "text-ink"
         }`}
       >

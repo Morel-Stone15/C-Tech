@@ -114,8 +114,8 @@ export default function Footer() {
       <span className="blob -left-24 top-0 h-72 w-72 bg-indigo-brand/25" aria-hidden="true" />
       <span className="blob -right-20 bottom-0 h-80 w-80 bg-cyan-bright/15" aria-hidden="true" />
 
-      <div className="relative z-10 mx-auto max-w-7xl px-5 lg:px-8">
-        <div className="grid gap-10 lg:grid-cols-12">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-12">
           {/* Marque */}
           <div className="lg:col-span-4">
             <Brand tone="light" />

@@ -77,7 +77,7 @@ export default function Events() {
     >
       <div className="bg-dots absolute inset-0 opacity-40" aria-hidden="true" />
 
-      <div className="relative mx-auto max-w-7xl px-5 lg:px-8">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-end">
           <SectionHead
             eyebrow="Prochains événements"
@@ -99,7 +99,7 @@ export default function Events() {
           </a>
         </div>
 
-        <div className="mt-12 grid gap-5 lg:grid-cols-12">
+        <div className="mt-8 grid gap-4 sm:mt-12 sm:gap-5 lg:grid-cols-12">
           {/* Événement phare */}
           <article
             data-reveal="left"
@@ -124,11 +124,11 @@ export default function Events() {
               </div>
 
               {/* Date géante */}
-              <div className="mt-8 flex items-end gap-3">
-                <span className="font-display text-[86px] font-bold leading-[0.82] tracking-[-0.05em] lg:text-[104px]">
+              <div className="mt-6 flex items-end gap-3">
+                <span className="font-display text-[64px] font-bold leading-[0.82] tracking-[-0.05em] sm:text-[86px] lg:text-[104px]">
                   {hero.day}
                 </span>
-                <span className="mb-2 font-display text-2xl font-semibold uppercase tracking-[0.05em] opacity-85">
+                <span className="mb-2 font-display text-xl font-semibold uppercase tracking-[0.05em] opacity-85 sm:text-2xl">
                   {hero.month}
                 </span>
               </div>

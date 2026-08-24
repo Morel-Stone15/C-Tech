@@ -26,8 +26,8 @@ export default function About() {
       <span className="blob -left-20 top-20 h-72 w-72 bg-indigo-brand/10" aria-hidden="true" />
       <span className="blob -right-16 bottom-10 h-80 w-80 bg-cyan-bright/12" aria-hidden="true" />
 
-      <div className="relative mx-auto max-w-7xl px-5 lg:px-8">
-        <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid items-center gap-10 sm:gap-12 lg:grid-cols-12 lg:gap-16">
           {/* Colonne visuelle asymétrique */}
           <div className="lg:col-span-5">
             <div className="relative">

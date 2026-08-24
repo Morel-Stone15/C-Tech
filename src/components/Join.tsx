@@ -160,7 +160,7 @@ export default function Join() {
     bad(f) ? <p className="mt-1.5 text-[11.5px] font-medium text-red-600">{errors[f]}</p> : null;
 
   return (
-    <section id="rejoindre" className="relative scroll-mt-24 overflow-hidden bg-ink py-20 lg:py-28">
+    <section id="rejoindre" className="relative scroll-mt-24 overflow-hidden bg-ink py-16 sm:py-20 lg:py-28">
       <div className="grad-animated absolute inset-0 opacity-[0.2]" aria-hidden="true" />
       <div
         className="absolute inset-0 bg-[radial-gradient(800px_420px_at_20%_10%,rgba(75,42,232,0.5),transparent_65%),radial-gradient(700px_380px_at_85%_85%,rgba(62,198,224,0.28),transparent_60%)]"
@@ -168,13 +168,13 @@ export default function Join() {
       />
       <div className="bg-grid-soft absolute inset-0 opacity-25" aria-hidden="true" />
 
-      <div className="relative z-10 mx-auto max-w-7xl px-5 lg:px-8">
-        <div className="grid gap-10 lg:grid-cols-12 lg:gap-14">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid gap-8 sm:gap-10 lg:grid-cols-12 lg:gap-14">
           {/* Argumentaire */}
           <div className="lg:col-span-5">
             <div data-reveal>
               <Eyebrow tone="light">Rejoindre le club</Eyebrow>
-              <h2 className="mt-5 font-display text-[34px] font-bold leading-[1.06] tracking-[-0.03em] text-white sm:text-[42px]">
+              <h2 className="mt-4 font-display text-[28px] font-bold leading-[1.06] tracking-[-0.03em] text-white sm:mt-5 sm:text-[34px] lg:text-[42px]">
                 Prêt à écrire ta{" "}
                 <span className="bg-gradient-to-r from-cyan-bright to-violet-pop bg-clip-text text-transparent">
                   première ligne
@@ -234,7 +234,7 @@ export default function Join() {
 
           {/* Formulaire */}
           <div data-reveal="right" className="lg:col-span-7">
-            <div className="rounded-[1.8rem] bg-white p-6 shadow-[0_40px_80px_-40px_rgba(0,0,0,0.6)] sm:p-8">
+            <div className="rounded-[1.4rem] bg-white p-5 shadow-[0_40px_80px_-40px_rgba(0,0,0,0.6)] sm:rounded-[1.8rem] sm:p-8">
               {status === "done" ? (
                 <div className="flex min-h-[420px] flex-col items-center justify-center py-8 text-center">
                   <span className="grad-brand flex h-16 w-16 items-center justify-center rounded-2xl text-white">

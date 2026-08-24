@@ -58,7 +58,7 @@ export default function Stats() {
       />
       <div className="bg-grid-soft absolute inset-0 opacity-30" aria-hidden="true" />
 
-      <div ref={ref} className="relative z-10 mx-auto max-w-7xl px-5 lg:px-8">
+      <div ref={ref} className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div data-reveal className="mx-auto max-w-xl text-center">
           <h2 className="font-display text-[30px] font-bold leading-tight tracking-[-0.03em] text-white sm:text-[38px]">
             Une communauté qui{" "}
@@ -71,7 +71,7 @@ export default function Stats() {
           </p>
         </div>
 
-        <div className="mt-12 grid grid-cols-2 gap-4 lg:grid-cols-4">
+        <div className="mt-10 grid grid-cols-1 gap-3 min-[380px]:grid-cols-2 sm:gap-4 lg:grid-cols-4">
           {STATS.map((s, i) => (
             <Stat key={s.label} {...s} started={inView} delay={i * 110} />
           ))}

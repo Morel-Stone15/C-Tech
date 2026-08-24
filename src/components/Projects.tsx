@@ -75,7 +75,7 @@ export default function Projects() {
     <section id="projets" className="relative scroll-mt-24 overflow-hidden bg-paper py-20 lg:py-28">
       <span className="blob -right-24 top-24 h-80 w-80 bg-violet-pop/12" aria-hidden="true" />
 
-      <div className="relative mx-auto max-w-7xl px-5 lg:px-8">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHead
           eyebrow="Projets réalisés"
           title={
@@ -110,7 +110,7 @@ export default function Projects() {
         </div>
 
         {/* Grille */}
-        <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:mt-8 lg:grid-cols-3">
           {visible.map((p, i) => (
             <article
               key={p.title}

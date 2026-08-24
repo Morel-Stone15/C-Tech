@@ -37,7 +37,7 @@ function QuickJoin() {
       );
       await new Promise((r) => setTimeout(r, 500));
       setStatus("done");
-      toast("Inscription enregistrée (mode démo)", "success");
+      toast("Inscription enregistrée ", "success");
       return;
     }
 
@@ -85,7 +85,7 @@ function QuickJoin() {
       style={{ "--rd": "600ms" } as CSSProperties}
       className="mt-8 w-full max-w-lg"
     >
-      <p className="mb-2.5 text-[12px] font-semibold uppercase tracking-[0.14em] text-white/50">
+      <p className="mb-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/50 sm:text-[12px]">
         Inscription rapide — 10 secondes, sans engagement
       </p>
       <div className="flex flex-col gap-2 sm:flex-row">
@@ -98,7 +98,7 @@ function QuickJoin() {
           onChange={(e) => setName(e.target.value)}
           placeholder="Ton prénom"
           disabled={status === "sending"}
-          className="min-w-0 flex-1 rounded-full border border-white/15 bg-white/10 px-4 py-3 text-[13.5px] text-white placeholder:text-white/40 backdrop-blur transition-all duration-300 focus:border-cyan-bright focus:outline-none focus:ring-4 focus:ring-cyan-bright/15 disabled:opacity-60"
+          className="min-w-0 flex-1 rounded-full border border-white/15 bg-white/10 px-4 py-2.5 text-[13px] text-white placeholder:text-white/40 backdrop-blur transition-all duration-300 focus:border-cyan-bright focus:outline-none focus:ring-4 focus:ring-cyan-bright/15 disabled:opacity-60 sm:py-3 sm:text-[13.5px]"
         />
         <label htmlFor="quick-email" className="sr-only">
           E-mail
@@ -110,12 +110,12 @@ function QuickJoin() {
           onChange={(e) => setEmail(e.target.value)}
           placeholder="prenom.nom@etu.fr"
           disabled={status === "sending"}
-          className="min-w-0 flex-[1.4] rounded-full border border-white/15 bg-white/10 px-4 py-3 text-[13.5px] text-white placeholder:text-white/40 backdrop-blur transition-all duration-300 focus:border-cyan-bright focus:outline-none focus:ring-4 focus:ring-cyan-bright/15 disabled:opacity-60"
+          className="min-w-0 flex-[1.4] rounded-full border border-white/15 bg-white/10 px-4 py-2.5 text-[13px] text-white placeholder:text-white/40 backdrop-blur transition-all duration-300 focus:border-cyan-bright focus:outline-none focus:ring-4 focus:ring-cyan-bright/15 disabled:opacity-60 sm:py-3 sm:text-[13.5px]"
         />
         <button
           type="submit"
           disabled={status === "sending"}
-          className="grad-brand inline-flex shrink-0 items-center justify-center gap-2 rounded-full px-5 py-3 text-[13px] font-bold text-white shadow-[0_10px_28px_-10px_rgba(75,42,232,0.7)] transition-all duration-300 hover:-translate-y-0.5 disabled:opacity-70"
+          className="grad-brand inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-[13px] font-bold text-white shadow-[0_10px_28px_-10px_rgba(75,42,232,0.7)] transition-all duration-300 hover:-translate-y-0.5 disabled:opacity-70 sm:w-auto sm:shrink-0"
         >
           {status === "sending" ? (
             <span
@@ -391,7 +391,7 @@ export default function Hero() {
   return (
     <section
       id="accueil"
-      className="relative overflow-hidden bg-ink pb-20 pt-28 sm:pb-24 lg:pb-28 lg:pt-36"
+      className="relative overflow-hidden bg-ink pb-16 pt-24 sm:pb-24 sm:pt-28 lg:pb-28 lg:pt-36"
     >
       {/* Fonds */}
       <div className="grad-animated absolute inset-0 opacity-[0.22]" aria-hidden="true" />
@@ -406,22 +406,22 @@ export default function Hero() {
         aria-hidden="true"
       />
 
-      <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-12 px-5 lg:grid-cols-12 lg:gap-8 lg:px-8">
+      <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-10 px-4 sm:px-6 lg:grid-cols-12 lg:gap-8 lg:px-8">
         {/* Texte */}
         <div className="lg:col-span-7">
           <div
             data-reveal
-            className="inline-flex items-center gap-2.5 rounded-full bg-white/10 py-1.5 pl-1.5 pr-4 ring-1 ring-white/15 backdrop-blur"
+            className="inline-flex items-center gap-2 rounded-full bg-white/10 py-1 pl-1.5 pr-3.5 ring-1 ring-white/15 backdrop-blur sm:gap-2.5 sm:py-1.5 sm:pr-4"
           >
-            <span className="grad-brand rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-white">
+            <span className="grad-brand rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.14em] text-white sm:px-2.5 sm:py-1 sm:text-[10px]">
               2026
             </span>
-            <span className="text-[12.5px] font-medium text-white/80">
+            <span className="text-[11px] font-medium text-white/80 sm:text-[12.5px]">
               Les inscriptions sont ouvertes · Promo #9
             </span>
           </div>
 
-          <h1 className="mt-6 font-display text-[clamp(2.5rem,8vw,4.6rem)] font-bold leading-[1.02] tracking-[-0.04em] text-white">
+          <h1 className="mt-5 font-display text-[clamp(2.2rem,8vw,4.6rem)] font-bold leading-[1.02] tracking-[-0.04em] text-white sm:mt-6">
             <span className="line-mask">
               <span style={{ "--ld": "100ms" } as CSSProperties}>Apprends.</span>
             </span>
@@ -441,7 +441,7 @@ export default function Hero() {
           <p
             data-reveal
             style={{ "--rd": "480ms" } as CSSProperties}
-            className="mt-6 max-w-xl text-[15.5px] leading-relaxed text-white/70 sm:text-base"
+            className="mt-4 text-[14.5px] leading-relaxed text-white/70 sm:mt-6 sm:max-w-xl sm:text-[15.5px] lg:text-base"
           >
             CLUB-Tech, c&apos;est{" "}
             <strong className="font-semibold text-white">
@@ -454,7 +454,7 @@ export default function Hero() {
           <div
             data-reveal
             style={{ "--rd": "600ms" } as CSSProperties}
-            className="mt-8 flex flex-wrap items-center gap-3"
+            className="mt-6 flex flex-wrap items-center gap-3 sm:mt-8"
           >
             <GradButton href="#rejoindre">Rejoindre le club</GradButton>
             <GhostButton href="#projets" tone="light">
@@ -469,7 +469,7 @@ export default function Hero() {
           <div
             data-reveal
             style={{ "--rd": "720ms" } as CSSProperties}
-            className="mt-10 flex flex-wrap gap-x-8 gap-y-4 border-t border-white/10 pt-6"
+            className="mt-8 flex flex-wrap gap-x-6 gap-y-3 border-t border-white/10 pt-5 sm:mt-10 sm:gap-x-8 sm:gap-y-4 sm:pt-6"
           >
             {[
               ["340+", "membres actifs"],
@@ -477,18 +477,18 @@ export default function Hero() {
               ["4", "hackathons / an"],
             ].map(([n, l]) => (
               <div key={l}>
-                <p className="font-display text-2xl font-bold text-white">{n}</p>
-                <p className="mt-0.5 text-[12px] text-white/50">{l}</p>
+                <p className="font-display text-xl font-bold text-white sm:text-2xl">{n}</p>
+                <p className="mt-0.5 text-[11px] text-white/50 sm:text-[12px]">{l}</p>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Visuel */}
+        {/* Visuel — masqué sur très petit écran */}
         <div
           data-reveal="zoom"
           style={{ "--rd": "300ms" } as CSSProperties}
-          className="lg:col-span-5"
+          className="hidden sm:block lg:col-span-5"
         >
           <FloatingArt />
         </div>

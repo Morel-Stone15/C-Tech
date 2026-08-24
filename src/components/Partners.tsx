@@ -34,7 +34,7 @@ function Logo({ name }: { name: string }) {
 export default function Partners() {
   return (
     <section className="relative overflow-hidden bg-white py-16 lg:py-20">
-      <div className="relative mx-auto max-w-7xl px-5 lg:px-8">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div data-reveal className="text-center">
           <Eyebrow>Nos partenaires</Eyebrow>
           <h2 className="mt-4 font-display text-[26px] font-bold tracking-[-0.03em] text-ink sm:text-[32px]">
@@ -71,7 +71,7 @@ export default function Partners() {
         />
       </div>
 
-      <div className="relative mx-auto mt-10 max-w-7xl px-5 text-center lg:px-8">
+      <div className="relative mx-auto mt-10 max-w-7xl px-4 text-center sm:px-6 lg:px-8">
         <a
           data-reveal
           href="#rejoindre"

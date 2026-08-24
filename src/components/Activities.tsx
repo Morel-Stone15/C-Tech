@@ -85,7 +85,7 @@ export default function Activities() {
     >
       <div className="bg-dots absolute inset-0 opacity-45" aria-hidden="true" />
 
-      <div className="relative mx-auto max-w-7xl px-5 lg:px-8">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-end">
           <SectionHead
             eyebrow="Nos activités"
@@ -107,7 +107,7 @@ export default function Activities() {
           </a>
         </div>
 
-        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:mt-12 lg:grid-cols-3">
           {ACTS.map((a, i) => (
             <article
               key={a.title}

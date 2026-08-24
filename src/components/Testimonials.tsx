@@ -79,7 +79,7 @@ export default function Testimonials() {
       <span className="blob -left-20 top-16 h-72 w-72 bg-indigo-brand/12" aria-hidden="true" />
       <span className="blob -right-16 bottom-16 h-72 w-72 bg-cyan-bright/14" aria-hidden="true" />
 
-      <div className="relative mx-auto max-w-5xl px-5 lg:px-8">
+      <div className="relative mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <SectionHead
           align="center"
           eyebrow="Témoignages membres"
@@ -138,7 +138,7 @@ export default function Testimonials() {
                 <figure key={t.name} className="w-full shrink-0 select-none" aria-hidden={k !== i}>
                   <div className="grid gap-0 sm:grid-cols-5">
                     {/* Photo */}
-                    <div className="relative h-56 overflow-hidden sm:col-span-2 sm:h-auto">
+                    <div className="relative h-44 overflow-hidden sm:col-span-2 sm:h-auto">
                       <img
                         src={t.photo}
                         alt={`Portrait de ${t.name}`}
@@ -156,7 +156,7 @@ export default function Testimonials() {
                     </div>
 
                     {/* Citation */}
-                    <div className="flex flex-col justify-center p-7 sm:col-span-3 sm:p-10">
+                    <div className="flex flex-col justify-center p-5 sm:col-span-3 sm:p-10">
                       <span
                         className="font-display text-5xl leading-none"
                         style={{ color: t.accent }}
