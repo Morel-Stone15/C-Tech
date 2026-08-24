@@ -2,10 +2,22 @@ import { SectionHead, dly } from "./ui";
 import { IconCheck, IconSpark } from "./icons";
 
 const VALUES = [
-  { emoji: "🤝", title: "Ouvert à tous", text: "Débutant complet ou dev confirmé — on t&apos;accompagne depuis ta première ligne de code." },
-  { emoji: "⚡", title: "Apprendre en faisant", text: "Zéro cours magistral. On construit de vrais projets, avec de vrais utilisateurs." },
-  { emoji: "🌍", title: "Open source d'abord", text: "Tout ce qu'on produit est public sur GitHub. Ton portfolio se construit tout seul." },
-  { emoji: "🎯", title: "Zéro compétition toxique", text: "On partage, on s&apos;entraide, on célèbre les réussites de chacun. Simple." },
+  {
+    title: "Ouvert à tous",
+    text: "Débutant complet ou dev confirmé — on t&apos;accompagne depuis ta première ligne de code.",
+  },
+  {
+    title: "Apprendre en faisant",
+    text: "Zéro cours magistral. On construit de vrais projets, avec de vrais utilisateurs.",
+  },
+  {
+    title: "Open source d'abord",
+    text: "Tout ce qu'on produit est public sur GitHub. Ton portfolio se construit tout seul.",
+  },
+  {
+    title: "Zéro compétition toxique",
+    text: "On partage, on s&apos;entraide, on célèbre les réussites de chacun. Simple.",
+  },
 ];
 
 export default function About() {
@@ -20,14 +32,20 @@ export default function About() {
           <div className="lg:col-span-5">
             <div className="relative">
               {/* Image principale */}
-              <div data-reveal="left" className="relative overflow-hidden rounded-[2rem] shadow-[0_30px_70px_-30px_rgba(11,16,32,0.45)]">
+              <div
+                data-reveal="left"
+                className="relative overflow-hidden rounded-[2rem] shadow-[0_30px_70px_-30px_rgba(11,16,32,0.45)]"
+              >
                 <img
-                  src="https://images.pexels.com/photos/7972949/pexels-photo-7972949.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=760&w=620"
+                  src="/images/louise.PNG"
                   alt="Membres de CLUB-Tech en session de travail collaboratif"
                   loading="lazy"
                   className="h-[400px] w-full object-cover sm:h-[460px]"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-ink/60 via-transparent to-transparent" aria-hidden="true" />
+                <div
+                  className="absolute inset-0 bg-gradient-to-t from-ink/60 via-transparent to-transparent"
+                  aria-hidden="true"
+                />
               </div>
 
               {/* Image secondaire décalée */}
@@ -37,7 +55,7 @@ export default function About() {
                 className="absolute -bottom-8 -right-4 hidden w-44 overflow-hidden rounded-2xl ring-[6px] ring-paper sm:block lg:-right-10 lg:w-52"
               >
                 <img
-                  src="https://images.pexels.com/photos/1181260/pexels-photo-1181260.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=360&w=420"
+                  src="/images/hackathon.jpeg"
                   alt="Atelier de code entre étudiantes"
                   loading="lazy"
                   className="h-32 w-full object-cover lg:h-36"
@@ -50,7 +68,7 @@ export default function About() {
                 style={dly(320)}
                 className="absolute -left-3 top-8 rounded-2xl bg-white px-4 py-3 shadow-[0_16px_36px_-14px_rgba(11,16,32,0.4)] lg:-left-8"
               >
-                <p className="font-display text-2xl font-bold grad-text">2017</p>
+                <p className="font-display text-2xl font-bold grad-text">2025</p>
                 <p className="text-[11px] font-medium text-ink/50">année de création</p>
               </div>
             </div>
@@ -62,10 +80,11 @@ export default function About() {
               eyebrow="Qui sommes-nous"
               title={
                 <>
-                  Une communauté d&apos;étudiants qui <span className="grad-text">construisent pour de vrai</span>.
+                  Une communauté d&apos;étudiants qui{" "}
+                  <span className="grad-text">construisent pour de vrai</span>.
                 </>
               }
-              text="CLUB-Tech est né dans un amphi presque vide, avec sept étudiants et un projet un peu fou : créer l&apos;espace tech qu&apos;on aurait aimé trouver en arrivant à la fac. Neuf ans plus tard, on est plus de 340 — et l&apos;esprit n&apos;a pas bougé d&apos;un pixel."
+              text="CLUB-Tech est né dans un amphi presque vide, avec sept étudiants et un projet un peu fou : créer l'espace tech qu'on aurait aimé trouver en arrivant à la fac. Neuf ans plus tard, on est plus de 340 — et l'esprit n'a pas bougé d'un pixel."
             />
 
             {/* Mission */}
@@ -93,17 +112,18 @@ export default function About() {
                   style={dly(160 + i * 90)}
                   className="grad-border group rounded-2xl p-5 shadow-[0_8px_24px_-18px_rgba(11,16,32,0.4)] transition-transform duration-300 hover:-translate-y-1"
                 >
-                  <span className="text-2xl" aria-hidden="true">
-                    {v.emoji}
-                  </span>
-                  <h3 className="mt-2.5 font-display text-[16px] font-bold text-ink">{v.title}</h3>
+                  <h3 className="font-display text-[16px] font-bold text-ink">{v.title}</h3>
                   <p className="mt-1.5 text-[13px] leading-relaxed text-slate-body">{v.text}</p>
                 </div>
               ))}
             </div>
 
             <ul data-reveal style={dly(500)} className="mt-7 flex flex-wrap gap-x-6 gap-y-2.5">
-              {["Aucun prérequis technique", "Gratuit pour les étudiants", "Toutes filières bienvenues"].map((t) => (
+              {[
+                "Aucun prérequis technique",
+                "Gratuit pour les étudiants",
+                "Toutes filières bienvenues",
+              ].map((t) => (
                 <li key={t} className="flex items-center gap-2 text-[13px] font-medium text-ink/70">
                   <span className="grad-brand flex h-4.5 w-4.5 items-center justify-center rounded-full p-1 text-white">
                     <IconCheck className="h-3 w-3" />

@@ -73,13 +73,13 @@ export default function Header() {
       ref={headerRef}
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
         scrolled
-          ? "bg-white/85 py-2.5 shadow-[0_1px_0_rgba(11,16,32,0.06),0_12px_30px_-22px_rgba(11,16,32,0.4)] backdrop-blur-xl"
-          : "bg-transparent py-3"
+          ? "bg-paper-2/95 py-2.5 shadow-[0_1px_0_rgba(11,16,32,0.06),0_12px_30px_-22px_rgba(11,16,32,0.4)] backdrop-blur-xl"
+          : "bg-paper py-3 shadow-sm"
       }`}
       role="banner"
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-5 lg:px-8">
-        <Brand tone={scrolled ? "dark" : "light"} />
+        <Brand tone="dark" />
 
         {/* Nav desktop — pilule flottante */}
         <nav
@@ -160,7 +160,7 @@ export default function Header() {
         }`}
       >
         <nav
-          className="mt-2 overflow-hidden rounded-3xl bg-ink/97 p-4 shadow-[0_30px_60px_-25px_rgba(11,16,32,0.7)] backdrop-blur-xl"
+          className="mt-2 overflow-hidden rounded-3xl bg-ink/95 p-4 shadow-[0_30px_60px_-25px_rgba(11,16,32,0.7)] backdrop-blur-xl"
           aria-label="Navigation mobile"
         >
           {LINKS.map(([label, id], i) => (

@@ -31,7 +31,7 @@ export function Toaster() {
         return (
           <div
             key={t.id}
-            className={`pop-in pointer-events-auto flex items-center gap-3 rounded-2xl px-4 py-3.5 shadow-[0_22px_45px_-18px_rgba(11,16,32,0.6)] backdrop-blur ${
+            className={`pop-in pointer-events-auto flex items-center gap-3 rounded-2xl px-4 py-3.5 shadow-[0_22px_45px_-18px_var(--shadow-60)] backdrop-blur ${
               isErr ? "bg-red-500 text-white" : "bg-ink/95 text-white ring-1 ring-white/10"
             }`}
           >

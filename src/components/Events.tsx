@@ -71,7 +71,10 @@ export default function Events() {
   const [hero, ...rest] = EVENTS;
 
   return (
-    <section id="evenements" className="relative scroll-mt-24 overflow-hidden bg-white py-20 lg:py-28">
+    <section
+      id="evenements"
+      className="relative scroll-mt-24 overflow-hidden bg-white py-20 lg:py-28"
+    >
       <div className="bg-dots absolute inset-0 opacity-40" aria-hidden="true" />
 
       <div className="relative mx-auto max-w-7xl px-5 lg:px-8">
@@ -167,7 +170,7 @@ export default function Events() {
                 key={e.title}
                 data-reveal="right"
                 style={dly(i * 110)}
-                className="group relative flex gap-5 overflow-hidden rounded-[1.4rem] bg-paper p-5 ring-1 ring-ink/6 transition-all duration-400 hover:-translate-y-1 hover:bg-white hover:shadow-[0_22px_45px_-28px_rgba(11,16,32,0.4)] sm:p-6"
+                className="group relative flex gap-5 overflow-hidden rounded-[1.4rem] bg-paper p-5 ring-1 ring-ink/6 transition-all duration-400 hover:-translate-y-1 hover:bg-white hover:shadow-[0_22px_45px_-28px_var(--shadow-40)] sm:p-6"
               >
                 {/* Barre latérale colorée */}
                 <span

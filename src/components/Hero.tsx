@@ -20,12 +20,12 @@ function QuickJoin() {
 
     if (name.trim().length < 2) {
       setErr("Ton prénom nous suffit — un peu plus long ?");
-      toast("Il manque ton prénom 🙂", "error");
+      toast("Il manque ton prénom", "error");
       return;
     }
     if (!EMAIL_RE.test(email.trim())) {
       setErr("Cet e-mail a l&apos;air incorrect.");
-      toast("Vérifie ton e-mail 👀", "error");
+      toast("Vérifie ton e-mail", "error");
       return;
     }
     setErr("");
@@ -33,11 +33,11 @@ function QuickJoin() {
 
     if (!isSupabaseConfigured()) {
       console.warn(
-          "[CLUB-Tech] Supabase non configuré — l&apos;inscription rapide ne sera pas enregistrée en base.",
+        "[CLUB-Tech] Supabase non configuré — l&apos;inscription rapide ne sera pas enregistrée en base.",
       );
       await new Promise((r) => setTimeout(r, 500));
       setStatus("done");
-      toast("Inscription enregistrée (mode démo) 🎉", "success");
+      toast("Inscription enregistrée (mode démo)", "success");
       return;
     }
 
@@ -48,15 +48,16 @@ function QuickJoin() {
     });
 
     if (error) {
-      const dup = error.toLowerCase().includes("duplicate") || error.toLowerCase().includes("unique");
-        setErr(dup ? "Cet e-mail est déjà inscrit." : "L&apos;inscription a échoué, réessaie.");
+      const dup =
+        error.toLowerCase().includes("duplicate") || error.toLowerCase().includes("unique");
+      setErr(dup ? "Cet e-mail est déjà inscrit." : "L&apos;inscription a échoué, réessaie.");
       setStatus("error");
-        toast(dup ? "Tu es déjà inscrit·e ! 👀" : "L&apos;inscription a échoué 😕", "error");
+      toast(dup ? "Tu es déjà inscrit·e !" : "L&apos;inscription a échoué", "error");
       return;
     }
 
     setStatus("done");
-    toast("Bienvenue dans le club 🎉", "success");
+    toast("Bienvenue dans le club", "success");
   };
 
   if (status === "done") {
@@ -69,9 +70,9 @@ function QuickJoin() {
         <span className="grad-brand flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-white">
           <IconCheck className="h-4 w-4" />
         </span>
-          <p className="text-[13.5px] text-white/85">
-          <strong className="text-white">Inscription reçue !</strong> Complète ton profil dans le formulaire
-          plus bas pour recevoir l&apos;invitation Discord.
+        <p className="text-[13.5px] text-white/85">
+          <strong className="text-white">Inscription reçue !</strong> Complète ton profil dans le
+          formulaire plus bas pour recevoir l&apos;invitation Discord.
         </p>
       </div>
     );
@@ -117,7 +118,10 @@ function QuickJoin() {
           className="grad-brand inline-flex shrink-0 items-center justify-center gap-2 rounded-full px-5 py-3 text-[13px] font-bold text-white shadow-[0_10px_28px_-10px_rgba(75,42,232,0.7)] transition-all duration-300 hover:-translate-y-0.5 disabled:opacity-70"
         >
           {status === "sending" ? (
-            <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" aria-hidden="true" />
+            <span
+              className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white"
+              aria-hidden="true"
+            />
           ) : (
             <>
               Je m&apos;inscris
@@ -293,7 +297,11 @@ function FloatingArt() {
   }, []);
 
   return (
-    <div ref={wrap} className="relative mx-auto h-[340px] w-full max-w-[440px] sm:h-[420px] lg:h-[500px]" aria-hidden="true">
+    <div
+      ref={wrap}
+      className="relative mx-auto h-[300px] w-full max-w-[440px] sm:h-[360px] lg:h-[460px]"
+      aria-hidden="true"
+    >
       {/* Halos */}
       <span className="blob left-[8%] top-[6%] h-52 w-52 animate-float-a bg-indigo-brand/55" />
       <span className="blob right-[4%] top-[24%] h-56 w-56 animate-float-b bg-cyan-bright/50" />
@@ -302,16 +310,32 @@ function FloatingArt() {
       {/* Anneau pointillé */}
       <div data-depth="0.35" className="absolute inset-0 flex items-center justify-center">
         <svg viewBox="0 0 400 400" className="h-[92%] w-[92%] animate-spin-slow">
-          <circle cx="200" cy="200" r="196" fill="none" stroke="rgba(255,255,255,0.16)" strokeWidth="1.2" strokeDasharray="3 12" />
-          <circle cx="200" cy="200" r="150" fill="none" stroke="rgba(62,198,224,0.22)" strokeWidth="1" strokeDasharray="80 320" />
+          <circle
+            cx="200"
+            cy="200"
+            r="196"
+            fill="none"
+            stroke="rgba(255,255,255,0.16)"
+            strokeWidth="1.2"
+            strokeDasharray="3 12"
+          />
+          <circle
+            cx="200"
+            cy="200"
+            r="150"
+            fill="none"
+            stroke="rgba(62,198,224,0.22)"
+            strokeWidth="1"
+            strokeDasharray="80 320"
+          />
         </svg>
       </div>
 
       {/* Logo central en verre */}
       <div data-depth="0.7" className="absolute inset-0 flex items-center justify-center">
-          <div className="relative flex h-40 w-40 items-center justify-center rounded-[2.2rem] bg-white/10 ring-1 ring-white/20 backdrop-blur-xl sm:h-44 sm:w-44 md:h-52 md:w-52">
-          <LogoMark id="hero" className="h-20 w-20 sm:h-24 sm:w-24 md:h-28 md:w-28" />
-          <span className="grad-brand absolute -inset-px -z-10 rounded-[2.2rem] opacity-30 blur-xl" />
+        <div className="relative flex h-36 w-36 items-center justify-center rounded-[2rem] bg-white/10 ring-1 ring-white/20 backdrop-blur-xl sm:h-40 sm:w-40 md:h-44 md:w-44">
+          <LogoMark id="hero" className="h-16 w-16 sm:h-20 sm:w-20 md:h-24 md:w-24" />
+          <span className="grad-brand absolute -inset-px -z-10 rounded-[2rem] opacity-30 blur-xl" />
         </div>
       </div>
 
@@ -320,7 +344,9 @@ function FloatingArt() {
         data-depth="1.5"
         className="absolute left-0 top-[12%] animate-float-a rounded-2xl bg-white/95 px-4 py-3 shadow-[0_18px_40px_-16px_rgba(11,16,32,0.5)] backdrop-blur"
       >
-        <p className="font-mono text-[11px] font-semibold text-indigo-brand">{"</>"} hackathon.js</p>
+        <p className="font-mono text-[11px] font-semibold text-indigo-brand">
+          {"</>"} hackathon.js
+        </p>
         <p className="mt-0.5 text-[11px] text-ink/55">48 h · 12 équipes</p>
       </div>
 
@@ -333,13 +359,18 @@ function FloatingArt() {
           +340 membres
         </p>
         <div className="mt-1.5 flex -space-x-2">
-          {["var(--color-indigo-brand)", "var(--color-violet-pop)", "var(--color-blue-electric)", "var(--color-cyan-bright)"].map((c, i) => (
-              <span
-                key={i}
-                className="h-5 w-5 rounded-full ring-2 ring-white"
-                style={{ background: c }}
-              />
-            ))}
+          {[
+            "var(--color-indigo-brand)",
+            "var(--color-violet-pop)",
+            "var(--color-blue-electric)",
+            "var(--color-cyan-bright)",
+          ].map((c, i) => (
+            <span
+              key={i}
+              className="h-5 w-5 rounded-full ring-2 ring-white"
+              style={{ background: c }}
+            />
+          ))}
         </div>
       </div>
 
@@ -349,7 +380,7 @@ function FloatingArt() {
       >
         <p className="flex items-center gap-2 text-[11.5px] font-semibold text-white">
           <IconSpark className="h-4 w-4 text-cyan-bright" />
-          Projet déployé 🚀
+          Projet déployé
         </p>
       </div>
     </div>
@@ -358,7 +389,10 @@ function FloatingArt() {
 
 export default function Hero() {
   return (
-    <section id="accueil" className="relative overflow-hidden bg-ink pb-20 pt-28 sm:pb-24 lg:pb-28 lg:pt-36">
+    <section
+      id="accueil"
+      className="relative overflow-hidden bg-ink pb-20 pt-28 sm:pb-24 lg:pb-28 lg:pt-36"
+    >
       {/* Fonds */}
       <div className="grad-animated absolute inset-0 opacity-[0.22]" aria-hidden="true" />
       <div
@@ -367,7 +401,10 @@ export default function Hero() {
       />
       <div className="bg-grid-soft absolute inset-0 opacity-[0.5]" aria-hidden="true" />
       <Particles />
-      <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-b from-transparent to-paper" aria-hidden="true" />
+      <div
+        className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-b from-transparent to-paper"
+        aria-hidden="true"
+      />
 
       <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-12 px-5 lg:grid-cols-12 lg:gap-8 lg:px-8">
         {/* Texte */}
@@ -406,9 +443,12 @@ export default function Hero() {
             style={{ "--rd": "480ms" } as CSSProperties}
             className="mt-6 max-w-xl text-[15.5px] leading-relaxed text-white/70 sm:text-base"
           >
-            CLUB-Tech, c&apos;est <strong className="font-semibold text-white">là où la tech rencontre la communauté</strong>.
-            Hackathons, workshops, projets open-source et mentorat — on construit ensemble, on apprend
-            en faisant, et personne ne reste sur le banc de touche.
+            CLUB-Tech, c&apos;est{" "}
+            <strong className="font-semibold text-white">
+              là où la tech rencontre la communauté
+            </strong>
+            . Hackathons, workshops, projets open-source et mentorat — on construit ensemble, on
+            apprend en faisant, et personne ne reste sur le banc de touche.
           </p>
 
           <div
@@ -445,7 +485,11 @@ export default function Hero() {
         </div>
 
         {/* Visuel */}
-        <div data-reveal="zoom" style={{ "--rd": "300ms" } as CSSProperties} className="lg:col-span-5">
+        <div
+          data-reveal="zoom"
+          style={{ "--rd": "300ms" } as CSSProperties}
+          className="lg:col-span-5"
+        >
           <FloatingArt />
         </div>
       </div>

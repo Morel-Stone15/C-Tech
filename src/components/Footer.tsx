@@ -1,5 +1,14 @@
 import { useState } from "react";
-import { Brand, IconArrow, IconCheck, IconDiscord, IconGithub, IconInstagram, IconLinkedin, IconMail } from "./icons";
+import {
+  Brand,
+  IconArrow,
+  IconCheck,
+  IconDiscord,
+  IconGithub,
+  IconInstagram,
+  IconLinkedin,
+  IconMail,
+} from "./icons";
 import { CLUB_EMAIL } from "../config/emailjs";
 import { LEGAL_LINKS, SOCIAL_LINKS } from "../config/links";
 import { toast } from "../lib/bus";
@@ -22,10 +31,30 @@ const RESSOURCES: [string, string][] = [
 ];
 
 const SOCIALS = [
-  { label: "Discord", Icon: IconDiscord, color: "hover:bg-[var(--color-discord)]", href: SOCIAL_LINKS.discord },
-  { label: "GitHub", Icon: IconGithub, color: "hover:bg-[var(--color-github)]", href: SOCIAL_LINKS.github },
-  { label: "Instagram", Icon: IconInstagram, color: "hover:bg-[var(--color-instagram)]", href: SOCIAL_LINKS.instagram },
-  { label: "LinkedIn", Icon: IconLinkedin, color: "hover:bg-[var(--color-linkedin)]", href: SOCIAL_LINKS.linkedin },
+  {
+    label: "Discord",
+    Icon: IconDiscord,
+    color: "hover:bg-[var(--color-discord)]",
+    href: SOCIAL_LINKS.discord,
+  },
+  {
+    label: "GitHub",
+    Icon: IconGithub,
+    color: "hover:bg-[var(--color-github)]",
+    href: SOCIAL_LINKS.github,
+  },
+  {
+    label: "Instagram",
+    Icon: IconInstagram,
+    color: "hover:bg-[var(--color-instagram)]",
+    href: SOCIAL_LINKS.instagram,
+  },
+  {
+    label: "LinkedIn",
+    Icon: IconLinkedin,
+    color: "hover:bg-[var(--color-linkedin)]",
+    href: SOCIAL_LINKS.linkedin,
+  },
 ];
 
 function Newsletter() {
@@ -35,12 +64,12 @@ function Newsletter() {
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(email.trim())) {
-      toast("Cet e-mail a l'air incorrect 🤔", "error");
+      toast("Cet e-mail a l'air incorrect", "error");
       return;
     }
     setSent(true);
     setEmail("");
-    toast("Inscrit à la newsletter ! 📬", "success");
+    toast("Inscrit à la newsletter !", "success");
     window.setTimeout(() => setSent(false), 4000);
   };
 
@@ -91,8 +120,8 @@ export default function Footer() {
           <div className="lg:col-span-4">
             <Brand tone="light" />
             <p className="mt-5 max-w-xs text-[13.5px] leading-relaxed text-white/50">
-              Initiative universitaire dédiée à la tech, au code et à l&apos;innovation. Créée par des
-              étudiants, pour des étudiants — depuis 2017.
+              Initiative universitaire dédiée à la tech, au code et à l&apos;innovation. Créée par
+              des étudiants, pour des étudiants — depuis 2017.
             </p>
 
             <div className="mt-6 flex gap-2.5">
@@ -113,7 +142,9 @@ export default function Footer() {
 
           {/* Navigation */}
           <div className="lg:col-span-2">
-            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-cyan-soft">Navigation</p>
+            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-cyan-soft">
+              Navigation
+            </p>
             <ul className="mt-4 space-y-2.5">
               {NAV.map(([l, h]) => (
                 <li key={h}>
@@ -121,7 +152,10 @@ export default function Footer() {
                     href={h}
                     className="group inline-flex items-center gap-2 text-[13.5px] text-white/55 transition-colors duration-300 hover:text-white"
                   >
-                    <span className="grad-brand h-px w-0 transition-all duration-300 group-hover:w-3.5" aria-hidden="true" />
+                    <span
+                      className="grad-brand h-px w-0 transition-all duration-300 group-hover:w-3.5"
+                      aria-hidden="true"
+                    />
                     {l}
                   </a>
                 </li>
@@ -131,7 +165,9 @@ export default function Footer() {
 
           {/* Ressources */}
           <div className="lg:col-span-3">
-            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-cyan-soft">Ressources</p>
+            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-cyan-soft">
+              Ressources
+            </p>
             <ul className="mt-4 space-y-2.5">
               {RESSOURCES.map(([l, h]) => (
                 <li key={l}>
@@ -139,7 +175,10 @@ export default function Footer() {
                     href={h}
                     className="group inline-flex items-center gap-2 text-[13.5px] text-white/55 transition-colors duration-300 hover:text-white"
                   >
-                    <span className="grad-brand h-px w-0 transition-all duration-300 group-hover:w-3.5" aria-hidden="true" />
+                    <span
+                      className="grad-brand h-px w-0 transition-all duration-300 group-hover:w-3.5"
+                      aria-hidden="true"
+                    />
                     {l}
                   </a>
                 </li>
@@ -149,7 +188,9 @@ export default function Footer() {
 
           {/* Newsletter */}
           <div className="lg:col-span-3">
-            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-cyan-soft">Newsletter</p>
+            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-cyan-soft">
+              Newsletter
+            </p>
             <p className="mt-4 text-[13.5px] leading-relaxed text-white/55">
               Reste au courant des prochains hackathons et workshops.
             </p>
@@ -168,7 +209,11 @@ export default function Footer() {
               ["Confidentialité", LEGAL_LINKS.confidentialite],
               ["Code de conduite", LEGAL_LINKS.codeDeConduite],
             ].map(([m, href]) => (
-              <a key={m} href={href} className="text-[12px] text-white/35 transition-colors hover:text-cyan-soft">
+              <a
+                key={m}
+                href={href}
+                className="text-[12px] text-white/35 transition-colors hover:text-cyan-soft"
+              >
                 {m}
               </a>
             ))}

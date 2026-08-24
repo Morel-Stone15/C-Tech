@@ -1,16 +1,28 @@
 import { useCountUp, useInView } from "../lib/hooks";
 import { dly } from "./ui";
 
-type S = { value: number; suffix: string; label: string; sub: string; emoji: string };
+type S = { value: number; suffix: string; label: string; sub: string };
 
 const STATS: S[] = [
-  { value: 340, suffix: "+", label: "Membres actifs", sub: "toutes filières confondues", emoji: "👥" },
-  { value: 58, suffix: "", label: "Projets réalisés", sub: "tous open source", emoji: "🚀" },
-  { value: 126, suffix: "", label: "Événements organisés", sub: "depuis 2017", emoji: "🎤" },
-  { value: 21, suffix: "", label: "Partenaires", sub: "entreprises & écoles", emoji: "🤝" },
+  {
+    value: 340,
+    suffix: "+",
+    label: "Membres actifs",
+    sub: "toutes filières confondues",
+  },
+  { value: 58, suffix: "", label: "Projets réalisés", sub: "tous open source" },
+  { value: 126, suffix: "", label: "Événements organisés", sub: "depuis 2017" },
+  { value: 21, suffix: "", label: "Partenaires", sub: "entreprises & écoles" },
 ];
 
-function Stat({ value, suffix, label, sub, emoji, started, delay }: S & { started: boolean; delay: number }) {
+function Stat({
+  value,
+  suffix,
+  label,
+  sub,
+  started,
+  delay,
+}: S & { started: boolean; delay: number }) {
   const v = useCountUp(value, started);
   return (
     <div
@@ -22,12 +34,11 @@ function Stat({ value, suffix, label, sub, emoji, started, delay }: S & { starte
         className="absolute inset-x-0 -top-16 mx-auto h-32 w-32 rounded-full bg-cyan-bright/25 opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-100"
         aria-hidden="true"
       />
-      <span className="relative text-2xl" aria-hidden="true">
-        {emoji}
-      </span>
-      <p className="relative mt-3 font-display text-[44px] font-bold leading-none tracking-[-0.04em] text-white tabular-nums sm:text-[52px]">
+      <p className="relative font-display text-[44px] font-bold leading-none tracking-[-0.04em] text-white tabular-nums sm:text-[52px]">
         {Math.round(v).toLocaleString("fr-FR")}
-        <span className="bg-gradient-to-r from-cyan-bright to-violet-pop bg-clip-text text-transparent">{suffix}</span>
+        <span className="bg-gradient-to-r from-cyan-bright to-violet-pop bg-clip-text text-transparent">
+          {suffix}
+        </span>
       </p>
       <p className="relative mt-3 text-[13.5px] font-bold text-white">{label}</p>
       <p className="relative mt-1 text-[11.5px] text-white/45">{sub}</p>
@@ -50,7 +61,10 @@ export default function Stats() {
       <div ref={ref} className="relative z-10 mx-auto max-w-7xl px-5 lg:px-8">
         <div data-reveal className="mx-auto max-w-xl text-center">
           <h2 className="font-display text-[30px] font-bold leading-tight tracking-[-0.03em] text-white sm:text-[38px]">
-            Une communauté qui <span className="bg-gradient-to-r from-cyan-bright to-violet-pop bg-clip-text text-transparent">grandit vite</span>
+            Une communauté qui{" "}
+            <span className="bg-gradient-to-r from-cyan-bright to-violet-pop bg-clip-text text-transparent">
+              grandit vite
+            </span>
           </h2>
           <p className="mt-3 text-[14.5px] text-white/55">
             Les chiffres de la promo 2025-2026, mis à jour chaque semestre.

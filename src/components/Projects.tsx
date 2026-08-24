@@ -20,77 +20,56 @@ type Project = {
 
 const PROJECTS: Project[] = [
   {
-    title: "CampusMap",
-    tagline: "Navigation indoor pour les 3 bâtiments du campus, avec accessibilité PMR intégrée.",
-    cat: "Mobile",
-    tech: ["Flutter", "Supabase", "Figma"],
-    team: 5,
+    title: "Quiz Tech",
+    tagline: "Un quiz pour tester vos connaissances en technologies.",
+    cat: "Web",
+    tech: ["HTML", "CSS", "JavaScript"],
+    team: 3,
     year: "2025",
-    img: "https://images.pexels.com/photos/2004161/pexels-photo-2004161.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=560&w=800",
+    img: "/images/quiz tech.png",
     stars: 128,
     accent: "var(--color-indigo-brand)",
   },
   {
-    title: "NoteSwap",
-    tagline: "Plateforme d'échange de notes de cours, modérée par les étudiants eux-mêmes.",
-    cat: "Web",
-    tech: ["React", "Node.js", "Supabase"],
+    title: "Partenariat avec la Startup Clikpay",
+    tagline: "Clikpay, une plateforme de paiement mobile.",
+    cat: "Mobile",
+    tech: ["Flutter", " Supabase", "Python"],
     team: 6,
     year: "2025",
-    img: "https://images.pexels.com/photos/1102797/pexels-photo-1102797.png?auto=compress&cs=tinysrgb&fit=crop&h=560&w=800",
+    img: "/images/clikpay_brown.png",
     stars: 342,
     accent: "var(--color-blue-electric)",
   },
   {
-    title: "EcoSense",
-    tagline: "Capteurs de qualité de l'air répartis sur le campus, données publiques en temps réel.",
+    title: "Animation pour un evenement React Native avec l'ANIMF ",
+    tagline: "Mise en place d'un espace d'animation pour la découverte de l'ecosysteme mobile.",
     cat: "IoT",
-    tech: ["Arduino", "Python", "React"],
+    tech: ["React Native"],
     team: 4,
     year: "2024",
-    img: "https://images.pexels.com/photos/330771/pexels-photo-330771.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=560&w=800",
+    img: "/images/Evenement ANIMF.jpg",
     stars: 96,
     accent: "var(--color-cyan-bright)",
   },
   {
-    title: "TutorAI",
-    tagline: "Assistant de révision qui génère des quiz à partir des supports de cours PDF.",
-    cat: "IA / Data",
-    tech: ["Python", "TensorFlow", "Next.js"],
-    team: 5,
+    title: "Pré-organisation d'un Hackathon par le club ",
+    tagline: "Pré-organisation d'un Hackathon par le club avec l'ANIMF.",
+    cat: "IoT",
+    tech: ["Python", "Flutter"],
+    team: 14,
     year: "2025",
-    img: "https://images.pexels.com/photos/1921326/pexels-photo-1921326.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=560&w=800",
+    img: "/images/Hackathon.jpeg",
     stars: 517,
     accent: "var(--color-violet-pop)",
-  },
-  {
-    title: "Design Kit Campus",
-    tagline: "Design system open source réutilisé par 8 associations étudiantes de la fac.",
-    cat: "Design",
-    tech: ["Figma", "React", "Three.js"],
-    team: 3,
-    year: "2024",
-    img: "https://images.pexels.com/photos/97077/pexels-photo-97077.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=560&w=800",
-    stars: 204,
-    accent: "var(--color-violet-pop)",
-  },
-  {
-    title: "HackBoard",
-    tagline: "Le tableau de bord temps réel utilisé pendant nos hackathons : équipes, scores, deadlines.",
-    cat: "Web",
-    tech: ["Next.js", "Rust", "Three.js"],
-    team: 4,
-    year: "2026",
-    img: "https://images.pexels.com/photos/113850/pexels-photo-113850.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=560&w=800",
-    stars: 73,
-    accent: "var(--color-indigo-brand)",
   },
 ];
 
 export default function Projects() {
   const [cat, setCat] = useState<Cat>("Tous");
   const visible = PROJECTS.filter((p) => cat === "Tous" || p.cat === cat);
-  const count = (c: Cat) => (c === "Tous" ? PROJECTS.length : PROJECTS.filter((p) => p.cat === c).length);
+  const count = (c: Cat) =>
+    c === "Tous" ? PROJECTS.length : PROJECTS.filter((p) => p.cat === c).length;
 
   return (
     <section id="projets" className="relative scroll-mt-24 overflow-hidden bg-paper py-20 lg:py-28">
@@ -104,7 +83,7 @@ export default function Projects() {
               Ce que nos membres ont <span className="grad-text">construit</span>.
             </>
           }
-          text="Tous nos projets sont open source. Clone, contribue, ou inspire-toi — c&apos;est fait pour ça."
+          text="Tous nos projets sont open source. Clone, contribue, ou inspire-toi — c'est fait pour ça."
         />
 
         {/* Filtres */}
@@ -121,7 +100,9 @@ export default function Projects() {
               }`}
             >
               {c}
-              <span className={`text-[10px] tabular-nums ${cat === c ? "text-white/70" : "text-ink/35"}`}>
+              <span
+                className={`text-[10px] tabular-nums ${cat === c ? "text-white/70" : "text-ink/35"}`}
+              >
                 {count(c)}
               </span>
             </button>
@@ -185,10 +166,14 @@ export default function Projects() {
               {/* Contenu */}
               <div className="flex flex-1 flex-col p-5">
                 <div className="flex items-start justify-between gap-3">
-                  <h3 className="font-display text-[19px] font-bold tracking-[-0.02em] text-ink">{p.title}</h3>
+                  <h3 className="font-display text-[19px] font-bold tracking-[-0.02em] text-ink">
+                    {p.title}
+                  </h3>
                   <IconArrowUR className="mt-1 h-4 w-4 shrink-0 text-ink/25 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-indigo-brand" />
                 </div>
-                <p className="mt-1.5 flex-1 text-[13px] leading-relaxed text-slate-body">{p.tagline}</p>
+                <p className="mt-1.5 flex-1 text-[13px] leading-relaxed text-slate-body">
+                  {p.tagline}
+                </p>
 
                 <div className="mt-4 flex flex-wrap gap-1.5">
                   {p.tech.map((t) => (

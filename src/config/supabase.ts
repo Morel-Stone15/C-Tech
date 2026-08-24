@@ -38,9 +38,11 @@ import { createClient } from "@supabase/supabase-js";
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-const looksLikeUrl = (v: unknown): v is string => typeof v === "string" && /^(https?:)\/\//i.test(v);
+const looksLikeUrl = (v: unknown): v is string =>
+  typeof v === "string" && /^(https?:)\/\//i.test(v);
 
-export const isSupabaseConfigured = (): boolean => Boolean(looksLikeUrl(SUPABASE_URL) && SUPABASE_ANON_KEY);
+export const isSupabaseConfigured = (): boolean =>
+  Boolean(looksLikeUrl(SUPABASE_URL) && SUPABASE_ANON_KEY);
 
 /**
  * Client Supabase. `null` si les variables d'environnement ne sont pas
@@ -56,7 +58,10 @@ if (looksLikeUrl(SUPABASE_URL) && SUPABASE_ANON_KEY) {
     // Consumers should call `isSupabaseConfigured()` to detect the absent client.
     // Log a clear message to aid local debugging.
     // eslint-disable-next-line no-console
-    console.error("[CLUB-Tech] Supabase client initialization failed:", err instanceof Error ? err.message : err);
+    console.error(
+      "[CLUB-Tech] Supabase client initialization failed:",
+      err instanceof Error ? err.message : err,
+    );
     _supabase = null;
   }
 }
@@ -85,7 +90,8 @@ export async function saveInscription(row: InscriptionRow): Promise<{ error: str
   if (!supabase) {
     return { error: "not_configured" };
   }
-  const { error } = await supabase.from("inscriptions").insert(row);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error } = await (supabase.from("inscriptions") as any).insert(row);
   if (error) {
     console.error("[CLUB-Tech] Échec Supabase :", error.message);
     return { error: error.message };

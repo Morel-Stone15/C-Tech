@@ -137,7 +137,14 @@ export const IconGithub = (p: P) => (
   </svg>
 );
 export const IconInstagram = (p: P) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} aria-hidden="true" {...p}>
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={1.8}
+    aria-hidden="true"
+    {...p}
+  >
     <rect x="3" y="3" width="18" height="18" rx="5" />
     <circle cx="12" cy="12" r="4" />
     <circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" stroke="none" />
@@ -175,10 +182,16 @@ export function LogoMark({ className = "", id = "lm" }: { className?: string; id
   );
 }
 
-export function Brand({ tone = "dark", compact = false }: { tone?: "dark" | "light"; compact?: boolean }) {
+export function Brand({
+  tone = "dark",
+  compact = false,
+}: {
+  tone?: "dark" | "light";
+  compact?: boolean;
+}) {
   return (
     <a href="#accueil" className="group flex items-center gap-2.5" aria-label="CLUB-Tech — Accueil">
-      <LogoMark className="h-9 w-9 shrink-0 transition-transform duration-500 group-hover:rotate-[90deg] md:h-10 md:w-10" />
+      <LogoMark className="h-8 w-8 shrink-0 transition-transform duration-500 group-hover:rotate-[90deg] md:h-9 md:w-9" />
       <span className="flex flex-col leading-none">
         <span
           className={`font-display text-[16px] md:text-[19px] tracking-[-0.02em] ${

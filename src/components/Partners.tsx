@@ -1,8 +1,24 @@
 import { Eyebrow } from "./ui";
 
 /* Logos textuels stylisés — remplaçables par de vrais fichiers SVG */
-const ROW_A = ["Université Lyon Tech", "Datadog", "OVHcloud", "Figma", "Doctolib", "GitHub Education", "Algolia"];
-const ROW_B = ["Station F", "Sopra Steria", "Malt", "Hugging Face", "Qonto", "École 42", "Scaleway"];
+const ROW_A = [
+  "Université Lyon Tech",
+  "Datadog",
+  "OVHcloud",
+  "Figma",
+  "Doctolib",
+  "GitHub Education",
+  "Algolia",
+];
+const ROW_B = [
+  "Station F",
+  "Sopra Steria",
+  "Malt",
+  "Hugging Face",
+  "Qonto",
+  "École 42",
+  "Scaleway",
+];
 
 function Logo({ name }: { name: string }) {
   return (
@@ -25,8 +41,8 @@ export default function Partners() {
             Ils soutiennent la <span className="grad-text">communauté</span>
           </h2>
           <p className="mx-auto mt-2.5 max-w-lg text-[14px] text-slate-body">
-            Entreprises, écoles et associations qui financent nos événements, offrent des licences ou
-            envoient leurs ingénieurs animer nos workshops.
+            Entreprises, écoles et associations qui financent nos événements, offrent des licences
+            ou envoient leurs ingénieurs animer nos workshops.
           </p>
         </div>
       </div>
@@ -45,8 +61,14 @@ export default function Partners() {
         </div>
 
         {/* Fondus latéraux */}
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-white to-transparent sm:w-40" aria-hidden="true" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-white to-transparent sm:w-40" aria-hidden="true" />
+        <div
+          className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-white to-transparent sm:w-40"
+          aria-hidden="true"
+        />
+        <div
+          className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-white to-transparent sm:w-40"
+          aria-hidden="true"
+        />
       </div>
 
       <div className="relative mx-auto mt-10 max-w-7xl px-5 text-center lg:px-8">

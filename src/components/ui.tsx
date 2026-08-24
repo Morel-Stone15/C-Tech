@@ -5,7 +5,13 @@ import { IconArrow } from "./icons";
 export const dly = (ms: number): CSSProperties => ({ "--rd": `${ms}ms` }) as CSSProperties;
 
 /* ---------- Étiquette de section ---------- */
-export function Eyebrow({ children, tone = "dark" }: { children: ReactNode; tone?: "dark" | "light" }) {
+export function Eyebrow({
+  children,
+  tone = "dark",
+}: {
+  children: ReactNode;
+  tone?: "dark" | "light";
+}) {
   return (
     <span
       className={`inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.18em] ${

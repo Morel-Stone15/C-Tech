@@ -1,6 +1,14 @@
 import type { ComponentType, SVGProps } from "react";
 import { SectionHead, dly } from "./ui";
-import { IconArrowUR, IconBook, IconBranch, IconCompass, IconMic, IconRocket, IconTrophy } from "./icons";
+import {
+  IconArrowUR,
+  IconBook,
+  IconBranch,
+  IconCompass,
+  IconMic,
+  IconRocket,
+  IconTrophy,
+} from "./icons";
 
 type Act = {
   Icon: ComponentType<SVGProps<SVGSVGElement>>;
@@ -20,7 +28,7 @@ const ACTS: Act[] = [
     tag: "4 × / an",
     from: "var(--color-indigo-brand)",
     to: "var(--color-violet-pop)",
-    glow: "rgba(75,42,232,0.35)",
+    glow: "var(--glow-indigo)",
   },
   {
     Icon: IconBook,
@@ -29,7 +37,7 @@ const ACTS: Act[] = [
     tag: "Chaque mardi",
     from: "var(--color-violet-pop)",
     to: "var(--color-blue-electric)",
-    glow: "rgba(124,58,237,0.35)",
+    glow: "var(--glow-violet)",
   },
   {
     Icon: IconBranch,
@@ -38,7 +46,7 @@ const ACTS: Act[] = [
     tag: "Par semestre",
     from: "var(--color-blue-electric)",
     to: "var(--color-cyan-bright)",
-    glow: "rgba(37,99,235,0.35)",
+    glow: "var(--glow-blue)",
   },
   {
     Icon: IconMic,
@@ -47,31 +55,34 @@ const ACTS: Act[] = [
     tag: "1 × / mois",
     from: "var(--color-cyan-bright)",
     to: "var(--color-indigo-brand)",
-    glow: "rgba(62,198,224,0.35)",
+    glow: "var(--glow-cyan)",
   },
   {
     Icon: IconCompass,
     title: "Mentorat",
     text: "Chaque nouveau membre est associé à un mentor : entretiens blancs, revue de CV, conseils de carrière.",
     tag: "Toute l'année",
-    from: "#4B2AE8",
-    to: "#3EC6E0",
-    glow: "rgba(75,42,232,0.35)",
+    from: "var(--color-indigo-brand)",
+    to: "var(--color-cyan-bright)",
+    glow: "var(--glow-indigo)",
   },
   {
     Icon: IconTrophy,
     title: "Compétitions de code",
     text: "Entraînements algo hebdomadaires et participation aux contests nationaux et internationaux.",
     tag: "Chaque jeudi",
-    from: "#7C3AED",
-    to: "#3EC6E0",
-    glow: "rgba(124,58,237,0.35)",
+    from: "var(--color-violet-pop)",
+    to: "var(--color-cyan-bright)",
+    glow: "var(--glow-violet)",
   },
 ];
 
 export default function Activities() {
   return (
-    <section id="ressources" className="relative scroll-mt-24 overflow-hidden bg-white py-20 lg:py-28">
+    <section
+      id="ressources"
+      className="relative scroll-mt-24 overflow-hidden bg-white py-20 lg:py-28"
+    >
       <div className="bg-dots absolute inset-0 opacity-45" aria-hidden="true" />
 
       <div className="relative mx-auto max-w-7xl px-5 lg:px-8">

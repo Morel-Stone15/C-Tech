@@ -10,7 +10,8 @@ import { toast } from "../lib/bus";
 type Field = "from_name" | "from_email" | "filiere" | "message";
 
 const RULES: Record<Field, (v: string) => string | null> = {
-  from_name: (v) => (!v.trim() ? "On aimerait bien savoir ton nom 🙂" : v.trim().length < 2 ? "Un peu court…" : null),
+  from_name: (v) =>
+    !v.trim() ? "On aimerait bien savoir ton nom" : v.trim().length < 2 ? "Un peu court…" : null,
   from_email: (v) =>
     !v.trim()
       ? "Ton e-mail nous permet de te répondre."
@@ -59,7 +60,8 @@ export default function Join() {
   const set = (f: Field, val: string) => setV((p) => ({ ...p, [f]: val }));
   const blur = (f: Field) => setTouched((p) => ({ ...p, [f]: true }));
   const bad = (f: Field) => touched[f] && errors[f];
-  const cls = (f: Field) => `${inputBase} ${bad(f) ? koCls : touched[f] && v[f].trim() ? goodCls : okCls}`;
+  const cls = (f: Field) =>
+    `${inputBase} ${bad(f) ? koCls : touched[f] && v[f].trim() ? goodCls : okCls}`;
 
   const toggleInteret = (p: string) =>
     setInterets((prev) => (prev.includes(p) ? prev.filter((x) => x !== p) : [...prev, p]));
@@ -72,7 +74,7 @@ export default function Join() {
       setTouched({ from_name: true, from_email: true, filiere: true, message: true });
       const first = (Object.keys(RULES) as Field[]).find((f) => errors[f]);
       if (first) document.getElementById(`j-${first}`)?.focus();
-      toast("Il manque encore quelques infos 👀", "error");
+      toast("Il manque encore quelques infos", "error");
       return;
     }
 
@@ -94,10 +96,15 @@ export default function Join() {
         source: "formulaire",
       });
       if (error) {
-        const dup = error.toLowerCase().includes("duplicate") || error.toLowerCase().includes("unique");
-        setErrMsg(dup ? "Cet e-mail est déjà inscrit — vérifie tes spams pour l'invitation Discord." : error);
+        const dup =
+          error.toLowerCase().includes("duplicate") || error.toLowerCase().includes("unique");
+        setErrMsg(
+          dup
+            ? "Cet e-mail est déjà inscrit — vérifie tes spams pour l'invitation Discord."
+            : error,
+        );
         setStatus("error");
-        toast(dup ? "Tu es déjà inscrit·e ! 👀" : "L'enregistrement a échoué, réessaie 😕", "error");
+        toast(dup ? "Tu es déjà inscrit·e ! " : "L'enregistrement a échoué, réessaie ", "error");
         return;
       }
     } else {
@@ -111,9 +118,14 @@ export default function Join() {
     //    puisque la donnée est déjà en base.
     if (isEmailJsConfigured()) {
       try {
-        await emailjs.sendForm(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.templateId, formRef.current!, {
-          publicKey: EMAILJS_CONFIG.publicKey,
-        });
+        await emailjs.sendForm(
+          EMAILJS_CONFIG.serviceId,
+          EMAILJS_CONFIG.templateId,
+          formRef.current!,
+          {
+            publicKey: EMAILJS_CONFIG.publicKey,
+          },
+        );
       } catch (err: unknown) {
         const text =
           typeof err === "object" && err !== null && "text" in err
@@ -121,7 +133,10 @@ export default function Join() {
             : err instanceof Error
               ? err.message
               : "Erreur inconnue.";
-        console.error("[CLUB-Tech] Échec de la notification EmailJS (inscription tout de même enregistrée) :", text);
+        console.error(
+          "[CLUB-Tech] Échec de la notification EmailJS (inscription tout de même enregistrée) :",
+          text,
+        );
       }
     } else {
       console.warn(
@@ -133,12 +148,12 @@ export default function Join() {
     if (!isSupabaseConfigured()) {
       await new Promise((r) => setTimeout(r, 500));
       setStatus("done");
-      toast("Inscription enregistrée (mode démo) 🎉", "success");
+      toast("Inscription enregistrée (mode démo)", "success");
       return;
     }
 
     setStatus("done");
-    toast("Bienvenue dans le club 🎉", "success");
+    toast("Bienvenue dans le club ", "success");
   };
 
   const Err = ({ f }: { f: Field }) =>
@@ -167,8 +182,8 @@ export default function Join() {
                 avec nous ?
               </h2>
               <p className="mt-4 max-w-md text-[15px] leading-relaxed text-white/65">
-                Deux minutes pour t&apos;inscrire, zéro engagement, zéro cotisation. On te répond sous
-                48 h avec le lien du Discord et les prochaines dates.
+                Deux minutes pour t&apos;inscrire, zéro engagement, zéro cotisation. On te répond
+                sous 48 h avec le lien du Discord et les prochaines dates.
               </p>
             </div>
 
@@ -201,7 +216,10 @@ export default function Join() {
               data-reveal
               className="mt-8 flex items-center gap-4 rounded-2xl bg-white/8 p-5 ring-1 ring-white/12 backdrop-blur transition-colors duration-300 hover:bg-white/12"
             >
-              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-white" style={{ background: 'var(--color-discord)' }}>
+              <span
+                className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-white"
+                style={{ background: "var(--color-discord)" }}
+              >
                 <IconDiscord className="h-6 w-6" />
               </span>
               <div className="min-w-0">
@@ -223,16 +241,18 @@ export default function Join() {
                     <IconSpark className="h-8 w-8" />
                   </span>
                   <h3 className="mt-6 font-display text-[26px] font-bold tracking-[-0.02em] text-ink">
-                    Bienvenue dans le club ! 🎉
+                    Bienvenue dans le club !
                   </h3>
-                    <p className="mt-3 max-w-sm text-[14px] leading-relaxed text-slate-body">
+                  <p className="mt-3 max-w-sm text-[14px] leading-relaxed text-slate-body">
                     On a bien reçu ta candidature. Un membre du bureau te répond sous{" "}
-                    <strong className="text-ink">48 h</strong> avec l&apos;invitation Discord et le calendrier.
+                    <strong className="text-ink">48 h</strong> avec l&apos;invitation Discord et le
+                    calendrier.
                   </p>
                   {!isSupabaseConfigured() && (
                     <p className="mt-5 max-w-sm rounded-xl bg-indigo-brand/8 px-4 py-3 text-[12px] leading-relaxed text-indigo-brand ring-1 ring-indigo-brand/15">
-                      <strong>Mode démonstration</strong> — cette inscription n&apos;a pas été enregistrée en base.
-                      Ajoute tes clés Supabase dans <code className="font-mono">.env.local</code>.
+                      <strong>Mode démonstration</strong> — cette inscription n&apos;a pas été
+                      enregistrée en base. Ajoute tes clés Supabase dans{" "}
+                      <code className="font-mono">.env.local</code>.
                     </p>
                   )}
                   <button
@@ -267,7 +287,9 @@ export default function Join() {
                   <div className="mb-6">
                     <div className="flex items-center justify-between text-[11px] font-bold">
                       <span className="text-ink/45">Formulaire d&apos;adhésion</span>
-                      <span className={pct === 100 ? "text-emerald-600" : "text-indigo-brand"}>{pct} %</span>
+                      <span className={pct === 100 ? "text-emerald-600" : "text-indigo-brand"}>
+                        {pct} %
+                      </span>
                     </div>
                     <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-ink/8">
                       <div
@@ -354,9 +376,11 @@ export default function Join() {
                     {/* Intérêts */}
                     <div className="mt-5">
                       <p className={labelCls}>
-                          Ce qui t&apos;intéresse{" "}
-                          <span className="font-medium text-ink/40">({interets.length} sélectionné{interets.length > 1 ? "s" : ""})</span>
-                        </p>
+                        Ce qui t&apos;intéresse{" "}
+                        <span className="font-medium text-ink/40">
+                          ({interets.length} sélectionné{interets.length > 1 ? "s" : ""})
+                        </span>
+                      </p>
                       <div className="flex flex-wrap gap-2">
                         {POLES.map((p) => {
                           const on = interets.includes(p);
@@ -393,19 +417,25 @@ export default function Join() {
                         value={v.message}
                         onChange={(e) => set("message", e.target.value)}
                         onBlur={() => blur("message")}
-                        placeholder="Pas besoin d&apos;une lettre de motivation — deux phrases sincères suffisent."
+                        placeholder="Pas besoin d'une lettre de motivation — deux phrases sincères suffisent."
                         className={`${cls("message")} resize-none`}
                       />
                       <div className="mt-1 flex items-center justify-between">
                         <Err f="message" />
-                        <span className="ml-auto text-[11px] tabular-nums text-ink/35">{v.message.length}/600</span>
+                        <span className="ml-auto text-[11px] tabular-nums text-ink/35">
+                          {v.message.length}/600
+                        </span>
                       </div>
                     </div>
                   </fieldset>
 
                   {status === "error" && (
-                    <div role="alert" className="mt-5 rounded-xl bg-red-50 px-4 py-3 text-[13px] text-red-800 ring-1 ring-red-200">
-                      <strong>Oups, l&apos;envoi a échoué.</strong> {errMsg} — réessaie ou écris-nous à{" "}
+                    <div
+                      role="alert"
+                      className="mt-5 rounded-xl bg-red-50 px-4 py-3 text-[13px] text-red-800 ring-1 ring-red-200"
+                    >
+                      <strong>Oups, l&apos;envoi a échoué.</strong> {errMsg} — réessaie ou
+                      écris-nous à{" "}
                       <a href={`mailto:${CLUB_EMAIL}`} className="font-bold underline">
                         {CLUB_EMAIL}
                       </a>
@@ -416,13 +446,18 @@ export default function Join() {
                   <div className="mt-7 flex flex-wrap items-center justify-between gap-4">
                     {status === "sending" ? (
                       <span className="grad-brand inline-flex items-center gap-3 rounded-full px-6 py-3.5 text-[13px] font-bold text-white">
-                        <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" aria-hidden="true" />
+                        <span
+                          className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white"
+                          aria-hidden="true"
+                        />
                         Envoi en cours…
                       </span>
                     ) : (
                       <GradButton type="submit">Envoyer ma candidature</GradButton>
                     )}
-                    <p className="text-[11.5px] text-ink/40">Réponse sous 48 h · aucune donnée revendue</p>
+                    <p className="text-[11.5px] text-ink/40">
+                      Réponse sous 48 h · aucune donnée revendue
+                    </p>
                   </div>
                 </form>
               )}

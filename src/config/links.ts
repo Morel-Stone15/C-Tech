@@ -11,7 +11,10 @@ export const SOCIAL_LINKS = {
 
 /** Construit l'URL du dépôt GitHub d'un projet à partir de son titre. */
 export const githubRepoUrl = (projectTitle: string): string =>
-  `${SOCIAL_LINKS.github}/${projectTitle.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")}`;
+  `${SOCIAL_LINKS.github}/${projectTitle
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "")}`;
 
 export const LEGAL_LINKS = {
   mentionsLegales: "/mentions-legales",

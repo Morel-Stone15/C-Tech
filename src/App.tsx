@@ -27,11 +27,13 @@ function BackToTop() {
       onClick={() =>
         window.scrollTo({
           top: 0,
-          behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+          behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+            ? "auto"
+            : "smooth",
         })
       }
       aria-label="Retour en haut de page"
-      className={`grad-brand fixed bottom-6 right-5 z-40 flex h-12 w-12 items-center justify-center rounded-full text-white shadow-[0_14px_32px_-12px_rgba(75,42,232,0.9)] transition-all duration-500 hover:-translate-y-1 ${
+      className={`grad-brand fixed bottom-6 right-5 z-40 flex h-12 w-12 items-center justify-center rounded-full text-white shadow-[0_14px_32px_-12px_var(--glow-indigo-strong)] transition-all duration-500 hover:-translate-y-1 ${
         show ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-4 opacity-0"
       }`}
     >
@@ -43,7 +45,9 @@ function BackToTop() {
 export default function App() {
   useEffect(() => {
     if (!("IntersectionObserver" in window)) {
-      document.querySelectorAll<HTMLElement>("[data-reveal]").forEach((el) => el.classList.add("is-in"));
+      document
+        .querySelectorAll<HTMLElement>("[data-reveal]")
+        .forEach((el) => el.classList.add("is-in"));
       return;
     }
     const io = new IntersectionObserver(
@@ -58,7 +62,9 @@ export default function App() {
       { threshold: 0.12, rootMargin: "0px 0px -50px 0px" },
     );
     const scan = () =>
-      document.querySelectorAll<HTMLElement>("[data-reveal]:not(.is-in)").forEach((el) => io.observe(el));
+      document
+        .querySelectorAll<HTMLElement>("[data-reveal]:not(.is-in)")
+        .forEach((el) => io.observe(el));
     scan();
     const mo = new MutationObserver(scan);
     mo.observe(document.body, { childList: true, subtree: true });

@@ -14,34 +14,18 @@ type T = {
 const ITEMS: T[] = [
   {
     quote:
-      "Je suis arrivée en L1 sans savoir ce qu'était un terminal. Un an plus tard, je co-maintiens un projet à 300 étoiles sur GitHub. Le club change littéralement des trajectoires.",
-    name: "Yasmine Ould",
-    role: "L2 Informatique · Lead projet NoteSwap",
-    photo: "https://images.pexels.com/photos/6684444/pexels-photo-6684444.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=560&w=440",
+      "Je suis arrivée en L1 sans savoir ce qu'était un terminal. Un an plus tard, je co-maintiens des projets d'entreprise en parallèle de mes études. C'est grâce au club.",
+    name: "Christ Henzo",
+    role: "L1 Genie logiciel· Lead projet NoteSwap",
+    photo: "/images/henzo.png",
     accent: "var(--color-indigo-brand)",
   },
   {
     quote:
-      "Le mentorat m'a sauvé pour mes entretiens de stage. Mon mentor a fait quatre simulations avec moi. J'ai eu l'offre. C'est aussi simple que ça.",
-    name: "Thomas Reyes",
-    role: "M1 Data Science · Stage chez Datadog",
-    photo: "https://images.pexels.com/photos/8199138/pexels-photo-8199138.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=560&w=440",
-    accent: "var(--color-blue-electric)",
-  },
-  {
-    quote:
-      "Je viens de droit, je pensais que la tech n'était pas pour moi. Aujourd'hui je fais le design de toutes nos affiches et j'ai appris Figma au club. On m'a jamais fait sentir illégitime.",
-    name: "Léa Nkemba",
-    role: "L3 Droit · Pôle design",
-    photo: "https://images.pexels.com/photos/9829317/pexels-photo-9829317.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=560&w=440",
-    accent: "var(--color-violet-pop)",
-  },
-  {
-    quote:
-      "Mon premier hackathon, j'ai dormi quatre heures et rendu un truc à moitié cassé. On a fini derniers. C'était le meilleur week-end de mon année.",
-    name: "Adrien Lemoine",
-    role: "L3 Info · 6 hackathons au compteur",
-    photo: "https://images.pexels.com/photos/37778985/pexels-photo-37778985.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=560&w=440",
+      "Avec le club tech, j’ai pu découvrir plusieurs facettes du monde de la tech et ça m’a vraiment plu. Et les conférences sont vraiment intéressantes !",
+    name: "Alvaro Hely ",
+    role: "L1 bio-medical",
+    photo: "/images/hely.JPG",
     accent: "var(--color-cyan-bright)",
   },
 ];
@@ -139,7 +123,10 @@ export default function Testimonials() {
             <div className="absolute inset-x-0 top-0 z-20 h-1 bg-ink/6" aria-hidden="true">
               <div
                 className="grad-brand h-full"
-                style={{ width: `${running ? prog * 100 : 0}%`, transition: running ? "none" : "width .3s" }}
+                style={{
+                  width: `${running ? prog * 100 : 0}%`,
+                  transition: running ? "none" : "width .3s",
+                }}
               />
             </div>
 
@@ -161,7 +148,9 @@ export default function Testimonials() {
                       />
                       <span
                         className="absolute inset-0 opacity-35 mix-blend-multiply"
-                        style={{ background: `linear-gradient(160deg, ${t.accent}, transparent 70%)` }}
+                        style={{
+                          background: `linear-gradient(160deg, ${t.accent}, transparent 70%)`,
+                        }}
                         aria-hidden="true"
                       />
                     </div>
@@ -183,7 +172,9 @@ export default function Testimonials() {
                       <figcaption className="mt-6 flex items-center gap-3 border-t border-ink/8 pt-5">
                         <span
                           className="h-9 w-1 rounded-full"
-                          style={{ background: `linear-gradient(${t.accent}, var(--color-cyan-bright))` }}
+                          style={{
+                            background: `linear-gradient(${t.accent}, var(--color-cyan-bright))`,
+                          }}
                           aria-hidden="true"
                         />
                         <div>
