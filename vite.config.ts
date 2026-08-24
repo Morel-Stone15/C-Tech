@@ -9,7 +9,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export default defineConfig({
-  base: "/C-Tech/",
+  base: process.env.VERCEL ? "/" : "/C-Tech/",
   plugins: [react(), tailwindcss(), viteSingleFile()],
   resolve: {
     alias: {
