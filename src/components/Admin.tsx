@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-import { supabase, isSupabaseConfigured } from "../config/supabase";
+import { getAllInscriptions, deleteInscription } from "../config/localDb";
 import {
   getStoredEvents,
   getStoredGallery,
@@ -95,58 +95,42 @@ export default function Admin({ onBackToSite }: { onBackToSite: () => void }) {
     toast("Déconnexion effectuée", "info");
   };
 
-  // Chargement des inscriptions depuis Supabase et localStorage
-  const loadInscriptions = async () => {
+  // Chargement des inscriptions depuis la base interne (localStorage)
+  const loadInscriptions = () => {
     setLoadingInscriptions(true);
     let items: InscriptionItem[] = [];
 
-    if (isSupabaseConfigured() && supabase) {
-      try {
-        const { data, error } = await supabase
-          .from("inscriptions")
-          .select("*")
-          .order("created_at", { ascending: false });
-
-        if (!error && Array.isArray(data)) {
-          items = data.map((d) => {
-            let tel = "";
-            let cleanMsg = d.message || "";
-            const telMatch = (d.message || "").match(/Tél:\s*([^\s|]+(?:\s+[^\s|]+)*)/i);
-            if (telMatch) {
-              tel = telMatch[1].trim();
-            }
-
-            return {
-              id: d.id,
-              nom: d.nom || "Anonyme",
-              email: d.email || "",
-              filiere: d.filiere || "Non renseignée",
-              niveau: d.niveau || "",
-              tel: tel || "N/A",
-              message: cleanMsg,
-              source: (d.source || "formulaire").toLowerCase(),
-              created_at: d.created_at || new Date().toISOString(),
-            };
-          });
-        }
-      } catch (err) {
-        console.warn("Échec requête Supabase:", err);
-      }
+    // 1) Inscriptions du club (C-Tech) sauvegardées via localDb
+    try {
+      const clubIns = getAllInscriptions();
+      items = clubIns.map((d) => ({
+        id: d.id,
+        nom: d.nom || "Anonyme",
+        email: d.email || "",
+        filiere: d.filiere || "Non renseignée",
+        niveau: d.niveau || "",
+        tel: d.tel || "N/A",
+        message: d.message || "",
+        source: (d.source || "formulaire").toLowerCase(),
+        created_at: d.created_at || new Date().toISOString(),
+      }));
+    } catch (err) {
+      console.warn("[Admin] Erreur chargement inscriptions club:", err);
     }
 
-    // Récupérer aussi les données locales si existantes
+    // 2) Inscriptions hackathon stockées localement par le site hackathon
     try {
       const demoParts = JSON.parse(localStorage.getItem("hk-demo-participants") || "[]");
       if (Array.isArray(demoParts)) {
         demoParts.forEach((p: any, i: number) => {
           if (!items.some((it) => it.email.toLowerCase() === (p.mail || "").toLowerCase())) {
             items.push({
-              id: `local-${i}`,
-              nom: p.name || "Participant local",
+              id: `hk-${i}`,
+              nom: p.name || "Participant Hackathon",
               email: p.mail || "",
-              filiere: p.fil || "G.LOG",
+              filiere: p.fil || "Non renseignée",
               tel: p.tel || "N/A",
-              message: `[Hackathon UniC’bon] Équipe: ${p.team_id || "1"}`,
+              message: `[Hackathon UniC'bon] Équipe: ${p.team_id || "?"}`,
               source: "hackathon",
               created_at: p.created_at || new Date().toISOString(),
             });
@@ -154,6 +138,9 @@ export default function Admin({ onBackToSite }: { onBackToSite: () => void }) {
         });
       }
     } catch {}
+
+    // Trier par date décroissante
+    items.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
 
     setInscriptions(items);
     setLoadingInscriptions(false);

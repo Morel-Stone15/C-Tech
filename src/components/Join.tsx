@@ -3,7 +3,7 @@ import emailjs from "@emailjs/browser";
 import { GradButton, Eyebrow } from "./ui";
 import { IconArrow, IconCheck, IconDiscord, IconSpark } from "./icons";
 import { CLUB_EMAIL, EMAILJS_CONFIG, isEmailJsConfigured } from "../config/emailjs";
-import { isSupabaseConfigured, saveInscription } from "../config/supabase";
+import { saveInscription } from "../config/localDb";
 import { SOCIAL_LINKS } from "../config/links";
 import { toast } from "../lib/bus";
 
@@ -84,38 +84,30 @@ export default function Join() {
     setStatus("sending");
     setErrMsg("");
 
-    // 1) Enregistrement en base — c'est la source de vérité de l'inscription.
-    if (isSupabaseConfigured()) {
-      const { error } = await saveInscription({
-        nom: v.from_name.trim(),
-        email: v.from_email.trim(),
-        filiere: v.filiere.trim(),
-        niveau,
-        interets,
-        message: v.message.trim(),
-        source: "formulaire",
-      });
-      if (error) {
-        const dup =
-          error.toLowerCase().includes("duplicate") || error.toLowerCase().includes("unique");
-        setErrMsg(
-          dup
-            ? "Cet e-mail est déjà inscrit — vérifie tes spams pour l'invitation Discord."
-            : error,
-        );
-        setStatus("error");
-        toast(dup ? "Tu es déjà inscrit·e ! " : "L'enregistrement a échoué, réessaie ", "error");
-        return;
-      }
-    } else {
-      console.warn(
-        "[CLUB-Tech] Supabase non configuré — l'inscription ne sera pas enregistrée en base.\n" +
-          "Renseignez VITE_SUPABASE_URL et VITE_SUPABASE_ANON_KEY dans .env.local",
+    // 1) Enregistrement dans la base interne locale
+    const { error } = saveInscription({
+      nom: v.from_name.trim(),
+      email: v.from_email.trim(),
+      filiere: v.filiere.trim(),
+      niveau,
+      interets,
+      message: v.message.trim(),
+      source: "formulaire",
+    });
+
+    if (error) {
+      const dup = error === "duplicate_email";
+      setErrMsg(
+        dup
+          ? "Cet e-mail est déjà inscrit — un membre du bureau te recontactera sous peu."
+          : "L'enregistrement a échoué. Vérifie le stockage local de ton navigateur.",
       );
+      setStatus("error");
+      toast(dup ? "Tu es déjà inscrit·e !" : "L'enregistrement a échoué, réessaie", "error");
+      return;
     }
 
-    // 2) Notification e-mail (optionnelle) — n'empêche pas l'inscription si elle échoue,
-    //    puisque la donnée est déjà en base.
+    // 2) Notification e-mail optionnelle via EmailJS
     if (isEmailJsConfigured()) {
       try {
         await emailjs.sendForm(
@@ -127,33 +119,12 @@ export default function Join() {
           },
         );
       } catch (err: unknown) {
-        const text =
-          typeof err === "object" && err !== null && "text" in err
-            ? String((err as { text: unknown }).text)
-            : err instanceof Error
-              ? err.message
-              : "Erreur inconnue.";
-        console.error(
-          "[CLUB-Tech] Échec de la notification EmailJS (inscription tout de même enregistrée) :",
-          text,
-        );
+        console.warn("[CLUB-Tech] Notification EmailJS :", err);
       }
-    } else {
-      console.warn(
-        "[CLUB-Tech] EmailJS non configuré — pas de notification e-mail envoyée au bureau.\n" +
-          "Renseignez VITE_EMAILJS_SERVICE_ID, VITE_EMAILJS_TEMPLATE_ID et VITE_EMAILJS_PUBLIC_KEY dans .env.local",
-      );
-    }
-
-    if (!isSupabaseConfigured()) {
-      await new Promise((r) => setTimeout(r, 500));
-      setStatus("done");
-      toast("Inscription enregistrée (mode démo)", "success");
-      return;
     }
 
     setStatus("done");
-    toast("Bienvenue dans le club ", "success");
+    toast("Bienvenue dans le club !", "success");
   };
 
   const Err = ({ f }: { f: Field }) =>
@@ -248,13 +219,9 @@ export default function Join() {
                     <strong className="text-ink">48 h</strong> avec l&apos;invitation Discord et le
                     calendrier.
                   </p>
-                  {!isSupabaseConfigured() && (
-                    <p className="mt-5 max-w-sm rounded-xl bg-indigo-brand/8 px-4 py-3 text-[12px] leading-relaxed text-indigo-brand ring-1 ring-indigo-brand/15">
-                      <strong>Mode démonstration</strong> — cette inscription n&apos;a pas été
-                      enregistrée en base. Ajoute tes clés Supabase dans{" "}
-                      <code className="font-mono">.env.local</code>.
-                    </p>
-                  )}
+                  <p className="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-emerald-500/10 px-3 py-1.5 text-[12px] font-semibold text-emerald-700 ring-1 ring-emerald-500/20">
+                    <IconCheck className="h-4 w-4" /> Candidature enregistrée dans la base du club
+                  </p>
                   <button
                     onClick={() => {
                       setV(EMPTY);

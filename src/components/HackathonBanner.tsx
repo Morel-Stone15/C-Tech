@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import emailjs from "@emailjs/browser";
-import { saveInscription, isSupabaseConfigured } from "../config/supabase";
+import { saveInscription } from "../config/localDb";
 import { EMAILJS_CONFIG, isEmailJsConfigured, CLUB_EMAIL } from "../config/emailjs";
 import { toast } from "../lib/bus";
 
@@ -90,21 +90,31 @@ export default function HackathonBanner() {
     setErr("");
     setStatus("submitting");
 
-    // 1) Enregistrement Supabase (identique au backend Hackathon)
-    const supabasePayload = {
+    // 1) Enregistrement dans la base interne locale
+    saveInscription({
       nom: formData.nom.trim(),
       email: formData.email.trim(),
       filiere: formData.filiere.trim(),
+      tel: formData.tel.trim(),
       message: `[Hackathon UniC’bon 2026] Tél: ${formData.tel.trim()} | Idée: ${formData.idee.trim() || "Projet à définir pendant l'événement"}`,
       source: "formulaire" as const,
-    };
+    });
 
-    if (isSupabaseConfigured()) {
-      const { error } = await saveInscription(supabasePayload);
-      if (error && !error.toLowerCase().includes("duplicate")) {
-        console.warn("[HackathonBanner] Supabase save warning:", error);
+    // Enregistrement synchronisé pour le site Hackathon
+    try {
+      const parts = JSON.parse(localStorage.getItem("hk-demo-participants") || "[]");
+      if (Array.isArray(parts) && !parts.some((p: any) => (p.mail || "").toLowerCase() === formData.email.trim().toLowerCase())) {
+        parts.push({
+          name: formData.nom.trim(),
+          mail: formData.email.trim(),
+          fil: formData.filiere.trim(),
+          tel: formData.tel.trim(),
+          is_leader: 0,
+          created_at: new Date().toISOString(),
+        });
+        localStorage.setItem("hk-demo-participants", JSON.stringify(parts));
       }
-    }
+    } catch {}
 
     // 2) Notification EmailJS (partagée avec les clés .env de l'organisation)
     if (isEmailJsConfigured()) {
@@ -429,7 +439,7 @@ export default function HackathonBanner() {
                   </h3>
                   <p className="mt-1 text-xs text-white/60">
                     Tu seras affecté(e) dans l&apos;une des 20 équipes de 5 étudiants. Les données sont
-                    enregistrées dans la même base cloud (Supabase) que le site officiel.
+                    enregistrées dans la base interne de l&apos;événement.
                   </p>
                 </div>
 

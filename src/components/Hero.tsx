@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 import { GradButton, GhostButton } from "./ui";
 import { IconArrow, IconCheck, IconSpark, IconUsers, LogoMark } from "./icons";
-import { isSupabaseConfigured, saveInscription } from "../config/supabase";
+import { saveInscription } from "../config/localDb";
 import { toast } from "../lib/bus";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
@@ -31,41 +31,22 @@ function QuickJoin() {
     setErr("");
     setStatus("sending");
 
-    if (!isSupabaseConfigured()) {
-      console.warn(
-        "[CLUB-Tech] Supabase non configuré — l&apos;inscription rapide ne sera pas enregistrée en base.",
-      );
-      await new Promise((r) => setTimeout(r, 500));
-      setStatus("done");
-      toast("Inscription enregistrée ", "success");
-      return;
-    }
-
-    const { error } = await saveInscription({
+    const { error } = saveInscription({
       nom: name.trim(),
       email: email.trim(),
       source: "inscription_rapide",
     });
 
     if (error) {
-      const errMsg = error.toLowerCase();
-      const dup = errMsg.includes("duplicate") || errMsg.includes("unique");
-      const sourceMissing = errMsg.includes("source");
-      if (sourceMissing) {
-        setErr("Impossible d'enregistrer l'inscription – colonne 'source' manquante. Réessaie ou contacte‑nous à ctech2798@gmail.com.");
-      } else {
-        setErr(dup ? "Cet e-mail est déjà inscrit." : "L'inscription a échoué, réessaie.");
-      }
+      const dup = error === "duplicate_email";
+      setErr(dup ? "Cet e-mail est déjà inscrit." : "L'inscription a échoué, vérifie ton navigateur.");
       setStatus("error");
-      toast(
-        sourceMissing ? "Colonne 'source' manquante" : dup ? "Tu es déjà inscrit·e !" : "L'inscription a échoué",
-        "error",
-      );
+      toast(dup ? "Tu es déjà inscrit·e !" : "L'inscription a échoué", "error");
       return;
     }
 
     setStatus("done");
-    toast("Bienvenue dans le club", "success");
+    toast("Inscription enregistrée !", "success");
   };
 
   if (status === "done") {
