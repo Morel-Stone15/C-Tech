@@ -48,7 +48,7 @@ export default function Partners() {
       </div>
 
       {/* Bandes défilantes */}
-      <div className="mq-wrap relative mt-10 space-y-4">
+      <div className="mq-wrap relative mt-10 space-y-4 overflow-hidden w-full max-w-full">
         <div className="flex w-max mq">
           {[...ROW_A, ...ROW_A].map((n, i) => (
             <Logo key={`a-${i}`} name={n} />
