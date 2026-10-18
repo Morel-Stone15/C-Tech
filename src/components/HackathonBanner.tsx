@@ -4,7 +4,8 @@ import { saveInscription, isSupabaseConfigured } from "../config/supabase";
 import { EMAILJS_CONFIG, isEmailJsConfigured, CLUB_EMAIL } from "../config/emailjs";
 import { toast } from "../lib/bus";
 
-const HACKATHON_URL = "https://ctech2798.github.io/Hackathon-UniC-Bon/";
+const HACKATHON_URL =
+  import.meta.env.VITE_HACKATHON_URL || "https://ctech2798.github.io/Hackathon-UniC-Bon/";
 const HACKATHON_DATE = new Date("2026-11-22T08:00:00");
 
 function useCountdown(target: Date) {

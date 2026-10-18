@@ -12,7 +12,8 @@ import {
 } from "../lib/adminStorage";
 import { toast } from "../lib/bus";
 
-const ADMIN_PASSWORD_DEFAULT = "ctech1994";
+const ADMIN_PASSWORD_DEFAULT =
+  import.meta.env.VITE_ADMIN_PASSWORD || import.meta.env.ADMIN_PASSWORD || "ctech1994";
 
 type InscriptionItem = {
   id: string;

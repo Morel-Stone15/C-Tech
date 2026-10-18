@@ -20,16 +20,20 @@
  */
 
 export const EMAILJS_CONFIG = {
-  serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID ?? "",
-  templateId: import.meta.env.VITE_EMAILJS_TEMPLATE_ID ?? "",
-  publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY ?? "",
+  serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID || import.meta.env.EMAILJS_SERVICE_ID || "",
+  templateId: import.meta.env.VITE_EMAILJS_TEMPLATE_ID || import.meta.env.EMAILJS_TEMPLATE_ID || "",
+  publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY || import.meta.env.EMAILJS_PUBLIC_KEY || "",
 } as const;
 
 /** Si `false`, le formulaire bascule en mode démonstration. */
 export const isEmailJsConfigured = (): boolean =>
   Boolean(EMAILJS_CONFIG.serviceId && EMAILJS_CONFIG.templateId && EMAILJS_CONFIG.publicKey);
 
-export const CLUB_EMAIL = "ctech2798@gmail.com";
+export const CLUB_EMAIL =
+  import.meta.env.VITE_ORGANIZER_EMAIL ||
+  import.meta.env.ORGANIZER_EMAIL ||
+  import.meta.env.VITE_CLUB_EMAIL ||
+  "ctech2798@gmail.com";
 
 /**
  * ------------------------------------------------------------
