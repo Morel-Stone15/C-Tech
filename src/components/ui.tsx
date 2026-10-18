@@ -64,9 +64,9 @@ export function SectionHead({
   );
 }
 
-/* ---------- Boutons ---------- */
+/* ---------- Boutons (Dimensions calquées sur le Hackathon) ---------- */
 const baseBtn =
-  "group/b relative inline-flex items-center justify-center gap-2.5 rounded-full px-6 py-3.5 text-[13px] font-bold tracking-[0.01em] transition-all duration-300";
+  "group/b relative inline-flex items-center justify-center gap-2.5 min-h-[48px] rounded-full px-6 py-3 text-[14.5px] sm:text-[15px] font-extrabold tracking-[0.01em] transition-all duration-300";
 
 export function GradButton({
   href,
