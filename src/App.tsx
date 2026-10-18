@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
+import HackathonBanner from "./components/HackathonBanner";
 import About from "./components/About";
 import Activities from "./components/Activities";
 import Projects from "./components/Projects";
@@ -86,6 +87,7 @@ export default function App() {
       <Header />
       <main>
         <Hero />
+        <HackathonBanner />
         <About />
         <Activities />
         <Projects />

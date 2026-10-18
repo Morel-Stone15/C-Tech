@@ -13,21 +13,23 @@ type Ev = {
   from: string;
   to: string;
   featured?: boolean;
+  url?: string;
 };
 
 const EVENTS: Ev[] = [
   {
-    day: "14",
-    month: "Mars",
-    title: "Hackathon Printemps — « Build for Campus »",
-    type: "Hackathon",
-    desc: "48 h pour concevoir un outil qui améliore la vie étudiante. Équipes de 4, mentors présents en continu, 3 000 € de prix à répartir.",
-    time: "Ven. 18 h → Dim. 18 h",
-    place: "Bâtiment Innovation · Hall B",
-    seats: "48 places restantes",
+    day: "13",
+    month: "Nov",
+    title: "Hackathon UniC’bon 2026 — IST × C-Tech",
+    type: "Hackathon Officiel",
+    desc: "3 jours et 20 équipes de 5 étudiants réunis à Libreville pour imaginer des solutions numériques gabonaises. Mentorat, jury d'exception et récompenses.",
+    time: "13 → 15 nov. 2026",
+    place: "Campus Cap · Libreville",
+    seats: "20 équipes · Places limitées",
     from: "var(--color-indigo-brand)",
     to: "var(--color-violet-pop)",
     featured: true,
+    url: "https://ctech2798.github.io/Hackathon-UniC-Bon/",
   },
   {
     day: "22",
@@ -154,10 +156,12 @@ export default function Events() {
               </ul>
 
               <a
-                href="#rejoindre"
-                className="mt-7 inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 text-[13px] font-bold text-ink transition-transform duration-300 hover:-translate-y-0.5"
+                href={hero.url || "https://ctech2798.github.io/Hackathon-UniC-Bon/"}
+                target={hero.url ? "_blank" : undefined}
+                rel={hero.url ? "noopener noreferrer" : undefined}
+                className="mt-7 inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 text-[13px] font-bold text-ink shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
               >
-                Je m&apos;inscris
+                Participer à l&apos;Hackathon
                 <IconArrowUR className="h-4 w-4" />
               </a>
             </div>

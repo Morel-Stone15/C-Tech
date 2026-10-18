@@ -109,7 +109,24 @@ export default function Header() {
           })}
         </nav>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
+          {/* Bouton Hackathon — basculement vers le site de l'événement */}
+          <a
+            href="https://ctech2798.github.io/Hackathon-UniC-Bon/"
+            target="_blank"
+            rel="noopener noreferrer"
+            id="nav-hackathon-btn"
+            className="hidden items-center gap-1.5 rounded-full px-4 py-2 text-[12px] font-bold transition-all duration-300 hover:-translate-y-0.5 md:inline-flex"
+            style={{
+              background: "linear-gradient(135deg, #7c3aed, #3ec6e0)",
+              color: "#fff",
+              boxShadow: "0 4px 14px -4px rgba(124,58,237,0.7)",
+            }}
+            aria-label="Aller sur le site de l'Hackathon UniC'bon"
+          >
+            🚀 Hackathon
+          </a>
+
           <a
             href="#rejoindre"
             className="grad-brand hidden rounded-full px-5 py-2.5 text-[13px] font-bold text-white shadow-[0_8px_22px_-8px_rgba(75,42,232,0.8)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_30px_-8px_rgba(75,42,232,0.9)] md:inline-flex"
@@ -176,6 +193,24 @@ export default function Header() {
               <span className="font-mono text-[11px] opacity-50">0{i + 1}</span>
             </a>
           ))}
+          {/* Bouton Hackathon dans le menu mobile */}
+          <a
+            href="https://ctech2798.github.io/Hackathon-UniC-Bon/"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => setOpen(false)}
+            id="mobile-hackathon-btn"
+            className="mt-2 flex items-center justify-between rounded-2xl px-4 py-3.5 transition-colors duration-300"
+            style={{
+              background: "linear-gradient(135deg, rgba(124,58,237,0.3), rgba(62,198,224,0.2))",
+              border: "1px solid rgba(255,255,255,0.1)",
+            }}
+          >
+            <span className="font-display text-lg font-semibold text-white">🚀 Hackathon</span>
+            <svg className="h-4 w-4 text-white/50" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+          </a>
           <a
             href="#rejoindre"
             onClick={() => setOpen(false)}
