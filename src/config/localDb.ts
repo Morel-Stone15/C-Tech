@@ -49,6 +49,8 @@ export function getAllInscriptions(): StoredInscription[] {
   }
 }
 
+export const listInscriptions = getAllInscriptions;
+
 /** Sauvegarde une inscription en base locale.
  *  Renvoie `{ error: null }` si OK, `{ error: string }` en cas d'échec.
  */

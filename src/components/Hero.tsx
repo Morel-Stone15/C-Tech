@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 import { GradButton, GhostButton } from "./ui";
 import { IconArrow, IconCheck, IconSpark, IconUsers, LogoMark } from "./icons";
-import { saveInscription } from "../config/localDb";
+import { saveInscription, listInscriptions } from "../config/localDb";
+import { checkAndSendBatchReport } from "../config/emailjs";
 import { toast } from "../lib/bus";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
@@ -11,6 +12,7 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
 function QuickJoin() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [tel, setTel] = useState("");
   const [status, setStatus] = useState<"idle" | "sending" | "done" | "error">("idle");
   const [err, setErr] = useState("");
 
@@ -24,16 +26,24 @@ function QuickJoin() {
       return;
     }
     if (!EMAIL_RE.test(email.trim())) {
-      setErr("Cet e-mail a l&apos;air incorrect.");
+      setErr("Cet e-mail a l'air incorrect.");
       toast("Vérifie ton e-mail", "error");
       return;
     }
+    const cleanTel = tel.replace(/[\s-.]/g, "");
+    if (cleanTel.length < 8) {
+      setErr("Numéro de téléphone ou WhatsApp requis (au moins 8 chiffres).");
+      toast("Vérifie ton numéro de téléphone", "error");
+      return;
+    }
+
     setErr("");
     setStatus("sending");
 
     const { error } = saveInscription({
       nom: name.trim(),
       email: email.trim(),
+      tel: tel.trim(),
       source: "inscription_rapide",
     });
 
@@ -44,6 +54,11 @@ function QuickJoin() {
       toast(dup ? "Tu es déjà inscrit·e !" : "L'inscription a échoué", "error");
       return;
     }
+
+    // Déclenchement automatique du rapport de lot de 5 personnes vers ctech2798@gmail.com
+    checkAndSendBatchReport(listInscriptions()).catch((err) =>
+      console.warn("Échec du rapport périodique:", err),
+    );
 
     setStatus("done");
     toast("Inscription enregistrée !", "success");
@@ -72,10 +87,10 @@ function QuickJoin() {
       onSubmit={submit}
       data-reveal
       style={{ "--rd": "600ms" } as CSSProperties}
-      className="mt-8 w-full max-w-lg"
+      className="mt-8 w-full max-w-2xl"
     >
       <p className="mb-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/50 sm:text-[12px]">
-        Inscription rapide — 10 secondes, sans engagement
+        Inscription rapide — 15 secondes, sans engagement
       </p>
       <div className="flex flex-col gap-2 sm:flex-row">
         <label htmlFor="quick-name" className="sr-only">
@@ -89,6 +104,18 @@ function QuickJoin() {
           disabled={status === "sending"}
           className="min-w-0 flex-1 rounded-full border border-white/15 bg-white/10 px-4 py-2.5 text-[13px] text-white placeholder:text-white/40 backdrop-blur transition-all duration-300 focus:border-cyan-bright focus:outline-none focus:ring-4 focus:ring-cyan-bright/15 disabled:opacity-60 sm:py-3 sm:text-[13.5px]"
         />
+        <label htmlFor="quick-tel" className="sr-only">
+          Téléphone / WhatsApp
+        </label>
+        <input
+          id="quick-tel"
+          type="tel"
+          value={tel}
+          onChange={(e) => setTel(e.target.value)}
+          placeholder="Tél / WhatsApp"
+          disabled={status === "sending"}
+          className="min-w-0 flex-1 rounded-full border border-white/15 bg-white/10 px-4 py-2.5 text-[13px] text-white placeholder:text-white/40 backdrop-blur transition-all duration-300 focus:border-cyan-bright focus:outline-none focus:ring-4 focus:ring-cyan-bright/15 disabled:opacity-60 sm:py-3 sm:text-[13.5px]"
+        />
         <label htmlFor="quick-email" className="sr-only">
           E-mail
         </label>
@@ -99,7 +126,7 @@ function QuickJoin() {
           onChange={(e) => setEmail(e.target.value)}
           placeholder="prenom.nom@etu.fr"
           disabled={status === "sending"}
-          className="min-w-0 flex-[1.4] rounded-full border border-white/15 bg-white/10 px-4 py-2.5 text-[13px] text-white placeholder:text-white/40 backdrop-blur transition-all duration-300 focus:border-cyan-bright focus:outline-none focus:ring-4 focus:ring-cyan-bright/15 disabled:opacity-60 sm:py-3 sm:text-[13.5px]"
+          className="min-w-0 flex-[1.2] rounded-full border border-white/15 bg-white/10 px-4 py-2.5 text-[13px] text-white placeholder:text-white/40 backdrop-blur transition-all duration-300 focus:border-cyan-bright focus:outline-none focus:ring-4 focus:ring-cyan-bright/15 disabled:opacity-60 sm:py-3 sm:text-[13.5px]"
         />
         <button
           type="submit"

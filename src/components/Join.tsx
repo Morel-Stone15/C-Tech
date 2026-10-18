@@ -2,12 +2,12 @@ import { useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
 import { GradButton, Eyebrow } from "./ui";
 import { IconArrow, IconCheck, IconDiscord, IconSpark } from "./icons";
-import { CLUB_EMAIL, EMAILJS_CONFIG, isEmailJsConfigured } from "../config/emailjs";
-import { saveInscription } from "../config/localDb";
+import { CLUB_EMAIL, EMAILJS_CONFIG, isEmailJsConfigured, checkAndSendBatchReport } from "../config/emailjs";
+import { saveInscription, getAllInscriptions } from "../config/localDb";
 import { SOCIAL_LINKS } from "../config/links";
 import { toast } from "../lib/bus";
 
-type Field = "from_name" | "from_email" | "filiere" | "message";
+type Field = "from_name" | "from_email" | "tel" | "filiere" | "message";
 
 const RULES: Record<Field, (v: string) => string | null> = {
   from_name: (v) =>
@@ -18,6 +18,12 @@ const RULES: Record<Field, (v: string) => string | null> = {
       : !/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(v.trim())
         ? "Cet e-mail a l&apos;air incorrect."
         : null,
+  tel: (v) =>
+    !v.trim()
+      ? "Numéro de téléphone ou WhatsApp nécessaire."
+      : v.trim().replace(/[\s\-\(\)\.]/g, "").length < 8
+        ? "Numéro incomplet (minimum 8 chiffres)."
+        : null,
   filiere: (v) => (!v.trim() ? "Indique ta filière et ton année." : null),
   message: (v) =>
     !v.trim()
@@ -27,7 +33,7 @@ const RULES: Record<Field, (v: string) => string | null> = {
         : null,
 };
 
-const EMPTY: Record<Field, string> = { from_name: "", from_email: "", filiere: "", message: "" };
+const EMPTY: Record<Field, string> = { from_name: "", from_email: "", tel: "", filiere: "", message: "" };
 
 const NIVEAUX = ["Grand débutant", "Je bricole un peu", "À l&apos;aise", "Confirmé"];
 const POLES = ["Web", "Mobile", "IA / Data", "Design", "IoT", "Cybersécurité", "Événementiel"];
@@ -55,7 +61,7 @@ export default function Join() {
   }, {});
   const valid = Object.keys(errors).length === 0;
   const done = (Object.keys(EMPTY) as Field[]).filter((f) => !errors[f]).length;
-  const pct = Math.round((done / 4) * 100);
+  const pct = Math.round((done / 5) * 100);
 
   const set = (f: Field, val: string) => setV((p) => ({ ...p, [f]: val }));
   const blur = (f: Field) => setTouched((p) => ({ ...p, [f]: true }));
@@ -71,7 +77,7 @@ export default function Join() {
     if (status === "sending") return;
 
     if (!valid) {
-      setTouched({ from_name: true, from_email: true, filiere: true, message: true });
+      setTouched({ from_name: true, from_email: true, tel: true, filiere: true, message: true });
       const first = (Object.keys(RULES) as Field[]).find((f) => errors[f]);
       if (first) document.getElementById(`j-${first}`)?.focus();
       toast("Il manque encore quelques infos", "error");
@@ -88,6 +94,7 @@ export default function Join() {
     const { error } = saveInscription({
       nom: v.from_name.trim(),
       email: v.from_email.trim(),
+      tel: v.tel.trim(),
       filiere: v.filiere.trim(),
       niveau,
       interets,
@@ -107,7 +114,7 @@ export default function Join() {
       return;
     }
 
-    // 2) Notification e-mail optionnelle via EmailJS
+    // 2) Notification e-mail individuelle via EmailJS
     if (isEmailJsConfigured()) {
       try {
         await emailjs.sendForm(
@@ -120,6 +127,14 @@ export default function Join() {
         );
       } catch (err: unknown) {
         console.warn("[CLUB-Tech] Notification EmailJS :", err);
+      }
+
+      // 3) Envoi automatique du rapport tous les 5 inscrits au compte du club (ctech2798@gmail.com)
+      try {
+        const all = getAllInscriptions();
+        await checkAndSendBatchReport(all);
+      } catch (err: unknown) {
+        console.warn("[CLUB-Tech] Rapport automatique EmailJS :", err);
       }
     }
 
@@ -280,7 +295,7 @@ export default function Join() {
                           value={v.from_name}
                           onChange={(e) => set("from_name", e.target.value)}
                           onBlur={() => blur("from_name")}
-                          placeholder="Yasmine Ould"
+                          placeholder="Ex. Yasmine Ould"
                           className={cls("from_name")}
                         />
                         <Err f="from_name" />
@@ -296,14 +311,30 @@ export default function Join() {
                           value={v.from_email}
                           onChange={(e) => set("from_email", e.target.value)}
                           onBlur={() => blur("from_email")}
-                          placeholder="prenom.nom@etu.fr"
+                          placeholder="prenom.nom@univ.ga"
                           className={cls("from_email")}
                         />
                         <Err f="from_email" />
                       </div>
-                      <div className="sm:col-span-2">
+                      <div>
+                        <label htmlFor="j-tel" className={labelCls}>
+                          Téléphone ou WhatsApp *
+                        </label>
+                        <input
+                          id="j-tel"
+                          name="tel"
+                          type="tel"
+                          value={v.tel}
+                          onChange={(e) => set("tel", e.target.value)}
+                          onBlur={() => blur("tel")}
+                          placeholder="Ex. +241 65 36 96 29"
+                          className={cls("tel")}
+                        />
+                        <Err f="tel" />
+                      </div>
+                      <div>
                         <label htmlFor="j-filiere" className={labelCls}>
-                          Filière &amp; année *
+                          Filière &amp; niveau *
                         </label>
                         <input
                           id="j-filiere"
@@ -311,7 +342,7 @@ export default function Join() {
                           value={v.filiere}
                           onChange={(e) => set("filiere", e.target.value)}
                           onBlur={() => blur("filiere")}
-                          placeholder="L2 Informatique · Université Lyon Tech"
+                          placeholder="Ex. Génie Logiciel · L3"
                           className={cls("filiere")}
                         />
                         <Err f="filiere" />
