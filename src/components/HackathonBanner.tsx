@@ -443,6 +443,14 @@ export default function HackathonBanner() {
                   </p>
                 </div>
 
+                {/* Encart d'information sur la cotisation */}
+                <div className="rounded-xl border border-amber-400/30 bg-amber-500/10 p-3 text-xs text-amber-200/90 leading-relaxed">
+                  <strong className="text-amber-300 font-bold block mb-1">
+                    ℹ️ Information candidats — Cotisation estimée à 15 000 FCFA / personne :
+                  </strong>
+                  Pour assurer la prise en charge complète durant les 3 jours (repas complets, accès illimité aux locaux 48h, kit goodies et encadrement mentors), la cotisation par personne est estimée à <strong>15 000 FCFA</strong>, exigible uniquement lors de l&apos;inscription finale de ton équipe constituée.
+                </div>
+
                 {err && (
                   <div className="rounded-xl border border-red-500/30 bg-red-500/10 px-3.5 py-2 text-xs font-medium text-red-200">
                     ⚠️ {err}

@@ -50,6 +50,18 @@ export default function Events() {
             className="group relative overflow-hidden rounded-[1.8rem] p-7 text-white lg:col-span-5 lg:p-9"
             style={{ background: `linear-gradient(150deg, ${hero.from}, ${hero.to})` }}
           >
+            {/* Image de fond si définie */}
+            {hero.image && (
+              <div className="absolute inset-0 z-0 overflow-hidden">
+                <img
+                  src={hero.image}
+                  alt={hero.title}
+                  className="h-full w-full object-cover opacity-25 mix-blend-overlay transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+              </div>
+            )}
+
             <div className="bg-grid-soft absolute inset-0 opacity-30" aria-hidden="true" />
             <span className="blob -right-10 -top-10 h-52 w-52 bg-white/20" aria-hidden="true" />
 
@@ -95,6 +107,12 @@ export default function Events() {
                   <IconUsers className="h-4 w-4 opacity-70" />
                   {hero.seats}
                 </li>
+                <li className="flex items-center gap-2.5 font-medium">
+                  <span className="inline-block rounded bg-amber-400/25 px-2 py-0.5 text-xs text-amber-200 font-bold">
+                    Cotisation :
+                  </span>
+                  <span>{hero.price || "15 000 FCFA / personne (estimé)"}</span>
+                </li>
               </ul>
 
               <a
@@ -116,7 +134,7 @@ export default function Events() {
                 key={e.title}
                 data-reveal="right"
                 style={dly(i * 110)}
-                className="group relative flex gap-5 overflow-hidden rounded-[1.4rem] bg-paper p-5 ring-1 ring-ink/6 transition-all duration-400 hover:-translate-y-1 hover:bg-white hover:shadow-[0_22px_45px_-28px_var(--shadow-40)] sm:p-6"
+                className="group relative flex flex-col sm:flex-row gap-5 overflow-hidden rounded-[1.4rem] bg-paper p-5 ring-1 ring-ink/6 transition-all duration-400 hover:-translate-y-1 hover:bg-white hover:shadow-[0_22px_45px_-28px_var(--shadow-40)] sm:p-6"
               >
                 {/* Barre latérale colorée */}
                 <span
@@ -125,22 +143,35 @@ export default function Events() {
                   aria-hidden="true"
                 />
 
-                {/* Date */}
-                <div className="flex shrink-0 flex-col items-center justify-center">
-                  <span
-                    className="font-display text-[38px] font-bold leading-none tracking-[-0.04em] sm:text-[46px]"
-                    style={{
-                      backgroundImage: `linear-gradient(140deg, ${e.from}, ${e.to})`,
-                      WebkitBackgroundClip: "text",
-                      backgroundClip: "text",
-                      color: "transparent",
-                    }}
-                  >
-                    {e.day}
-                  </span>
-                  <span className="mt-1 text-[10.5px] font-bold uppercase tracking-[0.14em] text-ink/45">
-                    {e.month}
-                  </span>
+                <div className="flex items-center gap-4 sm:flex-col sm:justify-center sm:shrink-0">
+                  {/* Date */}
+                  <div className="flex shrink-0 flex-col items-center justify-center">
+                    <span
+                      className="font-display text-[38px] font-bold leading-none tracking-[-0.04em] sm:text-[46px]"
+                      style={{
+                        backgroundImage: `linear-gradient(140deg, ${e.from}, ${e.to})`,
+                        WebkitBackgroundClip: "text",
+                        backgroundClip: "text",
+                        color: "transparent",
+                      }}
+                    >
+                      {e.day}
+                    </span>
+                    <span className="mt-1 text-[10.5px] font-bold uppercase tracking-[0.14em] text-ink/45">
+                      {e.month}
+                    </span>
+                  </div>
+
+                  {/* Miniature d'image si présente */}
+                  {e.image && (
+                    <div className="h-16 w-20 shrink-0 overflow-hidden rounded-xl border border-ink/10">
+                      <img
+                        src={e.image}
+                        alt={e.title}
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
+                    </div>
+                  )}
                 </div>
 
                 <div className="min-w-0 flex-1">
@@ -152,6 +183,11 @@ export default function Events() {
                       {e.type}
                     </span>
                     <span className="text-[11px] font-medium text-ink/40">{e.seats}</span>
+                    {e.price && (
+                      <span className="rounded-full bg-amber-500/15 text-amber-700 ring-1 ring-amber-500/25 px-2.5 py-0.5 text-[10.5px] font-bold">
+                        {e.price}
+                      </span>
+                    )}
                   </div>
 
                   <h3 className="mt-2 font-display text-[17px] font-bold leading-snug tracking-[-0.01em] text-ink sm:text-[18.5px]">

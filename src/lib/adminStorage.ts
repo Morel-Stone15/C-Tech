@@ -21,6 +21,8 @@ export type EventItem = {
   from?: string;
   to?: string;
   url?: string;
+  image?: string;
+  price?: string;
   featured?: boolean;
 };
 
@@ -106,7 +108,7 @@ const DEFAULT_EVENTS: EventItem[] = [
     month: "Nov",
     title: "Hackathon UniC’bon 2026 — IST × C-Tech",
     type: "Hackathon Officiel",
-    desc: "3 jours et 20 équipes de 5 étudiants réunis à Libreville pour imaginer des solutions numériques gabonaises. Mentorat, jury d'exception et récompenses.",
+    desc: "3 jours et 20 équipes de 5 étudiants réunis à Libreville pour imaginer des solutions numériques gabonaises. Cotisation estimée à 15 000 FCFA par personne (repas, espace 48h, goodies, encadrement).",
     time: "13 → 15 nov. 2026",
     place: "Campus Cap · Libreville",
     seats: "20 équipes · Places limitées",
@@ -114,6 +116,8 @@ const DEFAULT_EVENTS: EventItem[] = [
     to: "var(--color-violet-pop)",
     featured: true,
     url: "https://ctech2798.github.io/Hackathon-UniC-Bon/",
+    image: "/images/hackathon.jpeg",
+    price: "15 000 FCFA / pers.",
   },
   {
     id: "ev-2",
@@ -127,6 +131,8 @@ const DEFAULT_EVENTS: EventItem[] = [
     seats: "12 places restantes",
     from: "var(--color-violet-pop)",
     to: "var(--color-blue-electric)",
+    image: "/images/Evenement ANIMF.jpg",
+    price: "Inclus adhésion club",
   },
   {
     id: "ev-3",
@@ -187,11 +193,17 @@ export function saveStoredGallery(items: MediaItem[]) {
 export function getStoredEvents(): EventItem[] {
   try {
     const raw = localStorage.getItem(EVENTS_KEY);
-    if (!raw) return DEFAULT_EVENTS;
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) && parsed.length > 0 ? parsed : DEFAULT_EVENTS;
+    const list = raw ? JSON.parse(raw) : DEFAULT_EVENTS;
+    const cleanList = Array.isArray(list) && list.length > 0 ? list : DEFAULT_EVENTS;
+    return cleanList.map((item: EventItem) => ({
+      ...item,
+      image: item.image ? assetUrl(item.image) : undefined,
+    }));
   } catch {
-    return DEFAULT_EVENTS;
+    return DEFAULT_EVENTS.map((item) => ({
+      ...item,
+      image: item.image ? assetUrl(item.image) : undefined,
+    }));
   }
 }
 

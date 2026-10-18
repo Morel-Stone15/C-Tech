@@ -44,6 +44,8 @@ export default function Admin({ onBackToSite }: { onBackToSite: () => void }) {
 
   // --- Événements ---
   const [events, setEvents] = useState<EventItem[]>([]);
+  const [editingEventId, setEditingEventId] = useState<string | null>(null);
+  const [eventImagePreview, setEventImagePreview] = useState<string>("");
   const [newEvent, setNewEvent] = useState<Partial<EventItem>>({
     day: "15",
     month: "Déc",
@@ -54,6 +56,8 @@ export default function Admin({ onBackToSite }: { onBackToSite: () => void }) {
     place: "Campus Cap · Libreville",
     seats: "20 places",
     url: "",
+    image: "",
+    price: "",
   });
 
   // --- Galerie ---
@@ -278,31 +282,45 @@ export default function Admin({ onBackToSite }: { onBackToSite: () => void }) {
   };
 
   // Gestion des événements
-  const handleAddEvent = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!newEvent.title?.trim()) {
-      toast("Le titre de l'événement est requis", "error");
-      return;
-    }
-    const item: EventItem = {
-      id: `ev-${Date.now()}`,
-      day: newEvent.day || "15",
-      month: newEvent.month || "Mois",
-      title: newEvent.title.trim(),
-      type: newEvent.type || "Workshop",
-      desc: newEvent.desc || "",
-      time: newEvent.time || "18h00",
-      place: newEvent.place || "Campus Cap",
-      seats: newEvent.seats || "Places disponibles",
-      url: newEvent.url || "",
-      from: "var(--color-indigo-brand)",
-      to: "var(--color-cyan-bright)",
-    };
+  const handleEventImageFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
 
-    const updated = [item, ...events];
-    setEvents(updated);
-    saveStoredEvents(updated);
-    toast("Événement ajouté et publié !", "success");
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const result = ev.target?.result as string;
+      setEventImagePreview(result);
+      setNewEvent((prev) => ({ ...prev, image: result }));
+      toast("Image de l'événement chargée avec succès !", "success");
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleEditEvent = (ev: EventItem) => {
+    setEditingEventId(ev.id);
+    setNewEvent({
+      day: ev.day,
+      month: ev.month,
+      title: ev.title,
+      type: ev.type,
+      desc: ev.desc,
+      time: ev.time,
+      place: ev.place,
+      seats: ev.seats,
+      url: ev.url || "",
+      image: ev.image || "",
+      price: ev.price || "",
+    });
+    setEventImagePreview(ev.image || "");
+    toast(`Modification de l'événement : ${ev.title}`, "info");
+
+    // Défiler vers le formulaire d'édition
+    window.scrollTo({ top: 300, behavior: "smooth" });
+  };
+
+  const handleCancelEditEvent = () => {
+    setEditingEventId(null);
+    setEventImagePreview("");
     setNewEvent({
       day: "15",
       month: "Déc",
@@ -313,14 +331,81 @@ export default function Admin({ onBackToSite }: { onBackToSite: () => void }) {
       place: "Campus Cap · Libreville",
       seats: "20 places",
       url: "",
+      image: "",
+      price: "",
     });
   };
 
+  const handleSaveEvent = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newEvent.title?.trim()) {
+      toast("Le titre de l'événement est requis", "error");
+      return;
+    }
+
+    if (editingEventId) {
+      // Mode mise à jour
+      const updated = events.map((ev) => {
+        if (ev.id === editingEventId) {
+          return {
+            ...ev,
+            day: newEvent.day || ev.day,
+            month: newEvent.month || ev.month,
+            title: newEvent.title?.trim() || ev.title,
+            type: newEvent.type || ev.type,
+            desc: newEvent.desc || "",
+            time: newEvent.time || ev.time,
+            place: newEvent.place || ev.place,
+            seats: newEvent.seats || ev.seats,
+            url: newEvent.url || "",
+            image: newEvent.image || eventImagePreview || ev.image || "",
+            price: newEvent.price || ev.price || "",
+          };
+        }
+        return ev;
+      });
+
+      setEvents(updated);
+      saveStoredEvents(updated);
+      toast("Événement mis à jour avec succès !", "success");
+      handleCancelEditEvent();
+    } else {
+      // Mode création
+      const item: EventItem = {
+        id: `ev-${Date.now()}`,
+        day: newEvent.day || "15",
+        month: newEvent.month || "Mois",
+        title: newEvent.title.trim(),
+        type: newEvent.type || "Workshop",
+        desc: newEvent.desc || "",
+        time: newEvent.time || "18h00",
+        place: newEvent.place || "Campus Cap · Libreville",
+        seats: newEvent.seats || "Places disponibles",
+        url: newEvent.url || "",
+        image: newEvent.image || eventImagePreview || "",
+        price: newEvent.price || "",
+        from: "var(--color-indigo-brand)",
+        to: "var(--color-cyan-bright)",
+      };
+
+      const updated = [item, ...events];
+      setEvents(updated);
+      saveStoredEvents(updated);
+      toast("Événement ajouté et publié !", "success");
+      handleCancelEditEvent();
+    }
+  };
+
   const handleDeleteEvent = (id: string) => {
-    const updated = events.filter((ev) => ev.id !== id);
-    setEvents(updated);
-    saveStoredEvents(updated);
-    toast("Événement supprimé", "info");
+    if (confirm("Confirmez-vous la suppression de cet événement ?")) {
+      const updated = events.filter((ev) => ev.id !== id);
+      setEvents(updated);
+      saveStoredEvents(updated);
+      if (editingEventId === id) {
+        handleCancelEditEvent();
+      }
+      toast("Événement supprimé", "info");
+    }
   };
 
   // Gestion des médias de la galerie
@@ -697,12 +782,30 @@ export default function Admin({ onBackToSite }: { onBackToSite: () => void }) {
           {/* ========================================================= */}
           {activeTab === "events" && (
             <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
-              {/* Formulaire ajout événement */}
+              {/* Formulaire ajout / modification événement */}
               <div className="lg:col-span-5 rounded-2xl border border-white/10 bg-slate-900 p-6 shadow-md">
-                <h3 className="font-display text-lg font-bold text-white mb-4">
-                  ➕ Ajouter un événement
-                </h3>
-                <form onSubmit={handleAddEvent} className="space-y-4">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="font-display text-lg font-bold text-white">
+                    {editingEventId ? "✏️ Modifier l'événement" : "➕ Ajouter un événement"}
+                  </h3>
+                  {editingEventId && (
+                    <button
+                      type="button"
+                      onClick={handleCancelEditEvent}
+                      className="text-xs text-white/50 hover:text-white underline cursor-pointer"
+                    >
+                      Annuler
+                    </button>
+                  )}
+                </div>
+
+                {editingEventId && (
+                  <div className="mb-4 rounded-xl border border-amber-500/30 bg-amber-500/10 p-3 text-xs text-amber-200">
+                    Mode modification actif. Modifiez les champs ci-dessous puis cliquez sur « Enregistrer les modifications ».
+                  </div>
+                )}
+
+                <form onSubmit={handleSaveEvent} className="space-y-4">
                   <div>
                     <label className="block text-xs font-semibold text-white/70 mb-1">
                       Titre de l&apos;événement *
@@ -710,7 +813,7 @@ export default function Admin({ onBackToSite }: { onBackToSite: () => void }) {
                     <input
                       type="text"
                       required
-                      placeholder="Ex. Hackathon Printemps 2026"
+                      placeholder="Ex. Hackathon UniC’bon 2026"
                       value={newEvent.title}
                       onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })}
                       className="w-full rounded-xl border border-white/15 bg-white/5 px-3.5 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-cyan-400 focus:outline-none"
@@ -753,6 +856,7 @@ export default function Admin({ onBackToSite }: { onBackToSite: () => void }) {
                         className="w-full rounded-xl border border-white/15 bg-slate-800 px-3 py-2 text-sm text-white"
                       >
                         <option value="Hackathon">Hackathon</option>
+                        <option value="Hackathon Officiel">Hackathon Officiel</option>
                         <option value="Workshop">Workshop</option>
                         <option value="Conférence">Conférence</option>
                         <option value="Compétition">Compétition</option>
@@ -770,6 +874,67 @@ export default function Admin({ onBackToSite }: { onBackToSite: () => void }) {
                         className="w-full rounded-xl border border-white/15 bg-white/5 px-3.5 py-2 text-sm text-white"
                       />
                     </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold text-white/70 mb-1">
+                      Cotisation / Tarif estimé (ex. 15 000 FCFA / personne)
+                    </label>
+                    <input
+                      type="text"
+                      value={newEvent.price || ""}
+                      onChange={(e) => setNewEvent({ ...newEvent, price: e.target.value })}
+                      placeholder="Ex. 15 000 FCFA / personne ou Inclus adhésion"
+                      className="w-full rounded-xl border border-white/15 bg-white/5 px-3.5 py-2 text-sm text-white placeholder:text-white/30"
+                    />
+                  </div>
+
+                  {/* Image de l'événement */}
+                  <div>
+                    <label className="block text-xs font-semibold text-white/70 mb-1">
+                      Image / Affiche de l&apos;événement
+                    </label>
+                    <div className="space-y-2">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleEventImageFile}
+                        className="w-full rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-xs text-white/70 file:mr-3 file:rounded-lg file:border-0 file:bg-indigo-600 file:px-3 file:py-1 file:text-xs file:font-semibold file:text-white hover:file:bg-indigo-500 cursor-pointer"
+                      />
+                      <input
+                        type="text"
+                        placeholder="Ou URL de l'image (ex. /images/hackathon.jpeg)"
+                        value={newEvent.image || ""}
+                        onChange={(e) => {
+                          setNewEvent({ ...newEvent, image: e.target.value });
+                          setEventImagePreview(e.target.value);
+                        }}
+                        className="w-full rounded-xl border border-white/15 bg-white/5 px-3.5 py-2 text-xs text-white placeholder:text-white/30"
+                      />
+                    </div>
+
+                    {(eventImagePreview || newEvent.image) && (
+                      <div className="mt-2 relative rounded-xl overflow-hidden border border-white/15 bg-black/40 p-2">
+                        <div className="flex items-center justify-between mb-1.5 px-1">
+                          <span className="text-[11px] font-semibold text-cyan-400">Aperçu de l&apos;image :</span>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setEventImagePreview("");
+                              setNewEvent({ ...newEvent, image: "" });
+                            }}
+                            className="text-[11px] text-red-400 hover:underline cursor-pointer"
+                          >
+                            Retirer l&apos;image
+                          </button>
+                        </div>
+                        <img
+                          src={eventImagePreview || newEvent.image}
+                          alt="Aperçu événement"
+                          className="h-28 w-full object-cover rounded-lg"
+                        />
+                      </div>
+                    )}
                   </div>
 
                   <div>
@@ -794,7 +959,7 @@ export default function Admin({ onBackToSite }: { onBackToSite: () => void }) {
 
                   <div>
                     <label className="block text-xs font-semibold text-white/70 mb-1">
-                      Description
+                      Description complète
                     </label>
                     <textarea
                       rows={3}
@@ -818,40 +983,84 @@ export default function Admin({ onBackToSite }: { onBackToSite: () => void }) {
                     />
                   </div>
 
-                  <button
-                    type="submit"
-                    className="w-full rounded-xl bg-indigo-600 hover:bg-indigo-500 py-3 text-sm font-bold text-white shadow-md transition cursor-pointer"
-                  >
-                    Publier l&apos;événement
-                  </button>
+                  <div className="flex gap-2 pt-1">
+                    <button
+                      type="submit"
+                      className={`flex-1 rounded-xl py-3 text-sm font-bold text-white shadow-md transition cursor-pointer ${
+                        editingEventId
+                          ? "bg-gradient-to-r from-emerald-600 to-teal-500 hover:brightness-110"
+                          : "bg-indigo-600 hover:bg-indigo-500"
+                      }`}
+                    >
+                      {editingEventId ? "💾 Enregistrer les modifications" : "Publier l'événement"}
+                    </button>
+                    {editingEventId && (
+                      <button
+                        type="button"
+                        onClick={handleCancelEditEvent}
+                        className="rounded-xl bg-white/10 hover:bg-white/15 px-4 py-3 text-sm font-semibold text-white/70 cursor-pointer"
+                      >
+                        Annuler
+                      </button>
+                    )}
+                  </div>
                 </form>
               </div>
 
               {/* Liste des événements actuels */}
               <div className="lg:col-span-7 space-y-4">
-                <h3 className="font-display text-lg font-bold text-white mb-2">
-                  Événements en ligne ({events.length})
+                <h3 className="font-display text-lg font-bold text-white mb-2 flex items-center justify-between">
+                  <span>Événements en ligne ({events.length})</span>
+                  <span className="text-xs font-normal text-white/40">Cliquez sur « ✏️ » pour modifier</span>
                 </h3>
+
                 {events.map((ev) => (
                   <div
                     key={ev.id}
-                    className="flex items-start justify-between gap-4 rounded-2xl border border-white/10 bg-slate-900 p-5 shadow-sm"
+                    className={`flex flex-col sm:flex-row items-start justify-between gap-4 rounded-2xl border p-5 shadow-sm transition ${
+                      editingEventId === ev.id
+                        ? "border-cyan-400 bg-slate-900/90 ring-2 ring-cyan-400/30"
+                        : "border-white/10 bg-slate-900"
+                    }`}
                   >
-                    <div className="flex gap-4">
-                      <div className="flex h-16 w-16 shrink-0 flex-col items-center justify-center rounded-xl bg-indigo-500/20 text-indigo-300 ring-1 ring-indigo-400/30">
-                        <span className="font-display text-2xl font-bold leading-none">
-                          {ev.day}
-                        </span>
-                        <span className="text-[10px] uppercase font-bold tracking-wider">
-                          {ev.month}
-                        </span>
+                    <div className="flex gap-4 flex-1">
+                      {/* Date ou miniature */}
+                      <div className="relative shrink-0">
+                        {ev.image ? (
+                          <div className="relative h-16 w-16 overflow-hidden rounded-xl border border-white/15">
+                            <img
+                              src={ev.image}
+                              alt={ev.title}
+                              className="h-full w-full object-cover"
+                            />
+                            <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center text-white">
+                              <span className="font-display text-xs font-bold leading-none">{ev.day}</span>
+                              <span className="text-[9px] uppercase font-bold">{ev.month}</span>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="flex h-16 w-16 shrink-0 flex-col items-center justify-center rounded-xl bg-indigo-500/20 text-indigo-300 ring-1 ring-indigo-400/30">
+                            <span className="font-display text-2xl font-bold leading-none">
+                              {ev.day}
+                            </span>
+                            <span className="text-[10px] uppercase font-bold tracking-wider">
+                              {ev.month}
+                            </span>
+                          </div>
+                        )}
                       </div>
-                      <div>
-                        <div className="flex items-center gap-2">
+
+                      <div className="min-w-0 flex-1">
+                        <div className="flex flex-wrap items-center gap-2">
                           <span className="rounded bg-white/10 px-2 py-0.5 text-[10px] font-bold text-white/70 uppercase">
                             {ev.type}
                           </span>
                           <span className="text-xs text-white/40">{ev.seats}</span>
+                          {ev.price && (
+                            <span className="rounded bg-amber-500/20 text-amber-300 ring-1 ring-amber-400/30 px-2 py-0.5 text-[10px] font-bold">
+                              💰 {ev.price}
+                            </span>
+                          )}
                         </div>
                         <h4 className="font-display text-base font-bold text-white mt-1">
                           {ev.title}
@@ -861,13 +1070,22 @@ export default function Admin({ onBackToSite }: { onBackToSite: () => void }) {
                       </div>
                     </div>
 
-                    <button
-                      onClick={() => handleDeleteEvent(ev.id)}
-                      className="text-white/40 hover:text-red-400 p-2 text-sm cursor-pointer"
-                      title="Supprimer"
-                    >
-                      🗑️
-                    </button>
+                    <div className="flex sm:flex-col gap-2 shrink-0 self-end sm:self-center">
+                      <button
+                        onClick={() => handleEditEvent(ev)}
+                        className="rounded-lg bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500/30 px-3 py-1.5 text-xs font-semibold flex items-center gap-1.5 cursor-pointer ring-1 ring-cyan-400/30"
+                        title="Modifier cet événement"
+                      >
+                        ✏️ <span>Modifier</span>
+                      </button>
+                      <button
+                        onClick={() => handleDeleteEvent(ev.id)}
+                        className="rounded-lg bg-red-500/10 text-red-300 hover:bg-red-500/25 px-3 py-1.5 text-xs font-semibold flex items-center gap-1.5 cursor-pointer ring-1 ring-red-400/30"
+                        title="Supprimer cet événement"
+                      >
+                        🗑️ <span>Supprimer</span>
+                      </button>
+                    </div>
                   </div>
                 ))}
               </div>
