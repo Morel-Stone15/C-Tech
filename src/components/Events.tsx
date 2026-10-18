@@ -30,7 +30,7 @@ export default function Events() {
                 Ça se passe <span className="grad-text">bientôt</span>.
               </>
             }
-            text="Tous nos événements sont gratuits et ouverts aux membres. Inscription en deux clics."
+            text="Tous nos événements et hackathons sont ouverts aux membres du club (adhésion 3 000 FCFA). Inscription en deux clics."
           />
           <a
             data-reveal

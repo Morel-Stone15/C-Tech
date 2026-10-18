@@ -168,14 +168,14 @@ export default function Join() {
                 avec nous ?
               </h2>
               <p className="mt-4 max-w-md text-[15px] leading-relaxed text-white/65">
-                Deux minutes pour t&apos;inscrire, zéro engagement, zéro cotisation. On te répond
-                sous 48 h avec le lien du Discord et les prochaines dates.
+                Deux minutes pour t&apos;inscrire. Adhésion fixée à seulement 3 000 FCFA pour l&apos;année
+                universitaire. On te répond rapidement avec le lien Discord et les prochaines sessions.
               </p>
             </div>
 
             <ul className="mt-8 space-y-3">
               {[
-                "Adhésion 100 % gratuite pour les étudiants",
+                "Adhésion à 3 000 FCFA pour les étudiants",
                 "Accès au Discord, aux ateliers et aux hackathons",
                 "Un mentor attribué dès ta première semaine",
                 "Aucun niveau minimum requis — vraiment",

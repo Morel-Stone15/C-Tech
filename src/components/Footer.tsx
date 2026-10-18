@@ -5,7 +5,7 @@ import {
   IconCheck,
   IconDiscord,
   IconGithub,
-  IconInstagram,
+  IconFacebook,
   IconLinkedin,
   IconMail,
 } from "./icons";
@@ -45,10 +45,10 @@ const SOCIALS = [
     href: SOCIAL_LINKS.github,
   },
   {
-    label: "Instagram",
-    Icon: IconInstagram,
-    color: "hover:bg-[var(--color-instagram)]",
-    href: SOCIAL_LINKS.instagram,
+    label: "Facebook",
+    Icon: IconFacebook,
+    color: "hover:bg-[var(--color-facebook)]",
+    href: SOCIAL_LINKS.facebook,
   },
   {
     label: "LinkedIn",
@@ -122,7 +122,7 @@ export default function Footer() {
             <Brand tone="light" />
             <p className="mt-5 max-w-xs text-[13.5px] leading-relaxed text-white/50">
               Initiative universitaire dédiée à la tech, au code et à l&apos;innovation. Créée par
-              des étudiants, pour des étudiants — depuis 2017.
+              des étudiants, pour des étudiants — depuis 2025 à l&apos;IST Libreville.
             </p>
 
             <div className="mt-6 flex gap-2.5">
@@ -202,7 +202,7 @@ export default function Footer() {
         {/* Bandeau bas */}
         <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-white/8 py-7 sm:flex-row">
           <p className="text-[12px] text-white/35">
-            © 2026 CLUB-Tech · Association loi 1901 · Université Lyon Tech
+            © 2026 CLUB-Tech · Institut Supérieur de Technologie (IST) · Libreville, Gabon
           </p>
           <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
             {[

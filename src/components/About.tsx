@@ -85,7 +85,7 @@ export default function About() {
                   <span className="grad-text">construisent pour de vrai</span>.
                 </>
               }
-              text="CLUB-Tech est né dans un amphi presque vide, avec sept étudiants et un projet un peu fou : créer l'espace tech qu'on aurait aimé trouver en arrivant à la fac. Neuf ans plus tard, on est plus de 340 — et l'esprit n'a pas bougé d'un pixel."
+              text="CLUB-Tech est né à l'Institut Supérieur de Technologie (IST) à Libreville au Gabon, créé en 2025 avec des étudiants passionnés et une ambition claire : former la nouvelle génération de talents tech capables de bâtir des solutions locales et panafricaines d'envergure."
             />
 
             {/* Mission */}
@@ -122,7 +122,7 @@ export default function About() {
             <ul data-reveal style={dly(500)} className="mt-7 flex flex-wrap gap-x-6 gap-y-2.5">
               {[
                 "Aucun prérequis technique",
-                "Gratuit pour les étudiants",
+                "Adhésion à 3 000 FCFA",
                 "Toutes filières bienvenues",
               ].map((t) => (
                 <li key={t} className="flex items-center gap-2 text-[13px] font-medium text-ink/70">

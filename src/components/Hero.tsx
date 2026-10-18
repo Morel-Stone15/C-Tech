@@ -90,7 +90,7 @@ function QuickJoin() {
       className="mt-8 w-full max-w-2xl"
     >
       <p className="mb-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/50 sm:text-[12px]">
-        Inscription rapide — 15 secondes, sans engagement
+        Inscription rapide — Adhésion à 3 000 FCFA
       </p>
       <div className="flex flex-col gap-2 sm:flex-row">
         <label htmlFor="quick-name" className="sr-only">
@@ -431,10 +431,10 @@ export default function Hero() {
             className="inline-flex items-center gap-2 rounded-full bg-white/10 py-1 pl-1.5 pr-3.5 ring-1 ring-white/15 backdrop-blur sm:gap-2.5 sm:py-1.5 sm:pr-4"
           >
             <span className="grad-brand rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.14em] text-white sm:px-2.5 sm:py-1 sm:text-[10px]">
-              2026
+              IST GABON
             </span>
             <span className="text-[11px] font-medium text-white/80 sm:text-[12.5px]">
-              Les inscriptions sont ouvertes · Promo #9
+              Institut Supérieur de Technologie · Libreville
             </span>
           </div>
 
@@ -490,8 +490,8 @@ export default function Hero() {
           >
             {[
               ["340+", "membres actifs"],
-              ["58", "projets livrés"],
-              ["4", "hackathons / an"],
+              ["20", "projets réalisés"],
+              ["5", "événements en 2025"],
             ].map(([n, l]) => (
               <div key={l}>
                 <p className="font-display text-xl font-bold text-white sm:text-2xl">{n}</p>

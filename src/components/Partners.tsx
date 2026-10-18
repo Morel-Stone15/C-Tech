@@ -1,23 +1,23 @@
 import { Eyebrow } from "./ui";
 
-/* Logos textuels stylisés — remplaçables par de vrais fichiers SVG */
+/* Logos des partenaires — 100% Made in Gabon */
 const ROW_A = [
-  "Université Lyon Tech",
-  "Datadog",
-  "OVHcloud",
-  "Figma",
-  "Doctolib",
-  "GitHub Education",
-  "Algolia",
+  "Institut Supérieur de Technologie (IST)",
+  "ANINF Gabon",
+  "SING Gabon (Incubateur)",
+  "Moov Africa Gabon Telecom",
+  "Airtel Gabon",
+  "Clikpay Gabon",
+  "BGFIBank Gabon",
 ];
 const ROW_B = [
-  "Station F",
-  "Sopra Steria",
-  "Malt",
-  "Hugging Face",
-  "Qonto",
-  "École 42",
-  "Scaleway",
+  "Ministère de l'Économie Numérique",
+  "SPIN Gabon",
+  "École 241 Libreville",
+  "Canalbox Gabon",
+  "JA Gabon (Junior Achievement)",
+  "Gabon Innovation Hub",
+  "OPRAG",
 ];
 
 function Logo({ name }: { name: string }) {
@@ -36,13 +36,13 @@ export default function Partners() {
     <section className="relative overflow-hidden bg-white py-16 lg:py-20">
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div data-reveal className="text-center">
-          <Eyebrow>Nos partenaires</Eyebrow>
+          <Eyebrow>Partenaires Made in Gabon</Eyebrow>
           <h2 className="mt-4 font-display text-[26px] font-bold tracking-[-0.03em] text-ink sm:text-[32px]">
             Ils soutiennent la <span className="grad-text">communauté</span>
           </h2>
-          <p className="mx-auto mt-2.5 max-w-lg text-[14px] text-slate-body">
-            Entreprises, écoles et associations qui financent nos événements, offrent des licences
-            ou envoient leurs ingénieurs animer nos workshops.
+          <p className="mx-auto mt-2.5 max-w-xl text-[14px] text-slate-body">
+            Institutions, opérateurs et entreprises gabonaises qui soutiennent les étudiants de l&apos;IST,
+            sponsorisent nos hackathons et propulsent l&apos;innovation numérique à Libreville.
           </p>
         </div>
       </div>

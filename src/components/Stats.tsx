@@ -10,9 +10,9 @@ const STATS: S[] = [
     label: "Membres actifs",
     sub: "toutes filières confondues",
   },
-  { value: 58, suffix: "", label: "Projets réalisés", sub: "tous open source" },
-  { value: 126, suffix: "", label: "Événements organisés", sub: "depuis 2017" },
-  { value: 21, suffix: "", label: "Partenaires", sub: "entreprises & écoles" },
+  { value: 20, suffix: "", label: "Projets réalisés", sub: "solutions concrètes & open source" },
+  { value: 5, suffix: "", label: "Événements organisés", sub: "en 2025" },
+  { value: 14, suffix: "+", label: "Partenaires", sub: "entreprises & institutions gabonaises" },
 ];
 
 function Stat({

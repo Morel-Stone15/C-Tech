@@ -5,7 +5,7 @@
 export const SOCIAL_LINKS = {
   discord: "https://discord.gg/club-tech",
   github: "https://github.com/club-tech",
-  instagram: "https://instagram.com/club.tech",
+  facebook: "https://facebook.com/clubtech.ist",
   linkedin: "https://linkedin.com/company/club-tech",
 } as const;
 
