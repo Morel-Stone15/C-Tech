@@ -2,6 +2,7 @@ import { useState } from "react";
 import { SectionHead, TechBadge, dly } from "./ui";
 import { IconArrowUR, IconGithub, IconPlay, IconUsers } from "./icons";
 import { githubRepoUrl, SOCIAL_LINKS } from "../config/links";
+import { assetUrl } from "../utils/assets";
 
 const CATS = ["Tous", "Web", "Mobile", "IA / Data", "Design", "IoT"] as const;
 type Cat = (typeof CATS)[number];
@@ -26,7 +27,7 @@ const PROJECTS: Project[] = [
     tech: ["HTML", "CSS", "JavaScript"],
     team: 3,
     year: "2025",
-    img: "/images/quiz tech.png",
+    img: assetUrl("/images/quiz tech.png"),
     stars: 128,
     accent: "var(--color-indigo-brand)",
   },
@@ -37,7 +38,7 @@ const PROJECTS: Project[] = [
     tech: ["Flutter", " Supabase", "Python"],
     team: 6,
     year: "2025",
-    img: "/images/clikpay_brown.png",
+    img: assetUrl("/images/clikpay_brown.png"),
     stars: 342,
     accent: "var(--color-blue-electric)",
   },
@@ -48,7 +49,7 @@ const PROJECTS: Project[] = [
     tech: ["React Native"],
     team: 4,
     year: "2024",
-    img: "/images/Evenement ANIMF.jpg",
+    img: assetUrl("/images/Evenement ANIMF.jpg"),
     stars: 96,
     accent: "var(--color-cyan-bright)",
   },
@@ -59,7 +60,7 @@ const PROJECTS: Project[] = [
     tech: ["Python", "Flutter"],
     team: 14,
     year: "2025",
-    img: "/images/Hackathon.jpeg",
+    img: assetUrl("/images/hackathon.jpeg"),
     stars: 517,
     accent: "var(--color-violet-pop)",
   },

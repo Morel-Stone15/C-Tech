@@ -151,18 +151,49 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: var(--header-height, 92px);
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  font-size: 16px;
 }
 
-main {
-  padding-top: var(--header-height, 92px);
-}
 body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  position: relative;
   background-color: var(--color-paper);
   color: var(--color-slate-body);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+  -moz-osx-font-smoothing: grayscale;
 }
+
+#root {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  position: relative;
+}
+
+main {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  padding-top: var(--header-height, 92px);
+}
+
+/* Sécurité d'affichage multi-écrans */
+img, video, canvas, svg {
+  max-width: 100%;
+}
+
+h1, h2, h3, h4, p, a, span {
+  overflow-wrap: break-word;
+}
+
 
 /* Header brand tweaks: remove default link styling and ensure proper alignment */
 header a[aria-label] {
@@ -411,5 +442,33 @@ header a[aria-label] {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.15s !important;
+  }
+}
+
+/* ---------- Adaptabilité multi-écrans (Mobile, Tablette, Ordinateur) ---------- */
+@media (max-width: 640px) {
+  :root {
+    --header-height: 76px;
+  }
+  /* Empêcher le zoom automatique intempestif des navigateurs mobiles (iOS/Android) */
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="password"],
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  :root {
+    --header-height: 84px;
+  }
+}
+
+@media (min-width: 1025px) {
+  :root {
+    --header-height: 92px;
   }
 }

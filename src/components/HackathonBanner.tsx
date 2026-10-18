@@ -29,9 +29,9 @@ function useCountdown(target: Date) {
 function Digit({ n, label }: { n: number; label: string }) {
   const s = String(n).padStart(2, "0");
   return (
-    <div className="flex flex-col items-center gap-1 sm:gap-1.5">
+    <div className="flex flex-col items-center gap-1 sm:gap-1.5 shrink-0">
       <div
-        className="flex h-14 w-14 xs:h-16 xs:w-16 sm:h-20 sm:w-20 md:h-22 md:w-22 lg:h-24 lg:w-24 items-center justify-center rounded-xl sm:rounded-2xl transition-all duration-300"
+        className="flex h-11 w-11 min-[360px]:h-13 min-[360px]:w-13 min-[410px]:h-15 min-[410px]:w-15 sm:h-20 sm:w-20 md:h-22 md:w-22 lg:h-24 lg:w-24 items-center justify-center rounded-xl sm:rounded-2xl transition-all duration-300"
         style={{
           background: "rgba(255,255,255,0.08)",
           border: "1px solid rgba(255,255,255,0.14)",
@@ -40,13 +40,13 @@ function Digit({ n, label }: { n: number; label: string }) {
         }}
       >
         <span
-          className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-bold tabular-nums text-white tracking-tight"
+          className="text-lg min-[360px]:text-xl min-[410px]:text-2xl sm:text-4xl md:text-5xl font-bold tabular-nums text-white tracking-tight"
           style={{ fontFamily: "var(--font-display)" }}
         >
           {s}
         </span>
       </div>
-      <span className="text-[9px] xs:text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.14em] text-white/50">
+      <span className="text-[8.5px] min-[360px]:text-[9.5px] sm:text-[11px] font-semibold uppercase tracking-[0.14em] text-white/50">
         {label}
       </span>
     </div>
@@ -243,13 +243,13 @@ export default function HackathonBanner() {
 
         {/* Countdown */}
         {!over && (
-          <div className="mb-8 sm:mb-10 flex items-start justify-center gap-2 xs:gap-3 sm:gap-5 md:gap-6">
+          <div className="mb-8 sm:mb-10 flex items-start justify-center gap-1 min-[360px]:gap-2 sm:gap-4 md:gap-6 px-1">
             <Digit n={days} label="Jours" />
-            <span className="mt-2.5 xs:mt-3 sm:mt-4 text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-extralight text-white/30">:</span>
+            <span className="mt-2 min-[360px]:mt-2.5 sm:mt-4 text-lg min-[360px]:text-xl sm:text-4xl md:text-5xl font-extralight text-white/30">:</span>
             <Digit n={hours} label="Heures" />
-            <span className="mt-2.5 xs:mt-3 sm:mt-4 text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-extralight text-white/30">:</span>
+            <span className="mt-2 min-[360px]:mt-2.5 sm:mt-4 text-lg min-[360px]:text-xl sm:text-4xl md:text-5xl font-extralight text-white/30">:</span>
             <Digit n={minutes} label="Minutes" />
-            <span className="mt-2.5 xs:mt-3 sm:mt-4 text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-extralight text-white/30">:</span>
+            <span className="mt-2 min-[360px]:mt-2.5 sm:mt-4 text-lg min-[360px]:text-xl sm:text-4xl md:text-5xl font-extralight text-white/30">:</span>
             <Digit n={seconds} label="Secondes" />
           </div>
         )}

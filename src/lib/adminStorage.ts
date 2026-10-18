@@ -159,14 +159,19 @@ const DEFAULT_EVENTS: EventItem[] = [
 const GALLERY_KEY = "ctech_gallery_media";
 const EVENTS_KEY = "ctech_events_list";
 
+import { assetUrl } from "../utils/assets";
+
 export function getStoredGallery(): MediaItem[] {
   try {
     const raw = localStorage.getItem(GALLERY_KEY);
-    if (!raw) return DEFAULT_GALLERY;
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) && parsed.length > 0 ? parsed : DEFAULT_GALLERY;
+    const list = raw ? JSON.parse(raw) : DEFAULT_GALLERY;
+    const cleanList = Array.isArray(list) && list.length > 0 ? list : DEFAULT_GALLERY;
+    return cleanList.map((item: MediaItem) => ({
+      ...item,
+      url: assetUrl(item.url),
+    }));
   } catch {
-    return DEFAULT_GALLERY;
+    return DEFAULT_GALLERY.map((item) => ({ ...item, url: assetUrl(item.url) }));
   }
 }
 

@@ -307,13 +307,13 @@ function FloatingArt() {
   return (
     <div
       ref={wrap}
-      className="relative mx-auto h-[270px] w-full max-w-[340px] xs:h-[310px] xs:max-w-[390px] sm:h-[380px] sm:max-w-[460px] lg:h-[480px] lg:max-w-[500px] select-none"
+      className="relative mx-auto h-[250px] w-full max-w-[300px] min-[420px]:h-[290px] min-[420px]:max-w-[360px] sm:h-[380px] sm:max-w-[460px] lg:h-[480px] lg:max-w-[500px] select-none"
       aria-hidden="true"
     >
       {/* Halos */}
-      <span className="blob left-[8%] top-[6%] h-40 w-40 sm:h-52 sm:w-52 animate-float-a bg-indigo-brand/55" />
-      <span className="blob right-[4%] top-[24%] h-44 w-44 sm:h-56 sm:w-56 animate-float-b bg-cyan-bright/50" />
-      <span className="blob bottom-[6%] left-[26%] h-36 w-36 sm:h-44 sm:w-44 animate-float-c bg-violet-pop/45" />
+      <span className="blob left-[8%] top-[6%] h-32 w-32 min-[420px]:h-40 min-[420px]:w-40 sm:h-52 sm:w-52 animate-float-a bg-indigo-brand/55" />
+      <span className="blob right-[4%] top-[24%] h-36 w-36 min-[420px]:h-44 min-[420px]:w-44 sm:h-56 sm:w-56 animate-float-b bg-cyan-bright/50" />
+      <span className="blob bottom-[6%] left-[26%] h-28 w-28 min-[420px]:h-36 min-[420px]:w-36 sm:h-44 sm:w-44 animate-float-c bg-violet-pop/45" />
 
       {/* Anneau pointillé */}
       <div data-depth="0.35" className="absolute inset-0 flex items-center justify-center">
@@ -341,32 +341,32 @@ function FloatingArt() {
 
       {/* Logo central en verre */}
       <div data-depth="0.7" className="absolute inset-0 flex items-center justify-center">
-        <div className="relative flex h-32 w-32 items-center justify-center rounded-[1.75rem] bg-white/10 ring-1 ring-white/20 backdrop-blur-xl sm:h-40 sm:w-40 md:h-44 md:w-44 sm:rounded-[2rem]">
-          <LogoMark id="hero" className="h-14 w-14 sm:h-20 sm:w-20 md:h-24 md:w-24" />
-          <span className="grad-brand absolute -inset-px -z-10 rounded-[1.75rem] sm:rounded-[2rem] opacity-35 blur-xl" />
+        <div className="relative flex h-28 w-28 min-[420px]:h-32 min-[420px]:w-32 items-center justify-center rounded-[1.5rem] bg-white/10 ring-1 ring-white/20 backdrop-blur-xl sm:h-40 sm:w-40 md:h-44 md:w-44 sm:rounded-[2rem]">
+          <LogoMark id="hero" className="h-12 w-12 min-[420px]:h-14 min-[420px]:w-14 sm:h-20 sm:w-20 md:h-24 md:w-24" />
+          <span className="grad-brand absolute -inset-px -z-10 rounded-[1.5rem] sm:rounded-[2rem] opacity-35 blur-xl" />
         </div>
       </div>
 
       {/* Cartes flottantes */}
       <div
         data-depth="1.5"
-        className="absolute left-1 top-[8%] sm:left-0 sm:top-[12%] animate-float-a rounded-xl sm:rounded-2xl bg-white/95 px-3 py-2 sm:px-4 sm:py-3 shadow-[0_18px_40px_-16px_rgba(11,16,32,0.5)] backdrop-blur text-left"
+        className="absolute left-2 top-[8%] sm:left-0 sm:top-[12%] animate-float-a rounded-xl sm:rounded-2xl bg-white/95 px-2.5 py-1.5 sm:px-4 sm:py-3 shadow-[0_18px_40px_-16px_rgba(11,16,32,0.5)] backdrop-blur text-left"
       >
-        <p className="font-mono text-[10px] sm:text-[11px] font-semibold text-indigo-brand">
+        <p className="font-mono text-[9.5px] sm:text-[11px] font-semibold text-indigo-brand">
           {"</>"} hackathon.js
         </p>
-        <p className="mt-0.5 text-[9.5px] sm:text-[11px] text-ink/60">48 h · 12 équipes</p>
+        <p className="mt-0.5 text-[9px] sm:text-[11px] text-ink/60">48 h · 12 équipes</p>
       </div>
 
       <div
         data-depth="1.2"
-        className="absolute right-1 top-[36%] sm:right-0 sm:top-[38%] animate-float-b rounded-xl sm:rounded-2xl bg-white/95 px-3 py-2 sm:px-4 sm:py-3 shadow-[0_18px_40px_-16px_rgba(11,16,32,0.5)] backdrop-blur text-left"
+        className="absolute right-2 top-[36%] sm:right-0 sm:top-[38%] animate-float-b rounded-xl sm:rounded-2xl bg-white/95 px-2.5 py-1.5 sm:px-4 sm:py-3 shadow-[0_18px_40px_-16px_rgba(11,16,32,0.5)] backdrop-blur text-left"
       >
-        <p className="flex items-center gap-1.5 sm:gap-2 text-[11px] sm:text-[12px] font-bold text-ink">
+        <p className="flex items-center gap-1.5 sm:gap-2 text-[10.5px] sm:text-[12px] font-bold text-ink">
           <IconUsers className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-cyan-bright" />
           +340 membres
         </p>
-        <div className="mt-1.5 flex -space-x-1.5 sm:-space-x-2">
+        <div className="mt-1 flex -space-x-1.5 sm:-space-x-2">
           {[
             "var(--color-indigo-brand)",
             "var(--color-violet-pop)",
@@ -375,7 +375,7 @@ function FloatingArt() {
           ].map((c, i) => (
             <span
               key={i}
-              className="h-4 w-4 sm:h-5 sm:w-5 rounded-full ring-2 ring-white"
+              className="h-3.5 w-3.5 sm:h-5 sm:w-5 rounded-full ring-2 ring-white"
               style={{ background: c }}
             />
           ))}
@@ -384,9 +384,9 @@ function FloatingArt() {
 
       <div
         data-depth="1.8"
-        className="absolute bottom-[6%] left-[10%] sm:bottom-[10%] sm:left-[14%] animate-float-c rounded-xl sm:rounded-2xl bg-ink/90 px-3 py-2 sm:px-4 sm:py-3 ring-1 ring-white/10 backdrop-blur text-left"
+        className="absolute bottom-[6%] left-[8%] sm:bottom-[10%] sm:left-[14%] animate-float-c rounded-xl sm:rounded-2xl bg-ink/90 px-2.5 py-1.5 sm:px-4 sm:py-3 ring-1 ring-white/10 backdrop-blur text-left"
       >
-        <p className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-[11.5px] font-semibold text-white">
+        <p className="flex items-center gap-1.5 sm:gap-2 text-[9.5px] sm:text-[11.5px] font-semibold text-white">
           <IconSpark className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-cyan-bright" />
           Projet déployé
         </p>
@@ -394,6 +394,7 @@ function FloatingArt() {
     </div>
   );
 }
+
 
 export default function Hero() {
   return (

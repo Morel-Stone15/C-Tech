@@ -466,30 +466,30 @@ export default function Admin({ onBackToSite }: { onBackToSite: () => void }) {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans">
       {/* Header Admin */}
-      <header className="sticky top-0 z-40 border-b border-white/10 bg-slate-900/90 backdrop-blur-md px-4 sm:px-8 py-4">
-        <div className="mx-auto flex max-w-7xl items-center justify-between">
-          <div className="flex items-center gap-3">
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-indigo-600 to-cyan-500 font-display text-lg font-bold text-white shadow-md">
+      <header className="sticky top-0 z-40 border-b border-white/10 bg-slate-900/90 backdrop-blur-md px-3 sm:px-8 py-3 sm:py-4">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <span className="flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-tr from-indigo-600 to-cyan-500 font-display text-base sm:text-lg font-bold text-white shadow-md">
               C
             </span>
             <div>
-              <h1 className="font-display text-base font-bold text-white sm:text-lg">
+              <h1 className="font-display text-sm sm:text-lg font-bold text-white">
                 CLUB-Tech · Administration
               </h1>
-              <p className="text-[11px] text-white/50">Gestion en temps réel & contenu dynamique</p>
+              <p className="text-[10px] sm:text-[11px] text-white/50">Gestion en temps réel & contenu dynamique</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             <button
               onClick={onBackToSite}
-              className="rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs font-semibold text-white/80 hover:bg-white/10 hover:text-white cursor-pointer"
+              className="rounded-full border border-white/15 bg-white/5 px-3 py-1.5 sm:px-4 sm:py-2 text-[11px] sm:text-xs font-semibold text-white/80 hover:bg-white/10 hover:text-white cursor-pointer"
             >
               🌐 Voir le site
             </button>
             <button
               onClick={handleLogout}
-              className="rounded-full bg-red-500/20 px-3.5 py-2 text-xs font-semibold text-red-300 hover:bg-red-500/30 cursor-pointer"
+              className="rounded-full bg-red-500/20 px-3 py-1.5 sm:px-3.5 sm:py-2 text-[11px] sm:text-xs font-semibold text-red-300 hover:bg-red-500/30 cursor-pointer"
             >
               Déconnexion
             </button>
@@ -498,8 +498,8 @@ export default function Admin({ onBackToSite }: { onBackToSite: () => void }) {
       </header>
 
       {/* Navigation des Onglets */}
-      <div className="border-b border-white/10 bg-slate-900 px-4 sm:px-8">
-        <div className="mx-auto flex max-w-7xl gap-4">
+      <div className="border-b border-white/10 bg-slate-900 px-3 sm:px-8">
+        <div className="mx-auto flex max-w-7xl gap-2 sm:gap-4 overflow-x-auto">
           {[
             { id: "inscriptions", label: "👥 Inscriptions en direct", count: totalCount },
             { id: "events", label: "📅 Gestion Événements", count: events.length },
@@ -508,14 +508,14 @@ export default function Admin({ onBackToSite }: { onBackToSite: () => void }) {
             <button
               key={t.id}
               onClick={() => setActiveTab(t.id as any)}
-              className={`flex items-center gap-2 border-b-2 py-4 px-2 text-sm font-bold transition-all cursor-pointer ${
+              className={`flex shrink-0 items-center gap-2 border-b-2 py-3.5 sm:py-4 px-2 text-xs sm:text-sm font-bold transition-all cursor-pointer ${
                 activeTab === t.id
                   ? "border-cyan-400 text-cyan-300"
                   : "border-transparent text-white/50 hover:text-white"
               }`}
             >
               <span>{t.label}</span>
-              <span className="rounded-full bg-white/10 px-2 py-0.5 text-[11px]">
+              <span className="rounded-full bg-white/10 px-2 py-0.5 text-[10px] sm:text-[11px]">
                 {t.count}
               </span>
             </button>

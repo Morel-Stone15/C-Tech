@@ -1,5 +1,6 @@
 import { SectionHead, dly } from "./ui";
 import { IconCheck, IconSpark } from "./icons";
+import { assetUrl } from "../utils/assets";
 
 const VALUES = [
   {
@@ -22,7 +23,7 @@ const VALUES = [
 
 export default function About() {
   return (
-    <section id="membres" className="relative scroll-mt-24 overflow-hidden bg-paper py-20 lg:py-28">
+    <section id="membres" className="relative scroll-mt-24 overflow-hidden bg-paper py-16 sm:py-20 lg:py-28">
       <span className="blob -left-20 top-20 h-72 w-72 bg-indigo-brand/10" aria-hidden="true" />
       <span className="blob -right-16 bottom-10 h-80 w-80 bg-cyan-bright/12" aria-hidden="true" />
 
@@ -34,13 +35,13 @@ export default function About() {
               {/* Image principale */}
               <div
                 data-reveal="left"
-                className="relative overflow-hidden rounded-[2rem] shadow-[0_30px_70px_-30px_rgba(11,16,32,0.45)]"
+                className="relative overflow-hidden rounded-[1.6rem] sm:rounded-[2rem] shadow-[0_30px_70px_-30px_rgba(11,16,32,0.45)]"
               >
                 <img
-                  src="/images/louise.PNG"
+                  src={assetUrl("/images/louise.PNG")}
                   alt="Membres de CLUB-Tech en session de travail collaboratif"
                   loading="lazy"
-                  className="h-[400px] w-full object-cover sm:h-[460px]"
+                  className="h-[260px] min-[400px]:h-[320px] sm:h-[400px] md:h-[460px] w-full object-cover"
                 />
                 <div
                   className="absolute inset-0 bg-gradient-to-t from-ink/60 via-transparent to-transparent"
@@ -52,13 +53,13 @@ export default function About() {
               <div
                 data-reveal="zoom"
                 style={dly(200)}
-                className="absolute -bottom-8 -right-4 hidden w-44 overflow-hidden rounded-2xl ring-[6px] ring-paper sm:block lg:-right-10 lg:w-52"
+                className="absolute -bottom-6 -right-2 hidden w-36 sm:w-44 overflow-hidden rounded-2xl ring-[4px] sm:ring-[6px] ring-paper sm:block lg:-right-10 lg:w-52"
               >
                 <img
-                  src="/images/hackathon.jpeg"
+                  src={assetUrl("/images/hackathon.jpeg")}
                   alt="Atelier de code entre étudiantes"
                   loading="lazy"
-                  className="h-32 w-full object-cover lg:h-36"
+                  className="h-28 sm:h-32 w-full object-cover lg:h-36"
                 />
               </div>
 
@@ -66,10 +67,10 @@ export default function About() {
               <div
                 data-reveal
                 style={dly(320)}
-                className="absolute -left-3 top-8 rounded-2xl bg-white px-4 py-3 shadow-[0_16px_36px_-14px_rgba(11,16,32,0.4)] lg:-left-8"
+                className="absolute -left-2 top-4 sm:-left-3 sm:top-8 rounded-xl sm:rounded-2xl bg-white px-3 py-2 sm:px-4 sm:py-3 shadow-[0_16px_36px_-14px_rgba(11,16,32,0.4)] lg:-left-8"
               >
-                <p className="font-display text-2xl font-bold grad-text">2025</p>
-                <p className="text-[11px] font-medium text-ink/50">année de création</p>
+                <p className="font-display text-xl sm:text-2xl font-bold grad-text">2025</p>
+                <p className="text-[10px] sm:text-[11px] font-medium text-ink/50">année de création</p>
               </div>
             </div>
           </div>

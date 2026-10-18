@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { SectionHead } from "./ui";
 import { IconArrow } from "./icons";
 import { usePrefersReducedMotion, useTabVisible } from "../lib/hooks";
+import { assetUrl } from "../utils/assets";
 
 type T = {
   quote: string;
@@ -17,7 +18,7 @@ const ITEMS: T[] = [
       "Je suis arrivée en L1 sans savoir ce qu'était un terminal. Un an plus tard, je co-maintiens des projets d'entreprise en parallèle de mes études. C'est grâce au club.",
     name: "Christ Henzo",
     role: "L1 Genie logiciel· Lead projet NoteSwap",
-    photo: "/images/henzo.png",
+    photo: assetUrl("/images/henzo.png"),
     accent: "var(--color-indigo-brand)",
   },
   {
@@ -25,7 +26,7 @@ const ITEMS: T[] = [
       "Avec le club tech, j’ai pu découvrir plusieurs facettes du monde de la tech et ça m’a vraiment plu. Et les conférences sont vraiment intéressantes !",
     name: "Alvaro Hely ",
     role: "L1 bio-medical",
-    photo: "/images/hely.JPG",
+    photo: assetUrl("/images/hely.JPG"),
     accent: "var(--color-cyan-bright)",
   },
 ];
