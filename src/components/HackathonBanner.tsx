@@ -1,4 +1,8 @@
 import { useEffect, useState } from "react";
+import emailjs from "@emailjs/browser";
+import { saveInscription, isSupabaseConfigured } from "../config/supabase";
+import { EMAILJS_CONFIG, isEmailJsConfigured, CLUB_EMAIL } from "../config/emailjs";
+import { toast } from "../lib/bus";
 
 const HACKATHON_URL = "https://ctech2798.github.io/Hackathon-UniC-Bon/";
 const HACKATHON_DATE = new Date("2026-11-22T08:00:00");
@@ -50,6 +54,83 @@ function Digit({ n, label }: { n: number; label: string }) {
 
 export default function HackathonBanner() {
   const { days, hours, minutes, seconds, over } = useCountdown(HACKATHON_DATE);
+  const [openModal, setOpenModal] = useState(false);
+  const [formData, setFormData] = useState({
+    nom: "",
+    email: "",
+    filiere: "",
+    tel: "",
+    idee: "",
+  });
+  const [status, setStatus] = useState<"idle" | "submitting" | "done" | "error">("idle");
+  const [err, setErr] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (status === "submitting") return;
+
+    if (!formData.nom.trim() || formData.nom.trim().length < 2) {
+      setErr("Merci de renseigner votre nom complet.");
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(formData.email.trim())) {
+      setErr("Veuillez saisir une adresse e-mail valide.");
+      return;
+    }
+    if (!formData.filiere.trim()) {
+      setErr("Veuillez indiquer votre filière.");
+      return;
+    }
+    if (!formData.tel.trim() || formData.tel.trim().length < 8) {
+      setErr("Veuillez indiquer votre numéro WhatsApp ou téléphone.");
+      return;
+    }
+
+    setErr("");
+    setStatus("submitting");
+
+    // 1) Enregistrement Supabase (identique au backend Hackathon)
+    const supabasePayload = {
+      nom: formData.nom.trim(),
+      email: formData.email.trim(),
+      filiere: formData.filiere.trim(),
+      message: `[Hackathon UniC’bon 2026] Tél: ${formData.tel.trim()} | Idée: ${formData.idee.trim() || "Projet à définir pendant l'événement"}`,
+      source: "formulaire" as const,
+    };
+
+    if (isSupabaseConfigured()) {
+      const { error } = await saveInscription(supabasePayload);
+      if (error && !error.toLowerCase().includes("duplicate")) {
+        console.warn("[HackathonBanner] Supabase save warning:", error);
+      }
+    }
+
+    // 2) Notification EmailJS (partagée avec les clés .env de l'organisation)
+    if (isEmailJsConfigured()) {
+      try {
+        await emailjs.send(
+          EMAILJS_CONFIG.serviceId,
+          EMAILJS_CONFIG.templateId,
+          {
+            from_name: formData.nom.trim(),
+            from_email: formData.email.trim(),
+            filiere: formData.filiere.trim(),
+            niveau: "Candidat Hackathon",
+            interets: "Hackathon UniC’bon 2026",
+            message: `Nouvelle inscription Hackathon depuis le site C-Tech :\n• Nom : ${formData.nom.trim()}\n• E-mail : ${formData.email.trim()}\n• Téléphone : ${formData.tel.trim()}\n• Filière : ${formData.filiere.trim()}\n• Idée : ${formData.idee.trim() || "Non renseignée"}`,
+            to_email: CLUB_EMAIL,
+            sent_at: new Date().toLocaleString("fr-FR"),
+          },
+          EMAILJS_CONFIG.publicKey,
+        );
+      } catch (e) {
+        console.warn("[HackathonBanner] EmailJS error:", e);
+      }
+    }
+
+    setStatus("done");
+    toast("Préinscription Hackathon validée !", "success");
+  };
 
   return (
     <section
@@ -197,13 +278,12 @@ export default function HackathonBanner() {
 
         {/* CTAs */}
         <div className="flex flex-col items-stretch sm:items-center sm:flex-row sm:justify-center gap-3 sm:gap-4 max-w-md mx-auto sm:max-w-none">
-          {/* Bouton principal — basculement vers site hackathon */}
-          <a
+          {/* Bouton pour ouvrir l'inscription sur place */}
+          <button
+            type="button"
             id="hackathon-register-btn"
-            href={HACKATHON_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group relative inline-flex items-center justify-center gap-3 overflow-hidden rounded-full px-6 py-3.5 sm:px-8 sm:py-4 text-base sm:text-lg font-bold text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl shadow-lg"
+            onClick={() => setOpenModal(true)}
+            className="group relative inline-flex items-center justify-center gap-3 overflow-hidden rounded-full px-6 py-3.5 sm:px-8 sm:py-4 text-base sm:text-lg font-bold text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl shadow-lg cursor-pointer"
             style={{
               background:
                 "linear-gradient(135deg, #4b2ae8 0%, #7c3aed 50%, #2563eb 100%)",
@@ -212,36 +292,37 @@ export default function HackathonBanner() {
               boxShadow:
                 "0 10px 40px -12px rgba(75,42,232,0.8), 0 0 0 1px rgba(255,255,255,0.15) inset",
             }}
-            aria-label="S'inscrire à l'Hackathon UniC'bon — ouvre une nouvelle page"
+            aria-label="S'inscrire à l'Hackathon UniC'bon"
           >
             <span>🚀 S&apos;inscrire à l&apos;Hackathon</span>
             <svg
-              className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1"
+              className="h-5 w-5 transition-transform duration-300 group-hover:scale-110"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
               strokeWidth={2.5}
               aria-hidden="true"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
             </svg>
-          </a>
+          </button>
 
-          {/* Bouton secondaire — en savoir plus */}
+          {/* Bouton pour basculer directement sur le site de l'hackathon */}
           <a
             id="hackathon-discover-btn"
             href={HACKATHON_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 sm:px-6 sm:py-3.5 text-sm font-semibold text-white/75 transition-all duration-300 hover:text-white hover:bg-white/10"
+            className="group inline-flex items-center justify-center gap-2.5 rounded-full px-5 py-3 sm:px-6 sm:py-3.5 text-sm font-semibold text-white/80 transition-all duration-300 hover:text-white hover:bg-white/10"
             style={{
-              border: "1px solid rgba(255,255,255,0.15)",
-              background: "rgba(255,255,255,0.05)",
+              border: "1px solid rgba(255,255,255,0.18)",
+              background: "rgba(255,255,255,0.06)",
             }}
-            aria-label="Découvrir le site de l'Hackathon — ouvre une nouvelle page"
+            aria-label="Basculer vers le site officiel de l'Hackathon — ouvre une nouvelle page"
           >
+            <span>🌐 Basculer sur le site de l&apos;Hackathon</span>
             <svg
-              className="h-4 w-4"
+              className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -251,20 +332,217 @@ export default function HackathonBanner() {
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
               />
             </svg>
-            Découvrir le site de l&apos;Hackathon
           </a>
         </div>
 
         {/* Note de bas de section */}
         <p className="mt-8 text-center text-xs text-white/40">
-          Événement organisé par{" "}
+          Événement officiel organisé par{" "}
           <span className="text-white/60 font-medium">CLUB-Tech × UniC&apos;bon</span>
-          {" "}· Ouvert à tous les étudiants
+          {" "}· Ouvert à tous les étudiants de l&apos;IST
         </p>
       </div>
+
+      {/* ========================================================= */}
+      {/* MODAL D'INSCRIPTION HACKATHON DIRECTEMENT DEPUIS C-TECH   */}
+      {/* ========================================================= */}
+      {openModal && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-title"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
+        >
+          {/* Backdrop avec flou */}
+          <div
+            className="absolute inset-0 bg-ink/80 backdrop-blur-md transition-opacity"
+            onClick={() => setOpenModal(false)}
+          />
+
+          {/* Boîte de dialogue */}
+          <div
+            className="relative w-full max-w-lg overflow-hidden rounded-3xl p-6 sm:p-8 text-white shadow-2xl ring-1 ring-white/15"
+            style={{
+              background: "linear-gradient(145deg, #0d1224 0%, #170d38 50%, #081a28 100%)",
+            }}
+          >
+            {/* Bouton fermer */}
+            <button
+              type="button"
+              onClick={() => setOpenModal(false)}
+              className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white/70 transition hover:bg-white/20 hover:text-white"
+              aria-label="Fermer la boîte de dialogue"
+            >
+              ✕
+            </button>
+
+            {status === "done" ? (
+              <div className="py-4 text-center">
+                <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400 ring-2 ring-emerald-500/40">
+                  <span className="text-3xl font-bold">✓</span>
+                </div>
+                <h3 className="mb-2 font-display text-2xl font-bold text-white">
+                  Préinscription enregistrée !
+                </h3>
+                <p className="mb-6 text-sm leading-relaxed text-white/75">
+                  Félicitations <strong>{formData.nom}</strong> ! Vos informations ont été enregistrées
+                  dans la base de données officielle et l’équipe organisatrice a reçu votre candidature.
+                </p>
+                <div className="flex flex-col gap-3">
+                  <a
+                    href={HACKATHON_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-bold text-white shadow-lg transition hover:-translate-y-0.5"
+                    style={{
+                      background: "linear-gradient(135deg, #4b2ae8 0%, #3ec6e0 100%)",
+                    }}
+                  >
+                    <span>🚀 Basculer vers le site officiel de l&apos;Hackathon</span>
+                    <span>→</span>
+                  </a>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setStatus("idle");
+                      setOpenModal(false);
+                      setFormData({ nom: "", email: "", filiere: "", tel: "", idee: "" });
+                    }}
+                    className="rounded-full bg-white/10 py-2.5 text-xs font-semibold text-white/70 hover:bg-white/15 hover:text-white"
+                  >
+                    Fermer
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <div className="inline-flex items-center gap-2 rounded-full bg-indigo-500/20 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-cyan-300 ring-1 ring-cyan-400/30">
+                    Hackathon UniC&apos;bon 2026
+                  </div>
+                  <h3 id="modal-title" className="mt-2.5 font-display text-2xl font-bold text-white">
+                    Préinscription individuelle
+                  </h3>
+                  <p className="mt-1 text-xs text-white/60">
+                    Tu seras affecté(e) dans l&apos;une des 20 équipes de 5 étudiants. Les données sont
+                    enregistrées dans la même base cloud (Supabase) que le site officiel.
+                  </p>
+                </div>
+
+                {err && (
+                  <div className="rounded-xl border border-red-500/30 bg-red-500/10 px-3.5 py-2 text-xs font-medium text-red-200">
+                    ⚠️ {err}
+                  </div>
+                )}
+
+                <div className="space-y-3 pt-1">
+                  <div>
+                    <label className="mb-1 block text-xs font-semibold text-white/80">
+                      Nom complet *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="Ex. Sarah Ndong"
+                      value={formData.nom}
+                      onChange={(e) => setFormData({ ...formData, nom: e.target.value })}
+                      className="w-full rounded-xl border border-white/15 bg-white/5 px-3.5 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/20"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    <div>
+                      <label className="mb-1 block text-xs font-semibold text-white/80">
+                        E-mail *
+                      </label>
+                      <input
+                        type="email"
+                        required
+                        placeholder="nom@etudiant.ga"
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        className="w-full rounded-xl border border-white/15 bg-white/5 px-3.5 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/20"
+                      />
+                    </div>
+                    <div>
+                      <label className="mb-1 block text-xs font-semibold text-white/80">
+                        Filière *
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        placeholder="Ex. G.LOG et IA, L2"
+                        value={formData.filiere}
+                        onChange={(e) => setFormData({ ...formData, filiere: e.target.value })}
+                        className="w-full rounded-xl border border-white/15 bg-white/5 px-3.5 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/20"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="mb-1 block text-xs font-semibold text-white/80">
+                      Téléphone ou WhatsApp *
+                    </label>
+                    <input
+                      type="tel"
+                      required
+                      placeholder="Ex. +241 65 36 96 29"
+                      value={formData.tel}
+                      onChange={(e) => setFormData({ ...formData, tel: e.target.value })}
+                      className="w-full rounded-xl border border-white/15 bg-white/5 px-3.5 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/20"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="mb-1 block text-xs font-semibold text-white/80">
+                      Idée de projet ou motivation <span className="text-white/40">(facultatif)</span>
+                    </label>
+                    <textarea
+                      rows={2}
+                      placeholder="Santé, agriculture, éducation, énergie..."
+                      value={formData.idee}
+                      onChange={(e) => setFormData({ ...formData, idee: e.target.value })}
+                      className="w-full rounded-xl border border-white/15 bg-white/5 px-3.5 py-2 text-sm text-white placeholder:text-white/30 focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/20"
+                    />
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-2 pt-2">
+                  <button
+                    type="submit"
+                    disabled={status === "submitting"}
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-xl py-3 text-sm font-bold text-white shadow-lg transition-all hover:brightness-110 disabled:opacity-50 cursor-pointer"
+                    style={{
+                      background: "linear-gradient(135deg, #4b2ae8 0%, #3ec6e0 100%)",
+                    }}
+                  >
+                    {status === "submitting" ? (
+                      <>
+                        <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+                        Enregistrement en cours...
+                      </>
+                    ) : (
+                      "Confirmer ma préinscription"
+                    )}
+                  </button>
+
+                  <a
+                    href={HACKATHON_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-center text-xs text-white/60 hover:text-white hover:underline pt-1"
+                  >
+                    Préférer s&apos;inscrire directement sur le site officiel de l&apos;Hackathon →
+                  </a>
+                </div>
+              </form>
+            )}
+          </div>
+        </div>
+      )}
     </section>
   );
 }
