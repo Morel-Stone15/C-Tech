@@ -7,6 +7,7 @@ const LINKS: [string, string][] = [
   ["Membres", "membres"],
   ["Ressources", "ressources"],
   ["Projets", "projets"],
+  ["Galerie", "galerie"],
   ["Événements", "evenements"],
   ["Rejoindre", "rejoindre"],
 ];

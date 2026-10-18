@@ -1,76 +1,18 @@
+import { useEffect, useState } from "react";
 import { SectionHead, dly } from "./ui";
 import { IconArrowUR, IconClock, IconPin, IconUsers } from "./icons";
-
-type Ev = {
-  day: string;
-  month: string;
-  title: string;
-  type: string;
-  desc: string;
-  time: string;
-  place: string;
-  seats: string;
-  from: string;
-  to: string;
-  featured?: boolean;
-  url?: string;
-};
-
-const EVENTS: Ev[] = [
-  {
-    day: "13",
-    month: "Nov",
-    title: "Hackathon UniC’bon 2026 — IST × C-Tech",
-    type: "Hackathon Officiel",
-    desc: "3 jours et 20 équipes de 5 étudiants réunis à Libreville pour imaginer des solutions numériques gabonaises. Mentorat, jury d'exception et récompenses.",
-    time: "13 → 15 nov. 2026",
-    place: "Campus Cap · Libreville",
-    seats: "20 équipes · Places limitées",
-    from: "var(--color-indigo-brand)",
-    to: "var(--color-violet-pop)",
-    featured: true,
-    url: "https://ctech2798.github.io/Hackathon-UniC-Bon/",
-  },
-  {
-    day: "22",
-    month: "Mars",
-    title: "Workshop — Docker de zéro à la prod",
-    type: "Workshop",
-    desc: "Conteneurise ta première application et déploie-la. Amène ton laptop, on s'occupe du reste.",
-    time: "18 h 30 → 20 h 30",
-    place: "Salle C-204",
-    seats: "12 places restantes",
-    from: "var(--color-violet-pop)",
-    to: "var(--color-blue-electric)",
-  },
-  {
-    day: "04",
-    month: "Avril",
-    title: "Talk — « De la fac à Shopify »",
-    type: "Conférence",
-    desc: "Rencontre avec Inès Ferhat, ancienne membre du club, aujourd&apos;hui ingénieure plateforme à Berlin.",
-    time: "19 h → 20 h 30",
-    place: "Amphi Turing",
-    seats: "Entrée libre",
-    from: "var(--color-blue-electric)",
-    to: "var(--color-cyan-bright)",
-  },
-  {
-    day: "18",
-    month: "Avril",
-    title: "Contest algo — Qualifs nationales",
-    type: "Compétition",
-    desc: "Entraînement chronométré en conditions réelles, suivi d'une correction collective des problèmes.",
-    time: "14 h → 18 h",
-    place: "Labo informatique 2",
-    seats: "20 places restantes",
-    from: "var(--color-cyan-bright)",
-    to: "var(--color-indigo-brand)",
-  },
-];
+import { getStoredEvents, EventItem } from "../lib/adminStorage";
 
 export default function Events() {
-  const [hero, ...rest] = EVENTS;
+  const [eventsList, setEventsList] = useState<EventItem[]>(() => getStoredEvents());
+
+  useEffect(() => {
+    const handler = () => setEventsList(getStoredEvents());
+    window.addEventListener("ctech_events_updated", handler);
+    return () => window.removeEventListener("ctech_events_updated", handler);
+  }, []);
+
+  const [hero, ...rest] = eventsList.length > 0 ? eventsList : getStoredEvents();
 
   return (
     <section

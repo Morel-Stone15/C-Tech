@@ -18,6 +18,7 @@ const NAV: [string, string][] = [
   ["Membres", "#membres"],
   ["Ressources", "#ressources"],
   ["Projets", "#projets"],
+  ["Galerie", "#galerie"],
   ["Événements", "#evenements"],
   ["Rejoindre", "#rejoindre"],
 ];
@@ -208,11 +209,12 @@ export default function Footer() {
               ["Mentions légales", LEGAL_LINKS.mentionsLegales],
               ["Confidentialité", LEGAL_LINKS.confidentialite],
               ["Code de conduite", LEGAL_LINKS.codeDeConduite],
+              ["Administration 🔐", "#admin"],
             ].map(([m, href]) => (
               <a
                 key={m}
                 href={href}
-                className="text-[12px] text-white/35 transition-colors hover:text-cyan-soft"
+                className="text-[12px] text-white/40 transition-colors hover:text-cyan-soft"
               >
                 {m}
               </a>

@@ -5,12 +5,14 @@ import HackathonBanner from "./components/HackathonBanner";
 import About from "./components/About";
 import Activities from "./components/Activities";
 import Projects from "./components/Projects";
+import Gallery from "./components/Gallery";
 import Events from "./components/Events";
 import Stats from "./components/Stats";
 import Testimonials from "./components/Testimonials";
 import Partners from "./components/Partners";
 import Join from "./components/Join";
 import Footer from "./components/Footer";
+import Admin from "./components/Admin";
 import { Toaster } from "./components/Overlays";
 import { IconArrow } from "./components/icons";
 
@@ -44,7 +46,21 @@ function BackToTop() {
 }
 
 export default function App() {
+  const [isAdminView, setIsAdminView] = useState(() => {
+    return window.location.hash === "#admin" || window.location.pathname.endsWith("/admin");
+  });
+
   useEffect(() => {
+    const onHashChange = () => {
+      setIsAdminView(window.location.hash === "#admin" || window.location.pathname.endsWith("/admin"));
+    };
+    window.addEventListener("hashchange", onHashChange);
+    return () => window.removeEventListener("hashchange", onHashChange);
+  }, []);
+
+  useEffect(() => {
+    if (isAdminView) return;
+
     if (!("IntersectionObserver" in window)) {
       document
         .querySelectorAll<HTMLElement>("[data-reveal]")
@@ -73,7 +89,21 @@ export default function App() {
       io.disconnect();
       mo.disconnect();
     };
-  }, []);
+  }, [isAdminView]);
+
+  if (isAdminView) {
+    return (
+      <div className="font-sans">
+        <Admin
+          onBackToSite={() => {
+            window.location.hash = "";
+            setIsAdminView(false);
+          }}
+        />
+        <Toaster />
+      </div>
+    );
+  }
 
   return (
     <div className="bg-paper font-sans">
@@ -91,6 +121,7 @@ export default function App() {
         <About />
         <Activities />
         <Projects />
+        <Gallery />
         <Events />
         <Stats />
         <Testimonials />
