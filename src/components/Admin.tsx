@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 import { getAllInscriptions, getAllInscriptionsAsync, deleteInscription } from "../config/localDb";
 import { supabase, isSupabaseReady } from "../lib/supabaseClient";
 import {
@@ -41,6 +42,7 @@ export default function Admin({ onBackToSite }: { onBackToSite: () => void }) {
   const [loadingInscriptions, setLoadingInscriptions] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterType, setFilterType] = useState<"all" | "hackathon" | "club">("all");
+  const importFileRef = useRef<HTMLInputElement>(null);
 
   // --- Événements ---
   const [events, setEvents] = useState<EventItem[]>([]);
@@ -202,7 +204,65 @@ export default function Admin({ onBackToSite }: { onBackToSite: () => void }) {
     );
   });
 
-  // Export PDF détaillé
+  // ── Supprimer une inscription ──────────────────────────────────────────
+  const handleDeleteInscription = async (id: string) => {
+    if (!confirm("Supprimer cette inscription ? Cette action est irréversible.")) return;
+    await deleteInscription(id);
+    setInscriptions((prev) => prev.filter((it) => it.id !== id));
+    toast("Inscription supprimée", "info");
+  };
+
+  // ── Sauvegarde JSON (export) ───────────────────────────────────────────
+  const handleExportJSON = () => {
+    try {
+      const data = JSON.stringify(inscriptions, null, 2);
+      const blob = new Blob([data], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `sauvegarde-inscriptions-ctech-${new Date().toISOString().slice(0, 10)}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      toast(`Sauvegarde téléchargée — ${inscriptions.length} inscrit(s)`, "success");
+    } catch (e) {
+      console.error(e);
+      toast("Erreur lors de la sauvegarde", "error");
+    }
+  };
+
+  // ── Restaurer depuis JSON (import) ────────────────────────────────────
+  const handleImportJSON = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      try {
+        const parsed = JSON.parse(ev.target?.result as string);
+        if (!Array.isArray(parsed)) throw new Error("Format invalide");
+        // Fusionner avec les inscriptions existantes (sans doublons par id)
+        const existingIds = new Set(inscriptions.map((it) => it.id));
+        const newItems = parsed.filter((it: InscriptionItem) => !existingIds.has(it.id));
+        const merged = [...inscriptions, ...newItems].sort(
+          (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+        );
+        // Sauvegarder dans localStorage
+        const INSCRIPTIONS_KEY = "ctech_inscriptions";
+        const toStore = merged.map(({ id, nom, email, tel, filiere, niveau, message, source, created_at }) => ({
+          id, nom, email, tel, filiere, niveau, message, source, created_at
+        }));
+        localStorage.setItem(INSCRIPTIONS_KEY, JSON.stringify(toStore));
+        setInscriptions(merged);
+        toast(`${newItems.length} nouvelle(s) inscription(s) restaurée(s) — Total : ${merged.length}`, "success");
+      } catch (err) {
+        toast("Fichier invalide. Utilisez une sauvegarde JSON C-Tech.", "error");
+      }
+    };
+    reader.readAsText(file);
+    // Reset input pour permettre de recharger le même fichier
+    e.target.value = "";
+  };
+
+  // ── Export PDF détaillé ────────────────────────────────────────────────
   const handleExportPDF = () => {
     try {
       const doc = new jsPDF({
@@ -689,15 +749,15 @@ export default function Admin({ onBackToSite }: { onBackToSite: () => void }) {
                 </div>
               </div>
 
-              {/* Barre de contrôle et recherche */}
-              <div className="flex flex-col gap-3 rounded-2xl border border-white/10 bg-slate-900 p-4 sm:flex-row sm:items-center sm:justify-between">
-                <div className="flex flex-1 items-center gap-3">
+              {/* Barre de contrôle, recherche et actions */}
+              <div className="flex flex-col gap-3 rounded-2xl border border-white/10 bg-slate-900 p-4">
+                <div className="flex flex-wrap items-center gap-3">
                   <input
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Rechercher par nom, email, téléphone ou filière..."
-                    className="w-full max-w-md rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-cyan-400 focus:outline-none"
+                    className="w-full max-w-sm rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-cyan-400 focus:outline-none"
                   />
                   <div className="flex gap-1.5">
                     {[
@@ -720,19 +780,50 @@ export default function Admin({ onBackToSite }: { onBackToSite: () => void }) {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2 border-t border-white/5 pt-3">
+                  {/* Actualiser */}
                   <button
                     onClick={loadInscriptions}
                     disabled={loadingInscriptions}
-                    className="inline-flex items-center gap-1.5 rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 text-xs font-semibold text-white/80 hover:bg-white/10 cursor-pointer"
+                    className="inline-flex items-center gap-1.5 rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 text-xs font-semibold text-white/80 hover:bg-white/10 cursor-pointer disabled:opacity-50"
                   >
                     <span>🔄 {loadingInscriptions ? "Actualisation..." : "Actualiser"}</span>
                   </button>
+
+                  {/* Sauvegarde JSON */}
+                  <button
+                    onClick={handleExportJSON}
+                    title="Télécharger toutes les inscriptions en fichier JSON (sauvegarde)"
+                    className="inline-flex items-center gap-1.5 rounded-xl border border-amber-500/40 bg-amber-500/10 px-4 py-2.5 text-xs font-bold text-amber-300 hover:bg-amber-500/20 cursor-pointer"
+                  >
+                    <span>💾 Sauvegarder ({inscriptions.length})</span>
+                  </button>
+
+                  {/* Restaurer depuis JSON */}
+                  <button
+                    onClick={() => importFileRef.current?.click()}
+                    title="Charger une sauvegarde JSON pour restaurer des inscriptions"
+                    className="inline-flex items-center gap-1.5 rounded-xl border border-violet-500/40 bg-violet-500/10 px-4 py-2.5 text-xs font-bold text-violet-300 hover:bg-violet-500/20 cursor-pointer"
+                  >
+                    <span>📂 Charger sauvegarde</span>
+                  </button>
+
+                  {/* Input fichier caché pour l'import JSON */}
+                  <input
+                    ref={importFileRef}
+                    type="file"
+                    accept=".json,application/json"
+                    onChange={handleImportJSON}
+                    className="hidden"
+                  />
+
+                  {/* Télécharger PDF */}
                   <button
                     onClick={handleExportPDF}
+                    title="Générer et télécharger la liste en PDF"
                     className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 px-4 py-2.5 text-xs font-bold text-white shadow cursor-pointer"
                   >
-                    <span>Télécharger PDF</span>
+                    <span>📄 Télécharger PDF ({filteredInscriptions.length})</span>
                   </button>
                 </div>
               </div>
@@ -749,6 +840,7 @@ export default function Admin({ onBackToSite }: { onBackToSite: () => void }) {
                         <th className="py-3.5 px-4">Filière</th>
                         <th className="py-3.5 px-4">Événement</th>
                         <th className="py-3.5 px-4">Détails / Motivation</th>
+                        <th className="py-3.5 px-4 text-center">Action</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-white/5">
@@ -792,13 +884,22 @@ export default function Admin({ onBackToSite }: { onBackToSite: () => void }) {
                             <td className="py-3 px-4 text-xs text-white/60 max-w-xs truncate">
                               {it.message || "Aucun message spécifique"}
                             </td>
+                            <td className="py-3 px-4 text-center">
+                              <button
+                                onClick={() => handleDeleteInscription(it.id)}
+                                title="Supprimer cette inscription"
+                                className="rounded-lg bg-red-500/15 px-2.5 py-1 text-[11px] font-bold text-red-400 hover:bg-red-500/30 cursor-pointer"
+                              >
+                                × Suppr.
+                              </button>
+                            </td>
                           </tr>
                         );
                       })}
 
                       {filteredInscriptions.length === 0 && (
                         <tr>
-                          <td colSpan={6} className="py-12 text-center">
+                          <td colSpan={7} className="py-12 text-center">
                             <div className="flex flex-col items-center gap-3">
                               <span className="text-4xl">📋</span>
                               <p className="text-white/50 text-sm font-semibold">
