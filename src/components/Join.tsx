@@ -1,9 +1,8 @@
 import { useRef, useState } from "react";
-import emailjs from "@emailjs/browser";
 import { GradButton, Eyebrow } from "./ui";
 import { IconArrow, IconCheck, IconDiscord, IconSpark } from "./icons";
-import { CLUB_EMAIL, EMAILJS_CONFIG, isEmailJsConfigured, checkAndSendBatchReport } from "../config/emailjs";
-import { saveInscription, getAllInscriptions } from "../config/localDb";
+import { CLUB_EMAIL, EMAILJS_CONFIG, isEmailJsConfigured, checkAndSendBatchReport, sendImmediateNotification } from "../config/emailjs";
+import { saveInscriptionAsync, getAllInscriptions } from "../config/localDb";
 import { SOCIAL_LINKS } from "../config/links";
 import { toast } from "../lib/bus";
 
@@ -91,7 +90,7 @@ export default function Join() {
     setErrMsg("");
 
     // 1) Enregistrement dans la base interne locale
-    const { error } = saveInscription({
+    const { error } = await saveInscriptionAsync({
       nom: v.from_name.trim(),
       email: v.from_email.trim(),
       tel: v.tel.trim(),
@@ -114,22 +113,27 @@ export default function Join() {
       return;
     }
 
-    // 2) Notification e-mail individuelle via EmailJS
+    // 2) Notification e-mail immédiate via EmailJS
     if (isEmailJsConfigured()) {
       try {
-        await emailjs.sendForm(
-          EMAILJS_CONFIG.serviceId,
-          EMAILJS_CONFIG.templateId,
-          formRef.current!,
-          {
-            publicKey: EMAILJS_CONFIG.publicKey,
-          },
-        );
+        await sendImmediateNotification({
+          id: "",
+          nom: v.from_name.trim(),
+          email: v.from_email.trim(),
+          tel: v.tel.trim(),
+          filiere: v.filiere.trim(),
+          niveau,
+          interets,
+          message: v.message.trim(),
+          source: "formulaire",
+          created_at: new Date().toISOString(),
+        });
+        console.info("[CLUB-Tech] Notification e-mail instantanée transmise.");
       } catch (err: unknown) {
-        console.warn("[CLUB-Tech] Notification EmailJS :", err);
+        console.warn("[CLUB-Tech] Notification EmailJS échec :", err);
       }
 
-      // 3) Envoi automatique du rapport tous les 5 inscrits au compte du club (ctech2798@gmail.com)
+      // 3) Rapport automatique tous les 5 inscrits → ctech2798@gmail.com
       try {
         const all = getAllInscriptions();
         await checkAndSendBatchReport(all);

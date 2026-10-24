@@ -20,9 +20,9 @@
  */
 
 export const EMAILJS_CONFIG = {
-  serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID || import.meta.env.EMAILJS_SERVICE_ID || "",
-  templateId: import.meta.env.VITE_EMAILJS_TEMPLATE_ID || import.meta.env.EMAILJS_TEMPLATE_ID || "",
-  publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY || import.meta.env.EMAILJS_PUBLIC_KEY || "",
+  serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID || import.meta.env.EMAILJS_SERVICE_ID || "service_7p6hu8i",
+  templateId: import.meta.env.VITE_EMAILJS_TEMPLATE_ID || import.meta.env.EMAILJS_TEMPLATE_ID || "template_p9uaz9f",
+  publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY || import.meta.env.EMAILJS_PUBLIC_KEY || "swccw7PktiWD4AcAL",
 } as const;
 
 /** Si `false`, le formulaire bascule en mode démonstration. */
@@ -35,26 +35,62 @@ export const CLUB_EMAIL =
   import.meta.env.VITE_CLUB_EMAIL ||
   "ctech2798@gmail.com";
 
-import emailjs from "@emailjs/browser";
 import type { StoredInscription } from "./localDb";
+
+/** Envoi direct via l'API REST EmailJS — même méthode que le site Hackathon (qui fonctionne). */
+async function _ejsSend(templateParams: Record<string, unknown>): Promise<boolean> {
+  try {
+    const res = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        service_id: EMAILJS_CONFIG.serviceId,
+        template_id: EMAILJS_CONFIG.templateId,
+        user_id: EMAILJS_CONFIG.publicKey,
+        template_params: templateParams,
+      }),
+    });
+    if (!res.ok) {
+      const txt = await res.text();
+      console.warn("[CLUB-Tech] EmailJS API error:", res.status, txt);
+    }
+    return res.ok;
+  } catch (e) {
+    console.warn("[CLUB-Tech] EmailJS fetch error:", e);
+    return false;
+  }
+}
+
+/** Envoie immédiatement une notification e-mail détaillée à chaque nouvelle inscription */
+export async function sendImmediateNotification(item: StoredInscription): Promise<boolean> {
+  if (!isEmailJsConfigured()) return false;
+  return _ejsSend({
+    from_name: item.nom,
+    from_email: item.email,
+    to_email: CLUB_EMAIL,
+    tel: item.tel || "Non renseigné",
+    filiere: item.filiere || "Non renseignée",
+    niveau: item.niveau || "Non spécifié",
+    interets: Array.isArray(item.interets) ? item.interets.join(", ") : "Général",
+    message: item.message || "Aucun message",
+    sent_at: new Date().toLocaleString("fr-FR"),
+  });
+}
 
 const LAST_REPORTED_KEY = "ctech_last_email_report_count";
 
 /**
- * Vérifie si un nouveau palier de 5 inscriptions a été atteint.
- * Si oui, génère et envoie un rapport détaillé avec les 5 derniers inscrits
- * (nom, e-mail, téléphone/WhatsApp, filière, message) au compte du club : ctech2798@gmail.com
+ * Envoie le rapport au compte du club : ctech2798@gmail.com
+ * Dès qu'une nouvelle inscription arrive (pas besoin d'attendre 5 personnes).
  */
 export async function checkAndSendBatchReport(allInscriptions: StoredInscription[]): Promise<boolean> {
   if (!isEmailJsConfigured()) return false;
 
   const count = allInscriptions.length;
-  if (count < 5) return false;
+  if (count === 0) return false;
 
   const lastReported = parseInt(localStorage.getItem(LAST_REPORTED_KEY) || "0", 10);
-
-  // Se déclenche dès qu'un groupe de 5 personnes s'est inscrit depuis le dernier rapport
-  if (count - lastReported < 5) return false;
+  if (count <= lastReported) return false;
 
   const batch = allInscriptions.slice(-5);
   const formattedBatch = batch
@@ -85,21 +121,16 @@ ${formattedBatch}
 Rapport automatique généré par le site officiel CLUB-Tech.`;
 
   try {
-    await emailjs.send(
-      EMAILJS_CONFIG.serviceId,
-      EMAILJS_CONFIG.templateId,
-      {
-        from_name: "Club C-Tech (Rapport Inscriptions)",
-        from_email: CLUB_EMAIL,
-        to_email: CLUB_EMAIL,
-        filiere: `Rapport de 5 inscrits (Total: ${count})`,
-        niveau: "Rapport Périodique",
-        interets: "Bureau C-Tech",
-        message: reportMessage,
-        sent_at: new Date().toLocaleString("fr-FR"),
-      },
-      EMAILJS_CONFIG.publicKey,
-    );
+    await _ejsSend({
+      from_name: "Club C-Tech (Rapport Inscriptions)",
+      from_email: CLUB_EMAIL,
+      to_email: CLUB_EMAIL,
+      filiere: `Rapport de 5 inscrits (Total: ${count})`,
+      niveau: "Rapport Périodique",
+      interets: "Bureau C-Tech",
+      message: reportMessage,
+      sent_at: new Date().toLocaleString("fr-FR"),
+    });
 
     localStorage.setItem(LAST_REPORTED_KEY, String(count));
     console.info(`[CLUB-Tech] Rapport EmailJS des 5 inscrits transmis avec succès à ${CLUB_EMAIL}.`);

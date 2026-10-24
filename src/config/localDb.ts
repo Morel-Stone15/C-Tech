@@ -1,16 +1,18 @@
 /**
  * ============================================================
- *  BASE DE DONNÉES INTERNE — CLUB-Tech
+ *  BASE DE DONNÉES — CLUB-Tech
  * ============================================================
  *
- *  Toutes les inscriptions sont stockées localement dans le
- *  localStorage du navigateur. Aucune dépendance cloud externe.
+ *  Priorité :
+ *    1. Supabase (cloud) si VITE_SUPABASE_URL est défini
+ *    2. localStorage (fallback local)
  *
- *  Clés localStorage utilisées :
- *    ctech_inscriptions   → liste des inscriptions du club
- *    hk-demo-participants → inscriptions hackathon (partagé)
+ *  Aucune perte de données : les deux sont toujours écrits
+ *  pour garantir la disponibilité hors-ligne.
  * ============================================================
  */
+
+import { supabase, isSupabaseReady } from "../lib/supabaseClient";
 
 export type InscriptionSource = "formulaire" | "inscription_rapide";
 
@@ -32,13 +34,13 @@ export type StoredInscription = InscriptionRow & {
 
 const INSCRIPTIONS_KEY = "ctech_inscriptions";
 
-/** Génère un identifiant unique simple */
 function generateId(): string {
   return "ins_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2, 7);
 }
 
-/** Récupère toutes les inscriptions locales */
-export function getAllInscriptions(): StoredInscription[] {
+// ── LocalStorage helpers ───────────────────────────────────
+
+function getLocalInscriptions(): StoredInscription[] {
   try {
     const raw = localStorage.getItem(INSCRIPTIONS_KEY);
     if (!raw) return [];
@@ -49,59 +51,118 @@ export function getAllInscriptions(): StoredInscription[] {
   }
 }
 
+function setLocalInscriptions(items: StoredInscription[]): void {
+  localStorage.setItem(INSCRIPTIONS_KEY, JSON.stringify(items));
+}
+
+// ── Public API ─────────────────────────────────────────────
+
+/** Récupère toutes les inscriptions (Supabase en priorité, sinon localStorage) */
+export async function getAllInscriptionsAsync(): Promise<StoredInscription[]> {
+  if (isSupabaseReady() && supabase) {
+    const { data, error } = await supabase
+      .from("inscriptions")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (!error && data) return data as StoredInscription[];
+    console.warn("[DB] Supabase read error, falling back to localStorage:", error);
+  }
+  return getLocalInscriptions();
+}
+
+/** Version synchrone (localStorage uniquement) — pour compatibilité */
+export function getAllInscriptions(): StoredInscription[] {
+  return getLocalInscriptions();
+}
+
 export const listInscriptions = getAllInscriptions;
 
-/** Sauvegarde une inscription en base locale.
- *  Renvoie `{ error: null }` si OK, `{ error: string }` en cas d'échec.
- */
-export function saveInscription(row: InscriptionRow): { error: string | null } {
-  try {
-    const existing = getAllInscriptions();
+/** Sauvegarde une inscription dans Supabase ET localStorage */
+export async function saveInscriptionAsync(
+  row: InscriptionRow
+): Promise<{ error: string | null }> {
+  const existing = getLocalInscriptions();
 
-    // Vérifier doublons par email
-    const isDuplicate = existing.some(
-      (ins) => ins.email.toLowerCase().trim() === (row.email || "").toLowerCase().trim()
-    );
-    if (isDuplicate) {
-      return { error: "duplicate_email" };
+  // Vérifier doublon localement d'abord (rapide)
+  const isDuplicateLocal = existing.some(
+    (ins) => ins.email.toLowerCase().trim() === (row.email || "").toLowerCase().trim()
+  );
+  if (isDuplicateLocal) return { error: "duplicate_email" };
+
+  const newEntry: StoredInscription = {
+    ...row,
+    id: generateId(),
+    created_at: new Date().toISOString(),
+  };
+
+  // 1) Supabase (cloud)
+  if (isSupabaseReady() && supabase) {
+    const { error } = await supabase.from("inscriptions").insert({
+      id: newEntry.id,
+      nom: newEntry.nom,
+      email: newEntry.email,
+      tel: newEntry.tel || null,
+      filiere: newEntry.filiere || null,
+      niveau: newEntry.niveau || null,
+      interets: newEntry.interets || null,
+      message: newEntry.message || null,
+      source: newEntry.source,
+      created_at: newEntry.created_at,
+    });
+
+    if (error) {
+      // Email déjà dans Supabase
+      if (error.code === "23505") return { error: "duplicate_email" };
+      console.warn("[DB] Supabase insert error:", error.message);
+      // On continue avec localStorage même si Supabase échoue
     }
-
-    const newEntry: StoredInscription = {
-      ...row,
-      id: generateId(),
-      created_at: new Date().toISOString(),
-    };
-
-    existing.push(newEntry);
-    localStorage.setItem(INSCRIPTIONS_KEY, JSON.stringify(existing));
-
-    // Déclencher un événement pour que l'admin se rafraîchisse
-    window.dispatchEvent(new CustomEvent("ctech_inscription_added", { detail: newEntry }));
-
-    return { error: null };
-  } catch (err) {
-    console.error("[CLUB-Tech] Erreur sauvegarde inscription locale:", err);
-    return { error: "storage_error" };
   }
+
+  // 2) localStorage (fallback / cache hors-ligne)
+  existing.push(newEntry);
+  setLocalInscriptions(existing);
+
+  // Événement pour rafraîchissement admin
+  window.dispatchEvent(new CustomEvent("ctech_inscription_added", { detail: newEntry }));
+
+  return { error: null };
 }
 
-/** Supprime une inscription par son id */
-export function deleteInscription(id: string): boolean {
-  try {
-    const existing = getAllInscriptions();
-    const filtered = existing.filter((ins) => ins.id !== id);
-    localStorage.setItem(INSCRIPTIONS_KEY, JSON.stringify(filtered));
-    return true;
-  } catch {
-    return false;
-  }
+/** Synchrone pour rétrocompatibilité (localStorage uniquement) */
+export function saveInscription(row: InscriptionRow): { error: string | null } {
+  const existing = getLocalInscriptions();
+  const isDuplicate = existing.some(
+    (ins) => ins.email.toLowerCase().trim() === (row.email || "").toLowerCase().trim()
+  );
+  if (isDuplicate) return { error: "duplicate_email" };
+
+  const newEntry: StoredInscription = {
+    ...row,
+    id: generateId(),
+    created_at: new Date().toISOString(),
+  };
+  existing.push(newEntry);
+  setLocalInscriptions(existing);
+  window.dispatchEvent(new CustomEvent("ctech_inscription_added", { detail: newEntry }));
+  return { error: null };
 }
 
-/** Efface toutes les inscriptions (attention : irréversible) */
+/** Supprime une inscription */
+export async function deleteInscription(id: string): Promise<boolean> {
+  // Supabase
+  if (isSupabaseReady() && supabase) {
+    await supabase.from("inscriptions").delete().eq("id", id);
+  }
+  // localStorage
+  const existing = getLocalInscriptions();
+  const filtered = existing.filter((ins) => ins.id !== id);
+  setLocalInscriptions(filtered);
+  return true;
+}
+
 export function clearAllInscriptions(): void {
   localStorage.removeItem(INSCRIPTIONS_KEY);
 }
 
-// Alias pour compatibilité avec l'ancien code Supabase
-export const isSupabaseConfigured = (): boolean => false;
-export const supabase = null;
+export const isSupabaseConfigured = isSupabaseReady;

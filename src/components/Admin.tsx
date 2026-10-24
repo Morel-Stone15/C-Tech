@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import jsPDF from "jspdf";
-import autoTable from "jspdf-autotable";
-import { getAllInscriptions, deleteInscription } from "../config/localDb";
+import { getAllInscriptions, getAllInscriptionsAsync, deleteInscription } from "../config/localDb";
+import { supabase, isSupabaseReady } from "../lib/supabaseClient";
 import {
   getStoredEvents,
   getStoredGallery,
@@ -77,6 +77,39 @@ export default function Admin({ onBackToSite }: { onBackToSite: () => void }) {
       loadInscriptions();
       setEvents(getStoredEvents());
       setGallery(getStoredGallery());
+
+      // Écouter les nouvelles inscriptions en temps réel (événement local et cross-tab)
+      const onNewInscription = () => { loadInscriptions(); };
+      window.addEventListener("ctech_inscription_added", onNewInscription);
+      window.addEventListener("storage", onNewInscription);
+
+      // Souscription Supabase Realtime si configuré
+      let channel: any = null;
+      if (isSupabaseReady() && supabase) {
+        channel = supabase
+          .channel("admin_realtime_inscriptions")
+          .on(
+            "postgres_changes",
+            { event: "*", schema: "public", table: "inscriptions" },
+            () => {
+              loadInscriptions();
+              toast("Nouvelle inscription synchronisée en direct !", "success");
+            }
+          )
+          .subscribe();
+      }
+
+      // Rafraîchissement automatique toutes les 5 secondes (polling de sécurité)
+      const interval = setInterval(() => loadInscriptions(), 5000);
+
+      return () => {
+        window.removeEventListener("ctech_inscription_added", onNewInscription);
+        window.removeEventListener("storage", onNewInscription);
+        if (channel && supabase) {
+          supabase.removeChannel(channel);
+        }
+        clearInterval(interval);
+      };
     }
   }, [isAuthenticated]);
 
@@ -99,14 +132,14 @@ export default function Admin({ onBackToSite }: { onBackToSite: () => void }) {
     toast("Déconnexion effectuée", "info");
   };
 
-  // Chargement des inscriptions depuis la base interne (localStorage)
-  const loadInscriptions = () => {
+  // Chargement des inscriptions depuis la base Supabase et/ou interne (localStorage)
+  const loadInscriptions = async () => {
     setLoadingInscriptions(true);
     let items: InscriptionItem[] = [];
 
-    // 1) Inscriptions du club (C-Tech) sauvegardées via localDb
+    // 1) Inscriptions du club (C-Tech) sauvegardées via Supabase et/ou localDb
     try {
-      const clubIns = getAllInscriptions();
+      const clubIns = await getAllInscriptionsAsync();
       items = clubIns.map((d) => ({
         id: d.id,
         nom: d.nom || "Anonyme",
@@ -765,8 +798,27 @@ export default function Admin({ onBackToSite }: { onBackToSite: () => void }) {
 
                       {filteredInscriptions.length === 0 && (
                         <tr>
-                          <td colSpan={6} className="py-12 text-center text-white/40">
-                            Aucune inscription trouvée.
+                          <td colSpan={6} className="py-12 text-center">
+                            <div className="flex flex-col items-center gap-3">
+                              <span className="text-4xl">📋</span>
+                              <p className="text-white/50 text-sm font-semibold">
+                                {inscriptions.length === 0
+                                  ? "Aucune inscription enregistrée sur ce navigateur."
+                                  : "Aucun résultat pour cette recherche."}
+                              </p>
+                              {inscriptions.length === 0 && (
+                                <p className="text-white/30 text-xs max-w-sm text-center leading-relaxed">
+                                  Les inscriptions s'affichent ici dès qu'un visiteur soumet le formulaire
+                                  d'adhésion sur ce même navigateur/appareil. Elles sont stockées localement.
+                                </p>
+                              )}
+                              <button
+                                onClick={loadInscriptions}
+                                className="mt-2 rounded-lg bg-indigo-600 px-4 py-2 text-xs font-bold text-white hover:bg-indigo-500 cursor-pointer"
+                              >
+                                🔄 Actualiser maintenant
+                              </button>
+                            </div>
                           </td>
                         </tr>
                       )}
